@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 use Illuminate\Http\Request;
 
 class TestsController extends Controller
@@ -43,20 +45,39 @@ class TestsController extends Controller
      */
     public function store(Request $request)
     {
+        $title = 'Welcome to potal tester App';
         $this->validate($request, [
         'IP' => 'ip'
             ]);
-        //$curl =curl_init ( 'https://www.google.com/');
-        //$response =curl_setopt($curl, CURLOPT_HEADER, true);
-        //curl_exec ($curl);
-        //curl_close ($curl);
+
+        $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
+     
+        
+        try {
+            $process->mustRun();
+            while ($process->isRunning()) {
+                // waiting for process to finish
+            }
+
+            $headers = json_decode($process->getOutput(),true);
+
+            $data= array('title'=> $title,
+            'headers'=> $headers);
+          
+            return view('pages.index')->with($data);
+            //view('pages.index')->with('headers',$headers);
+             //echo $process->getOutput();
+        } catch (ProcessFailedException $exception) {
+            echo $exception->getMessage();
+        }
         
 
 
+       
 
-       print_r(get_headers('https://www.google.com/', 1));
+       //print_r(get_headers('https://www.google.com/', 1));
          
-       return Redirect::back();
+      // return Redirect::back();
 
     }
 
