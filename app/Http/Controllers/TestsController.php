@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Illuminate\Http\Request;
+use Event;
+use App\Events\runTestsEvent;
 
 use Illuminate\Http\Response;
 
@@ -51,7 +53,8 @@ class TestsController extends Controller
         $this->validate($request, [
         'IP' => 'ip'
             ]);
-
+        
+        event(new runTestsEvent());
         $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
         
         $process2 = new Process(['./testssl.sh', '--json-pretty', '--html', '--client-simulation', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
@@ -61,16 +64,16 @@ class TestsController extends Controller
             while ($process->isRunning()) {
                 // waiting for process to finish
             }
-            while ($process2->isRunning()) {
+           // while ($process2->isRunning()) {
                 // waiting for process to finish
-            }
+            //}
             $headers = json_decode($process->getOutput(),true);
-            $doc = new DOMDocument();
-            $doc->loadHTMLFile("/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh/195.178.88.129_p443-20200322-1547.html");
-            echo $doc->saveHTML();
+            //$doc = new DOMDocument();
+            //$doc->loadHTMLFile("/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh/195.178.88.129_p443-20200322-1547.html");
+           // echo $doc->saveHTML();
             $data= array('title'=> $title,
             'headers'=> $headers);
-          
+            
             return view('pages.index')->with($data);
             //view('pages.index')->with('headers',$headers);
              //echo $process->getOutput();
