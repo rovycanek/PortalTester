@@ -57,10 +57,10 @@ class TestsController extends Controller
         event(new runTestsEvent());
         $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
         
-        $process2 = new Process(['./testssl.sh', '--json-pretty', '--html', '--client-simulation', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+        //$process2 = new Process(['./testssl.sh', '--json-pretty', '--html', '--client-simulation', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
         try {
             $process->mustRun();
-            $process2->mustRun();
+            //$process2->mustRun();
             while ($process->isRunning()) {
                 // waiting for process to finish
             }
@@ -71,6 +71,8 @@ class TestsController extends Controller
             //$doc = new DOMDocument();
             //$doc->loadHTMLFile("/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh/195.178.88.129_p443-20200322-1547.html");
            // echo $doc->saveHTML();
+           $Json='{"present": {"X-XSS-Protection": "1; mode=block", "X-Frame-Options": "DENY", "X-Content-Type-Options": "nosniff", "Strict-Transport-Security": "max-age=31536000;includeSubDomains"}, "missing": ["Public-Key-Pins", "Content-Security-Policy", "X-Permitted-Cross-Domain-Policies", "Referrer-Policy"]}';
+           $headers = json_decode($Json,true);
             $data= array('title'=> $title,
             'headers'=> $headers);
             

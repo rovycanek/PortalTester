@@ -25,6 +25,15 @@ class SecurityHeaddersTestListener
      */
     public function handle($event)
     {
-        var_dump('title');
+        $process=new Process(['./testssl.sh', '--json-pretty', '--html', '--client-simulation', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+        try {
+            $process->mustRun();
+            while ($process->isRunning()) {
+                // waiting for process to finish
+            }
+
+        } catch (ProcessFailedException $exception) {
+            echo $exception->getMessage();
+        }
     }
 }
