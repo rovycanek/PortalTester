@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
+
 use Illuminate\Http\Request;
 USE app\Events\runTestsEvent;
+use Event;
 
+
+use Illuminate\Http\Response;
 class PagesController extends Controller
 {
     public function index(){
@@ -22,11 +28,27 @@ class PagesController extends Controller
 
     }
 
-    public function test(Request $action){
+    public function test(Request $request){
         //event(new runTestsEvent());
-        $Json='{"present": {"X-XSS-Protection": "1; mode=block", "X-Frame-Options": "DENY", "X-Content-Type-Options": "nosniff", "Strict-Transport-Security": "max-age=31536000;includeSubDomains"}, "missing": ["Public-Key-Pins", "Content-Security-Policy", "X-Permitted-Cross-Domain-Policies", "Referrer-Policy"]}';
-        $headers = json_decode($Json,true);
-        return response()->json(['headers'=>$headers]);
+        $this->validate($request, [
+            'IP' => 'ip'
+                ]);
+        $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
+        try {
+            $process->mustRun();
+            while ($process->isRunning()) {
+                // waiting for process to finish
+            }
+            $headers = json_decode($process->getOutput(),true);
+            
+            return response()->json(['headers'=>$headers,'ip'=>$request->IP]);
+          
+        } catch (ProcessFailedException $exception) {
+            echo $exception->getMessage();
+        }
+       
+       
+
     }
 
 

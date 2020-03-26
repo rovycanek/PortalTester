@@ -22,3 +22,7 @@ Route::get('/services', 'PagesController@services');
 Auth::routes();
 
 Route::resource('IPs','IPsController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
