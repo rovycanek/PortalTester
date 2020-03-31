@@ -7,6 +7,8 @@ use Illuminate\Support\Collection;
 use App\IP;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Event;
+use App\Events\runTestsEvent;
 
 
 class runPlannedTests extends Command
@@ -48,12 +50,16 @@ class runPlannedTests extends Command
             if(!strcmp($IP->frequency,'daily')){
                 $IP->when=Carbon::parse($IP->when)->addDays(1);
                 $IP->save();
+                event(new runTestsEvent("email","172.217.21.218"));
             }
             if(!strcmp($IP->frequency,'weekly')){
                 $IP->when=Carbon::parse($IP->when)->addDays(7);
                 $IP->save();
+                event(new runTestsEvent("email","172.217.21.218"));
+
             }
             if(!strcmp($IP->frequency,'one time')){
+                event(new runTestsEvent("email","172.217.21.218"));
                 $IP->delete();
             }
         }

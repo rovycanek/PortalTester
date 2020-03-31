@@ -24,6 +24,18 @@ Route::resource('/pokus','TestsController');
 Route::get('/about', 'PagesController@about');
 Route::get('/services', 'PagesController@services');
 
+
+use App\Mail\TestResults;
+
+Route::get('/email', function(){
+    return new TestResults('toto je titulek');
+
+});
+
+
+
+
+
 Auth::routes();
 
 Route::resource('IPs','IPsController');

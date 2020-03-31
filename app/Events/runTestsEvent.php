@@ -13,17 +13,17 @@ use Illuminate\Queue\SerializesModels;
 class runTestsEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $IP;
     public $email;
+    public $IP;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($IP, $email)
+    public function __construct($email,$IP)
     {
-        $this->IP=$IP;
         $this->email=$email;
+        $this->IP=$IP;
     }
 
     /**

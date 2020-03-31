@@ -6,8 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
-use app\Events\runTestsEvent;
-use app\Listeners\SecurityHeaddersTestListener;
+use App\Events\runTestsEvent;
+use App\Listeners\SecurityHeaddersTestListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,8 +20,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        'app\Events\runTestsEvent' => [
-            'app\Listeners\SecurityHeaddersTestListener',
+        'App\Events\runTestsEvent' => [
+            'App\Listeners\TestListener'
         ],
     ];
 
