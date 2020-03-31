@@ -21,25 +21,6 @@ class TestsController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('IPs.create');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -47,94 +28,80 @@ class TestsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function HandshakeSimulation(Request $request)
     {
-        $title = 'Welcome to potal tester App';
         $this->validate($request, [
         'IP' => 'ip'
             ]);
+        $process = new Process(['./testssl.sh', '--client-simulation', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+        $process->run();
+        $array = explode("\n", $process->getOutput());
+        return response()->json(['headers'=>$array]);
+       
+    }
         
-        event(new runTestsEvent());
-        $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
-        
-        //$process2 = new Process(['./testssl.sh', '--json-pretty', '--html', '--client-simulation', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
-        try {
-            $process->mustRun();
-            //$process2->mustRun();
-            while ($process->isRunning()) {
-                // waiting for process to finish
+        public function securityH(Request $request){
+            $this->validate($request, [
+                'IP' => 'ip'
+                    ]);
+            $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
+            try {
+                $process->mustRun();
+                while ($process->isRunning()) {
+                    // waiting for process to finish
+                }
+                $headers = json_decode($process->getOutput(),true);
+                
+                return response()->json(['headers'=>$headers,'ip'=>$request->IP]);
+              
+            } catch (ProcessFailedException $exception) {
+                echo $exception->getMessage();
             }
-           // while ($process2->isRunning()) {
-                // waiting for process to finish
-            //}
-            $headers = json_decode($process->getOutput(),true);
-            //$doc = new DOMDocument();
-            //$doc->loadHTMLFile("/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh/195.178.88.129_p443-20200322-1547.html");
-           // echo $doc->saveHTML();
-           $Json='{"present": {"X-XSS-Protection": "1; mode=block", "X-Frame-Options": "DENY", "X-Content-Type-Options": "nosniff", "Strict-Transport-Security": "max-age=31536000;includeSubDomains"}, "missing": ["Public-Key-Pins", "Content-Security-Policy", "X-Permitted-Cross-Domain-Policies", "Referrer-Policy"]}';
-           $headers = json_decode($Json,true);
-            $data= array('title'=> $title,
-            'headers'=> $headers);
-            
-            return view('pages.index')->with($data);
-            //view('pages.index')->with('headers',$headers);
-             //echo $process->getOutput();
-        } catch (ProcessFailedException $exception) {
-            echo $exception->getMessage();
+           
+           
+    
+        }
+
+        public function SecurityVulnerabities(Request $request){
+            $this->validate($request, [
+                'IP' => 'ip'
+                    ]);
+            $process = new Process(['./testssl.sh', '--vulnerable', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+            $process->run();
+            $array = explode("\n", $process->getOutput());
+            return response()->json(['headers'=>$array]);
+           
+    
+        }
+
+        public function ConnectionProtocols(Request $request){
+            $this->validate($request, [
+                'IP' => 'ip'
+                    ]);
+            $process = new Process(['./testssl.sh', '--protocols', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+            $process->run();
+            $array = explode("\n", $process->getOutput());
+            return response()->json(['headers'=>$array]);
         }
         
+        public function ServerHello(Request $request){
+            $this->validate($request, [
+                'IP' => 'ip'
+                    ]);
+            $process = new Process(['./testssl.sh', '--server-defaults', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+            $process->run();
+            $array = explode("\n", $process->getOutput());
+            return response()->json(['headers'=>$array]);
+        }
+        
+        public function CiphersPherProtocol(Request $request){
+            $this->validate($request, [
+                'IP' => 'ip'
+                    ]);
+            $process = new Process(['./testssl.sh', '--cipher-per-proto', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+            $process->run();
+            $array = explode("\n", $process->getOutput());
+            return response()->json(['headers'=>$array]);
+        }
 
-
-       
-
-       //print_r(get_headers('https://www.google.com/', 1));
-         
-      // return Redirect::back();
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-
-    }
 }

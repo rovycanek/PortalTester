@@ -153,7 +153,7 @@ OPENSSL_TIMEOUT=${OPENSSL_TIMEOUT:-""}  # Default connect timeout with openssl b
 CONNECT_TIMEOUT=${CONNECT_TIMEOUT:-""}  # Default connect timeout with sockets before we call the server side unreachable
 PHONE_OUT=${PHONE_OUT:-false}           # Whether testssl can retrieve CRLs and OCSP
 FAST_SOCKET=${FAST_SOCKET:-false}       # EXPERIMENTAL feature to accelerate sockets -- DO NOT USE it for production
-COLOR=${COLOR:-2}                       # 3: Extra color (ciphers, curves), 2: Full color, 1: B/W only 0: No ESC at all
+COLOR=${COLOR:-0}                       # 3: Extra color (ciphers, curves), 2: Full color, 1: B/W only 0: No ESC at all
 COLORBLIND=${COLORBLIND:-false}         # if true, swap blue and green in the output
 SHOW_EACH_C=${SHOW_EACH_C:-false}       # where individual ciphers are tested show just the positively ones tested
 SHOW_SIGALGO=${SHOW_SIGALGO:-false}     # "secret" switch whether testssl.sh shows the signature algorithm for -E / -e
@@ -2087,36 +2087,36 @@ service_detection() {
           debugme head -50 $TMPFILE | sed -e '/<HTML>/,$d' -e '/<html>/,$d' -e '/<XML/,$d' -e '/<xml/,$d' -e '/<\?XML/,$d' -e '/<\?xml/,$d' -e '/<\!DOCTYPE/,$d' -e '/<\!doctype/,$d'
      fi
 
-     out " Service detected:      $CORRECT_SPACES"
+     #out " Service detected:      $CORRECT_SPACES"
      jsonID="service"
      case $SERVICE in
           HTTP)
-               out " $SERVICE"
+               #out " $SERVICE"
                fileout "${jsonID}" "INFO" "$SERVICE"
                ;;
           IMAP|POP|SMTP|NNTP|MongoDB)
-               out " $SERVICE, thus skipping HTTP specific checks"
+               #out " $SERVICE, thus skipping HTTP specific checks"
                fileout "${jsonID}" "INFO" "$SERVICE, thus skipping HTTP specific checks"
                ;;
           *)   if "$CLIENT_AUTH"; then
-                    out " certificate-based authentication => skipping all HTTP checks"
+                    #out " certificate-based authentication => skipping all HTTP checks"
                     echo "certificate-based authentication => skipping all HTTP checks" >$TMPFILE
                     fileout "${jsonID}" "INFO" "certificate-based authentication => skipping all HTTP checks"
                else
                     out " Couldn't determine what's running on port $PORT"
                     if "$ASSUME_HTTP"; then
                          SERVICE=HTTP
-                         out " -- ASSUME_HTTP set though"
+                         #out " -- ASSUME_HTTP set though"
                          fileout "${jsonID}" "DEBUG" "Couldn't determine service -- ASSUME_HTTP set"
                     else
-                         out ", assuming no HTTP service => skipping all HTTP checks"
+                         #out ", assuming no HTTP service => skipping all HTTP checks"
                          fileout "${jsonID}" "DEBUG" "Couldn't determine service, skipping all HTTP checks"
                     fi
                fi
                ;;
      esac
 
-     outln "\n"
+     #outln "\n"
      tmpfile_handle ${FUNCNAME[0]}.txt
      return 0
 }
@@ -4602,13 +4602,13 @@ run_client_simulation() {
      fi
 
      outln
-     pr_headline " Running client simulations "
-     [[ "$client_service" == HTTP ]] && pr_headline "($client_service) "
+     #pr_headline " Running client simulations "
+     [[ "$client_service" == HTTP ]] && pr_headline ""
      if "$using_sockets"; then
-          pr_headlineln "via sockets "
+          pr_headlineln ""
      else
-          pr_headline "via openssl "
-          prln_warning " -- pls note \"--ssl-native\" will return some false results"
+          #pr_headline "via openssl "
+          #prln_warning " -- pls note \"--ssl-native\" will return some false results"
           fileout "$jsonID" "WARN" "You shouldn't run this with \"--ssl-native\" as you will get false results"
           ret=1
      fi
@@ -4617,15 +4617,15 @@ run_client_simulation() {
 
      if "$WIDE"; then
           if [[ "$DISPLAY_CIPHERNAMES" =~ openssl ]]; then
-               out " Browser                      Protocol  Cipher Suite Name (OpenSSL)       "
+               #out " Browser                      Protocol  Cipher Suite Name (OpenSSL)       "
                ( "$using_sockets" || "$HAS_DH_BITS") && out "Forward Secrecy"
                outln
-               out "--------------------------------------------------------------------------"
+            #   out "--------------------------------------------------------------------------"
           else
-               out " Browser                      Protocol  Cipher Suite Name (IANA/RFC)                      "
+               #out " Browser                      Protocol  Cipher Suite Name (IANA/RFC)                      "
                ( "$using_sockets" || "$HAS_DH_BITS") && out "Forward Secrecy"
                outln
-               out "------------------------------------------------------------------------------------------"
+              # out "------------------------------------------------------------------------------------------"
           fi
           ( "$using_sockets" || "$HAS_DH_BITS") && out "----------------------"
           outln
@@ -4937,17 +4937,17 @@ run_protocols() {
      local offers_tls13=false
      local jsonID="SSLv2"
 
-     outln; pr_headline " Testing protocols "
+     outln; pr_headline ""
 
      if "$SSL_NATIVE"; then
           using_sockets=false
-          prln_underline "via native openssl"
+          prln_underline ""
      else
           using_sockets=true
           if [[ -n "$STARTTLS" ]]; then
-               prln_underline "via sockets "
+               prln_underline ""
           else
-               prln_underline "via sockets except NPN+ALPN "
+               prln_underline ""
           fi
      fi
      outln
@@ -16590,19 +16590,17 @@ run_drown() {
                          prln_svrty_critical  "VULNERABLE (NOT ok), SSLv2 offered with $nr_ciphers_detected ciphers";
                          fileout "$jsonID" "CRITICAL" "VULNERABLE, SSLv2 offered with $nr_ciphers_detected ciphers. Make sure you don't use this certificate elsewhere, see https://censys.io/ipv4?q=$cert_fingerprint_sha2" "$cve" "$cwe" "$hint"
                     fi
-                    outln "$spaces Make sure you don't use this certificate elsewhere, see:"
-                    out "$spaces "
-                    pr_url "https://censys.io/ipv4?q=$cert_fingerprint_sha2"
-                    outln
+                    #outln "$spaces Make sure you don't use this certificate elsewhere, see:"
+                    #out "$spaces "
+                    #pr_url "https://censys.io/ipv4?q=$cert_fingerprint_sha2"
+                    #outln
                fi
                ;;
           *)   prln_svrty_best "not vulnerable on this host and port (OK)"
                fileout "$jsonID" "OK" "not vulnerable on this host and port" "$cve" "$cwe"
                if [[ -n "$cert_fingerprint_sha2" ]]; then
                     outln "$spaces make sure you don't use this certificate elsewhere with SSLv2 enabled services"
-                    out "$spaces "
-                    pr_url "https://censys.io/ipv4?q=$cert_fingerprint_sha2"
-                    outln " could help you to find out"
+                    
                     fileout "${jsonID}_hint" "INFO" "Make sure you don't use this certificate elsewhere with SSLv2 enabled services, see https://censys.io/ipv4?q=$cert_fingerprint_sha2" "$cve" "$cwe"
                else
                     outln "$spaces no RSA certificate, thus certificate can't be used with SSLv2 elsewhere"
@@ -21080,7 +21078,6 @@ lets_roll() {
      stopwatch determine_rdns
 
      ((SERVER_COUNTER++))
-     datebanner " Start"
      determine_service "$1"        # STARTTLS service? Other will be determined here too. Returns 0 if test connect was ok or has already exited if fatal error occurred
                                    # determine_service() can return 1, it indicates that this IP cannot be reached but there are more IPs to check
      if [[ $? -eq 0 ]] ; then
@@ -21158,7 +21155,7 @@ lets_roll() {
 
                # vulnerabilities
                if [[ $VULN_COUNT -gt $VULN_THRESHLD ]] || "$do_vulnerabilities"; then
-                    outln; pr_headlineln " Testing vulnerabilities "
+                    outln; pr_headlineln ""
                     outln
                fi
 
@@ -21192,14 +21189,12 @@ lets_roll() {
 
      outln
      calc_scantime
-     datebanner " Done"
+
 
      # reset the failed connect counter as we are finished
      NR_SOCKET_FAIL=0
      NR_OSSL_FAIL=0
 
-     "$MEASURE_TIME" && printf "$1: %${COLUMNS}s\n" "$SCAN_TIME"
-     [[ -e "$MEASURE_TIME_FILE" ]] && echo "Total : $SCAN_TIME " >> "$MEASURE_TIME_FILE"
 
      return $ret
 }

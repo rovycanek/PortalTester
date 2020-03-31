@@ -27,30 +27,4 @@ class PagesController extends Controller
         return view('pages.services');
 
     }
-
-    public function test(Request $request){
-        //event(new runTestsEvent());
-        $this->validate($request, [
-            'IP' => 'ip'
-                ]);
-        $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
-        try {
-            $process->mustRun();
-            while ($process->isRunning()) {
-                // waiting for process to finish
-            }
-            $headers = json_decode($process->getOutput(),true);
-            
-            return response()->json(['headers'=>$headers,'ip'=>$request->IP]);
-          
-        } catch (ProcessFailedException $exception) {
-            echo $exception->getMessage();
-        }
-       
-       
-
-    }
-
-
-
 }

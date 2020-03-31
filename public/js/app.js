@@ -1899,6 +1899,31 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Handshakes.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Handshakes.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Handshakes",
+  props: ['handshakes']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SecurityHeadders.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SecurityHeadders.vue?vue&type=script&lang=js& ***!
@@ -1910,6 +1935,7 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _presentSH_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./presentSH.vue */ "./resources/js/components/presentSH.vue");
 /* harmony import */ var _missingSH_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./missingSH.vue */ "./resources/js/components/missingSH.vue");
+/* harmony import */ var _Handshakes_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Handshakes.vue */ "./resources/js/components/Handshakes.vue");
 //
 //
 //
@@ -1932,55 +1958,297 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "securityheadders",
   components: {
     presentSH: _presentSH_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    missingSH: _missingSH_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    missingSH: _missingSH_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Handshakes: _Handshakes_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
-      headers: {
-        "present": {},
-        "missing": []
+      SH: {
+        "data": {
+          "present": {},
+          "missing": []
+        },
+        "loaded": false,
+        "started": false
       },
-      loaded: false,
-      securityheadderstarted: false,
+      HS: {
+        data: [],
+        "loaded": false,
+        "started": false
+      },
+      SV: {
+        data: [],
+        "loaded": false,
+        "started": false
+      },
+      CP: {
+        data: [],
+        "loaded": false,
+        "started": false
+      },
+      SHE: {
+        data: [],
+        "loaded": false,
+        "started": false
+      },
+      CPP: {
+        data: [],
+        "loaded": false,
+        "started": false
+      },
       IP: "172.217.21.218",
       error: ""
     };
   },
   methods: {
-    fetchSecurityHeadders: function fetchSecurityHeadders() {
-      this.error = "";
-      this.securityheadderstarted = true;
-      this.headers = {
-        "present": {},
-        "missing": []
-      };
-      this.loaded = false;
+    runTests: function runTests() {
+      this.fetchSimulationHanshakes();
+      this.fetchSecurityHeadders();
+      this.fetchSecurityVulnerabities();
+      this.fetchConnectionProtocols();
+      this.fetchServerHello();
+      this.fetchCiphersPherProtocol();
+    },
+    fetchSimulationHanshakes: function fetchSimulationHanshakes() {
+      this.HS.started = true;
+      this.HS.data = [];
+      this.HS.loaded = false;
       $.ajaxSetup({
+        timeout: 3000000,
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
       jQuery.post({
-        url: '/test',
+        url: '/tests/HS',
         datatype: 'json',
         data: {
           name: "csrf-token",
           IP: this.IP
         },
         success: function (result) {
-          this.headers = result.headers;
-          this.loaded = true;
+          this.HS.data = result.headers;
+          this.HS.loaded = true;
+        }.bind(this),
+        error: function (result) {
+          console.log(result.responseJSON.message);
+        }.bind(this)
+      });
+    },
+    fetchSecurityHeadders: function fetchSecurityHeadders() {
+      this.error = "";
+      this.SH.started = true;
+      this.SH.data = {
+        "present": {},
+        "missing": []
+      };
+      this.SH.loaded = false;
+      $.ajaxSetup({
+        timeout: 3000000,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      jQuery.post({
+        url: '/tests/SH',
+        datatype: 'json',
+        data: {
+          name: "csrf-token",
+          IP: this.IP
+        },
+        success: function (result) {
+          this.SH.data = result.headers;
+          this.SH.loaded = true;
         }.bind(this),
         error: function (result) {
           console.log(result.responseJSON.message);
           this.error = result.responseJSON.message;
-          this.securityheadderstarted = false;
+          this.SH.started = false;
+        }.bind(this)
+      });
+    },
+    fetchSecurityVulnerabities: function fetchSecurityVulnerabities() {
+      this.error = "";
+      this.SV.started = true;
+      this.SV.data = {
+        "present": {},
+        "missing": []
+      };
+      this.SV.loaded = false;
+      $.ajaxSetup({
+        timeout: 3000000,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      jQuery.post({
+        url: '/tests/SV',
+        datatype: 'json',
+        data: {
+          name: "csrf-token",
+          IP: this.IP
+        },
+        success: function (result) {
+          this.SV.data = result.headers;
+          this.SV.loaded = true;
+        }.bind(this),
+        error: function (result) {
+          console.log(result.responseJSON.message);
+          this.error = result.responseJSON.message;
+          this.SV.started = false;
+        }.bind(this)
+      });
+    },
+    fetchConnectionProtocols: function fetchConnectionProtocols() {
+      this.error = "";
+      this.CP.started = true;
+      this.CP.data = {
+        "present": {},
+        "missing": []
+      };
+      this.CP.loaded = false;
+      $.ajaxSetup({
+        timeout: 3000000,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      jQuery.post({
+        url: '/tests/CP',
+        datatype: 'json',
+        data: {
+          name: "csrf-token",
+          IP: this.IP
+        },
+        success: function (result) {
+          this.CP.data = result.headers;
+          this.CP.loaded = true;
+        }.bind(this),
+        error: function (result) {
+          console.log(result.responseJSON.message);
+          this.error = result.responseJSON.message;
+          this.CP.started = false;
+        }.bind(this)
+      });
+    },
+    fetchServerHello: function fetchServerHello() {
+      this.error = "";
+      this.SHE.started = true;
+      this.SHE.data = {
+        "present": {},
+        "missing": []
+      };
+      this.SHE.loaded = false;
+      $.ajaxSetup({
+        timeout: 3000000,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      jQuery.post({
+        url: '/tests/SHE',
+        datatype: 'json',
+        data: {
+          name: "csrf-token",
+          IP: this.IP
+        },
+        success: function (result) {
+          this.SHE.data = result.headers;
+          this.SHE.loaded = true;
+        }.bind(this),
+        error: function (result) {
+          console.log(result.responseJSON.message);
+          this.error = result.responseJSON.message;
+          this.CP.started = false;
+        }.bind(this)
+      });
+    },
+    fetchCiphersPherProtocol: function fetchCiphersPherProtocol() {
+      this.error = "";
+      this.CPP.started = true;
+      this.CPP.data = {
+        "present": {},
+        "missing": []
+      };
+      this.CPP.loaded = false;
+      $.ajaxSetup({
+        timeout: 3000000,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      jQuery.post({
+        url: '/tests/CPP',
+        datatype: 'json',
+        data: {
+          name: "csrf-token",
+          IP: this.IP
+        },
+        success: function (result) {
+          this.CPP.data = result.headers;
+          this.CPP.loaded = true;
+        }.bind(this),
+        error: function (result) {
+          console.log(result.responseJSON.message);
+          this.error = result.responseJSON.message;
+          this.CPP.started = false;
         }.bind(this)
       });
     }
@@ -37396,6 +37664,40 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Handshakes.vue?vue&type=template&id=4939a207&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Handshakes.vue?vue&type=template&id=4939a207& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.handshakes, function(value, name) {
+      return _c("div", [
+        value.length > 2
+          ? _c("div", [_c("pre", [_vm._v(_vm._s(value))])])
+          : _vm._e()
+      ])
+    }),
+    0
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SecurityHeadders.vue?vue&type=template&id=55fe592d&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SecurityHeadders.vue?vue&type=template&id=55fe592d& ***!
@@ -37434,25 +37736,95 @@ var render = function() {
         _c("input", {
           staticClass: "btn btn-outline-secondary",
           attrs: { value: "Test", type: "submit" },
-          on: { click: _vm.fetchSecurityHeadders }
+          on: { click: _vm.runTests }
         })
       ])
     ]),
     _vm._v(" "),
     _c("div", [_vm._v(_vm._s(_vm.error))]),
     _vm._v(" "),
-    _vm.securityheadderstarted
+    _vm.SH.started
       ? _c("div", [
           _c("h2", [_vm._v("Security headders")]),
           _vm._v(" "),
-          _vm.loaded
+          _vm.SH.loaded
             ? _c(
                 "div",
                 [
-                  _c("missingSH", { attrs: { missing: _vm.headers.missing } }),
+                  _c("missingSH", { attrs: { missing: _vm.SH.data.missing } }),
                   _vm._v(" "),
-                  _c("presentSH", { attrs: { present: _vm.headers.present } })
+                  _c("presentSH", { attrs: { present: _vm.SH.data.present } })
                 ],
+                1
+              )
+            : _c("div", [_vm._v("Loading...")])
+        ])
+      : _c("div"),
+    _vm._v(" "),
+    _vm.HS.started
+      ? _c("div", [
+          _c("h2", [_vm._v("Handshake simulation")]),
+          _vm._v(" "),
+          _vm.HS.loaded
+            ? _c(
+                "div",
+                [_c("Handshakes", { attrs: { handshakes: _vm.HS.data } })],
+                1
+              )
+            : _c("div", [_vm._v("Loading...")])
+        ])
+      : _c("div"),
+    _vm._v(" "),
+    _vm.SV.started
+      ? _c("div", [
+          _c("h2", [_vm._v("Security breaches")]),
+          _vm._v(" "),
+          _vm.SV.loaded
+            ? _c(
+                "div",
+                [_c("Handshakes", { attrs: { handshakes: _vm.SV.data } })],
+                1
+              )
+            : _c("div", [_vm._v("Loading...")])
+        ])
+      : _c("div"),
+    _vm._v(" "),
+    _vm.CP.started
+      ? _c("div", [
+          _c("h2", [_vm._v("Offered protocols")]),
+          _vm._v(" "),
+          _vm.CP.loaded
+            ? _c(
+                "div",
+                [_c("Handshakes", { attrs: { handshakes: _vm.CP.data } })],
+                1
+              )
+            : _c("div", [_vm._v("Loading...")])
+        ])
+      : _c("div"),
+    _vm._v(" "),
+    _vm.SHE.started
+      ? _c("div", [
+          _c("h2", [_vm._v("Server Hello")]),
+          _vm._v(" "),
+          _vm.SHE.loaded
+            ? _c(
+                "div",
+                [_c("Handshakes", { attrs: { handshakes: _vm.SHE.data } })],
+                1
+              )
+            : _c("div", [_vm._v("Loading...")])
+        ])
+      : _c("div"),
+    _vm._v(" "),
+    _vm.CPP.started
+      ? _c("div", [
+          _c("h2", [_vm._v("Ciphers per protocol")]),
+          _vm._v(" "),
+          _vm.CPP.loaded
+            ? _c(
+                "div",
+                [_c("Handshakes", { attrs: { handshakes: _vm.CPP.data } })],
                 1
               )
             : _c("div", [_vm._v("Loading...")])
@@ -49777,6 +50149,75 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/Handshakes.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/Handshakes.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Handshakes_vue_vue_type_template_id_4939a207___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Handshakes.vue?vue&type=template&id=4939a207& */ "./resources/js/components/Handshakes.vue?vue&type=template&id=4939a207&");
+/* harmony import */ var _Handshakes_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Handshakes.vue?vue&type=script&lang=js& */ "./resources/js/components/Handshakes.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Handshakes_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Handshakes_vue_vue_type_template_id_4939a207___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Handshakes_vue_vue_type_template_id_4939a207___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Handshakes.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Handshakes.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/Handshakes.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Handshakes_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Handshakes.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Handshakes.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Handshakes_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Handshakes.vue?vue&type=template&id=4939a207&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/Handshakes.vue?vue&type=template&id=4939a207& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Handshakes_vue_vue_type_template_id_4939a207___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Handshakes.vue?vue&type=template&id=4939a207& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Handshakes.vue?vue&type=template&id=4939a207&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Handshakes_vue_vue_type_template_id_4939a207___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Handshakes_vue_vue_type_template_id_4939a207___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

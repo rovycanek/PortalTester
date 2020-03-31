@@ -14,7 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'PagesController@index');
-Route::post('/test', 'PagesController@test');
+Route::post('/tests/SH', 'TestsController@securityH');
+Route::post('/tests/HS', 'TestsController@HandshakeSimulation');
+Route::post('/tests/SV', 'TestsController@SecurityVulnerabities');
+Route::post('/tests/CP', 'TestsController@ConnectionProtocols');
+Route::post('/tests/SHE', 'TestsController@ServerHello');
+Route::post('/tests/CPP', 'TestsController@CiphersPherProtocol');
 Route::resource('/pokus','TestsController');
 Route::get('/about', 'PagesController@about');
 Route::get('/services', 'PagesController@services');
