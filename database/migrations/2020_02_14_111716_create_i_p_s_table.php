@@ -15,9 +15,8 @@ class CreateIPSTable extends Migration
     {
         Schema::create('i_p_s', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('frequency', ['daily', 'weekly']);
-            $table->enum('day', ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']);
-            $table->time('time');
+            $table->enum('frequency', ['daily', 'weekly', 'one time']);
+            $table->timestamp('when');
             $table->ipAddress('ip');
             $table->timestamps();
         });

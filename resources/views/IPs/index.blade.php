@@ -8,8 +8,6 @@
                 <div class="">
                 <h3>{{$ip->ip}}</h3>
                 <small>Frequency: <b>{{$ip->frequency}} </b></small>
-                <small>Day: <b>{{$ip->day}} </b></small>
-                <small>Time: <b>{{$ip->time}} </b></small>
                 <small>Created at: <b>{{$ip->created_at}} </b></small>
                 </div>
                 <div class="text-right ml-auto">
