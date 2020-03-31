@@ -94,16 +94,15 @@ class IPsController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $this->validate($request, [
-        'frequency' => 'required',
-        'day'=> 'required',
-        'time'=> 'required',
-        'ip' => 'ip'
-            ]);
+        $this->validate($request, [
+            'frequency' => 'required',
+            'time'=> 'date_format:H:i',
+            'when'=> 'date',
+            'ip' => 'ip'
+                ]);
         $ip=IP::find($id);
         $ip->frequency = $request->input('frequency');
-        $ip->day = $request->input('day');
-        $ip->time = $request->input('time');
+        $ip->when =  join([$request->input('when')," ",$request->input('time'),":00"]);
         $ip->ip = $request->input('ip');
         $ip->save();
 

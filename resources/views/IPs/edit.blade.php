@@ -6,11 +6,11 @@
         <div class="form-group">
             <div>
                 {{Form::label('frequency', 'Frequency')}}
-                {{Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly'], $ip->frequency)}}
+                {{Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','one time' => 'One time'], $ip->frequency)}}
              </div>
              <div>
                 {{Form::label('time', 'Time')}}
-                {{Form::time('when',\Carbon\Carbon::parse($ip->when) )}}
+                {{Form::time('time',\Carbon\Carbon::parse($ip->when) )}}
             </div>
             <div>
                 {{Form::label('when', 'When to start')}}
