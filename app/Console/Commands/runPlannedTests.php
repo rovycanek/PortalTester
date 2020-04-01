@@ -50,16 +50,16 @@ class runPlannedTests extends Command
             if(!strcmp($IP->frequency,'daily')){
                 $IP->when=Carbon::parse($IP->when)->addDays(1);
                 $IP->save();
-                event(new runTestsEvent("email","172.217.21.218"));
+                event(new runTestsEvent("email",$IP->ip));
             }
             if(!strcmp($IP->frequency,'weekly')){
                 $IP->when=Carbon::parse($IP->when)->addDays(7);
                 $IP->save();
-                event(new runTestsEvent("email","172.217.21.218"));
+                event(new runTestsEvent("email",$IP->ip));
 
             }
             if(!strcmp($IP->frequency,'one time')){
-                event(new runTestsEvent("email","172.217.21.218"));
+                event(new runTestsEvent("email",$IP->ip));
                 $IP->delete();
             }
         }

@@ -3287,15 +3287,15 @@ neat_header(){
           out "$(printf -- "Hexcode  Cipher Suite Name (IANA/RFC)                      KeyExch.   Encryption  Bits")"
           [[ "$DISPLAY_CIPHERNAMES" != rfc-only ]] && out "$(printf -- "     Cipher Suite Name (OpenSSL)")"
           outln
-          out "$(printf -- "%s------------------------------------------------------------------------------------------")"
-          [[ "$DISPLAY_CIPHERNAMES" != rfc-only ]] && out "$(printf -- "---------------------------------------")"
+          out "$(printf -- "%s")"
+          [[ "$DISPLAY_CIPHERNAMES" != rfc-only ]] && out "$(printf -- "")"
           outln
      else
           out "$(printf -- "Hexcode  Cipher Suite Name (OpenSSL)       KeyExch.   Encryption  Bits")"
           [[ "$DISPLAY_CIPHERNAMES" != openssl-only ]] && out "$(printf -- "     Cipher Suite Name (IANA/RFC)")"
           outln
-          out "$(printf -- "%s--------------------------------------------------------------------------")"
-          [[ "$DISPLAY_CIPHERNAMES" != openssl-only ]] && out "$(printf -- "---------------------------------------------------")"
+          out "$(printf -- "%s")"
+          [[ "$DISPLAY_CIPHERNAMES" != openssl-only ]] && out "$(printf -- "")"
           outln
      fi
 }
@@ -4262,9 +4262,9 @@ run_cipher_per_proto() {
 
      outln
      if "$using_sockets"; then
-          pr_headlineln " Testing ciphers per protocol via OpenSSL plus sockets against the server, ordered by encryption strength "
+          pr_headlineln ""
      else
-          pr_headlineln " Testing all locally available ciphers per protocol against the server, ordered by encryption strength "
+          pr_headlineln ""
           [[ $TLS_NR_CIPHERS == 0 ]] && ! "$SSL_NATIVE" && ! "$FAST" && pr_warning " Cipher mapping not available, doing a fallback to openssl"
           outln
           if ! "$HAS_DH_BITS"; then
@@ -9287,7 +9287,7 @@ run_server_defaults() {
      done
 
      outln
-     pr_headlineln " Testing server defaults (Server Hello) "
+     pr_headlineln ""
      outln
 
      pr_bold " TLS extensions (standard)    "

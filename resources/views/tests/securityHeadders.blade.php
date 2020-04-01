@@ -20,6 +20,3 @@
           </div>
         @endif
        @endif
-       <div id="tests">
-         <securityheadders></securityheadders>
-      </div >

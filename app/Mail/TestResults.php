@@ -10,18 +10,29 @@ use Illuminate\Queue\SerializesModels;
 class TestResults extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $inputs;
+    protected $headers=[];
+    protected $handShakes=[];
+    protected $SecurityVulnerabilities=[];
+    protected $ConnectionProtocols=[];
+    protected $ServerHello=[];
+    protected $CyphersPherProtocole=[];
+    protected $IP;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($inputs)
-  {
-    $this->inputs = $inputs;
+    public function __construct(array $headers,array $handShakes,array $SecurityVulnerabilities,array $ConnectionProtocols,array $ServerHello,array $CyphersPherProtocole,$IP)
+    {
+    $this->headers=$headers;
+    $this->handShakes=$handShakes;
+    $this->SecurityVulnerabilities=$SecurityVulnerabilities;
+    $this->ConnectionProtocols=$ConnectionProtocols;
+    $this->ServerHello=$ServerHello;
+    $this->CyphersPherProtocole=$CyphersPherProtocole;
+    $this->IP=$IP;
+
   }
-
-
     /**
      * Build the message.
      *
@@ -29,8 +40,14 @@ class TestResults extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.testResults')->with([
-            'inputs' => $this->inputs,
+      return $this->markdown('emails.testResults')->with([
+          'headers' => $this->headers,
+          'handShakes' => $this->handShakes,
+          'SecurityVulnerabilities' => $this->SecurityVulnerabilities,
+          'ConnectionProtocols' => $this->ConnectionProtocols,
+          'ServerHello' => $this->ServerHello,
+          'CyphersPherProtocole' => $this->CyphersPherProtocole,
+          'IP' => $this->IP,
           ]);
     }
 }
