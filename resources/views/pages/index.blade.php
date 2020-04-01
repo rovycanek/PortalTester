@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
-      <h1 align="center">{{$title}}</h1>
+      
       @guest
+      <h1 align="center">{{$title}}</h1>
       @else
       <div id="tests">
          <securityheadders></securityheadders>

@@ -1917,6 +1917,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Handshakes",
   props: ['handshakes']
@@ -2002,12 +2010,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2020,38 +2022,51 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      SecurityHeaddersCheckbox: true,
       SH: {
         "data": {
           "present": {},
           "missing": []
         },
         "loaded": false,
-        "started": false
+        "started": false,
+        "checkbox": true,
+        "headding": "Security headders"
       },
       HS: {
         data: [],
         "loaded": false,
-        "started": false
+        "started": false,
+        "checkbox": true,
+        "headding": "Handshake simulation"
       },
       SV: {
         data: [],
         "loaded": false,
-        "started": false
+        "started": false,
+        "checkbox": true,
+        "headding": "Security breaches"
       },
       CP: {
         data: [],
         "loaded": false,
-        "started": false
+        "started": false,
+        "checkbox": true,
+        "headding": "Offered protocols"
       },
       SHE: {
         data: [],
         "loaded": false,
-        "started": false
+        "started": false,
+        "checkbox": true,
+        "headding": "Server Hello"
       },
       CPP: {
         data: [],
         "loaded": false,
-        "started": false
+        "started": false,
+        "checkbox": true,
+        "headding": "Ciphers per protocol"
       },
       IP: "172.217.21.218",
       error: ""
@@ -2059,12 +2074,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     runTests: function runTests() {
-      this.fetchSimulationHanshakes();
-      this.fetchSecurityHeadders();
-      this.fetchSecurityVulnerabities();
-      this.fetchConnectionProtocols();
-      this.fetchServerHello();
-      this.fetchCiphersPherProtocol();
+      if (this.HS.checkbox) {
+        this.fetchSimulationHanshakes();
+      }
+
+      if (this.SH.checkbox) {
+        this.fetchSecurityHeadders();
+      }
+
+      if (this.SV.checkbox) {
+        this.fetchSecurityVulnerabities();
+      }
+
+      if (this.CP.checkbox) {
+        this.fetchConnectionProtocols();
+      }
+
+      if (this.SHE.checkbox) {
+        this.fetchServerHello();
+      }
+
+      if (this.CPP.checkbox) {
+        this.fetchCiphersPherProtocol();
+      }
     },
     fetchSimulationHanshakes: function fetchSimulationHanshakes() {
       this.HS.started = true;
@@ -2266,7 +2298,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -37679,17 +37710,62 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._l(_vm.handshakes, function(value, name) {
-      return _c("div", [
-        value.length > 2
-          ? _c("div", [_c("pre", [_vm._v(_vm._s(value))])])
-          : _vm._e()
-      ])
-    }),
-    0
-  )
+  return _c("div", [
+    _vm.handshakes.started
+      ? _c("div", { staticStyle: { "margin-bottom": "10px" } }, [
+          _c("div", { staticClass: "card card-default" }, [
+            _c(
+              "div",
+              { staticClass: "card-header" },
+              [_c("H3", [_vm._v(_vm._s(_vm.handshakes.headding))])],
+              1
+            ),
+            _vm._v(" "),
+            _vm.handshakes.loaded
+              ? _c(
+                  "div",
+                  _vm._l(_vm.handshakes.data, function(value, name) {
+                    return _c("div", [
+                      value.length > 2
+                        ? _c("div", [
+                            _c(
+                              "li",
+                              {
+                                staticClass: "list-group-item",
+                                staticStyle: {
+                                  "padding-top": "0.05rem",
+                                  "padding-bottom": "0.05rem"
+                                }
+                              },
+                              [
+                                _c("pre", { staticStyle: { margin: "0" } }, [
+                                  _vm._v(_vm._s(value))
+                                ])
+                              ]
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  }),
+                  0
+                )
+              : _c("div", [
+                  _c(
+                    "li",
+                    {
+                      staticClass: "list-group-item",
+                      staticStyle: {
+                        "padding-top": "0.05rem",
+                        "padding-bottom": "0.05rem"
+                      }
+                    },
+                    [_vm._v("Loading...")]
+                  )
+                ])
+          ])
+        ])
+      : _c("div")
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37713,124 +37789,438 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "input-group mb-3" }, [
-      _c("input", {
-        directives: [
-          { name: "model", rawName: "v-model", value: _vm.IP, expression: "IP" }
-        ],
-        staticClass: "form-control",
-        attrs: { placeholder: "127.0.0.1" },
-        domProps: { value: _vm.IP },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.IP = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-group-append" }, [
-        _c("input", {
-          staticClass: "btn btn-outline-secondary",
-          attrs: { value: "Test", type: "submit" },
-          on: { click: _vm.runTests }
-        })
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", [_vm._v(_vm._s(_vm.error))]),
-    _vm._v(" "),
-    _vm.SH.started
-      ? _c("div", [
-          _c("h2", [_vm._v("Security headders")]),
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        {
+          staticClass: "card card-default",
+          staticStyle: { "margin-bottom": "10px" }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "card-header" },
+            [
+              _c("H1", { attrs: { align: "center" } }, [
+                _vm._v("Security headders")
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
-          _vm.SH.loaded
-            ? _c(
-                "div",
-                [
-                  _c("missingSH", { attrs: { missing: _vm.SH.data.missing } }),
-                  _vm._v(" "),
-                  _c("presentSH", { attrs: { present: _vm.SH.data.present } })
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "input-group mb-3" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.IP,
+                    expression: "IP"
+                  }
                 ],
-                1
+                staticClass: "form-control",
+                attrs: { placeholder: "127.0.0.1" },
+                domProps: { value: _vm.IP },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.IP = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-group-append" }, [
+                _c("input", {
+                  staticClass: "btn btn-outline-secondary",
+                  attrs: { value: "Test", type: "submit" },
+                  on: { click: _vm.runTests }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check form-check-inline" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.SH.checkbox,
+                    expression: "SH.checkbox"
+                  }
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "SecurityHeaddersCheckbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.SH.checkbox)
+                    ? _vm._i(_vm.SH.checkbox, null) > -1
+                    : _vm.SH.checkbox
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.SH.checkbox,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.SH, "checkbox", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.SH,
+                            "checkbox",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.SH, "checkbox", $$c)
+                    }
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label",
+                  attrs: { for: "SecurityHeaddersCheckbox" }
+                },
+                [_vm._v("Security headders")]
               )
-            : _c("div", [_vm._v("Loading...")])
-        ])
-      : _c("div"),
-    _vm._v(" "),
-    _vm.HS.started
-      ? _c("div", [
-          _c("h2", [_vm._v("Handshake simulation")]),
-          _vm._v(" "),
-          _vm.HS.loaded
-            ? _c(
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check form-check-inline" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.HS.checkbox,
+                    expression: "HS.checkbox"
+                  }
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "HandshakesimulationCheckbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.HS.checkbox)
+                    ? _vm._i(_vm.HS.checkbox, null) > -1
+                    : _vm.HS.checkbox
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.HS.checkbox,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.HS, "checkbox", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.HS,
+                            "checkbox",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.HS, "checkbox", $$c)
+                    }
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label",
+                  attrs: { for: "HandshakesimulationCheckbox" }
+                },
+                [_vm._v("Handshake simulation")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check form-check-inline" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.SV.checkbox,
+                    expression: "SV.checkbox"
+                  }
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "SecurityBreachesCheckbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.SV.checkbox)
+                    ? _vm._i(_vm.SV.checkbox, null) > -1
+                    : _vm.SV.checkbox
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.SV.checkbox,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.SV, "checkbox", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.SV,
+                            "checkbox",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.SV, "checkbox", $$c)
+                    }
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label",
+                  attrs: { for: "SecurityBreachesCheckbox" }
+                },
+                [_vm._v("Security breaches")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check form-check-inline" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.CP.checkbox,
+                    expression: "CP.checkbox"
+                  }
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "OfferedProtocolsCheckbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.CP.checkbox)
+                    ? _vm._i(_vm.CP.checkbox, null) > -1
+                    : _vm.CP.checkbox
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.CP.checkbox,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.CP, "checkbox", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.CP,
+                            "checkbox",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.CP, "checkbox", $$c)
+                    }
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label",
+                  attrs: { for: "OfferedProtocolsCheckbox" }
+                },
+                [_vm._v("Offered protocols")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check form-check-inline" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.SHE.checkbox,
+                    expression: "SHE.checkbox"
+                  }
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "ServerHelloCheckbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.SHE.checkbox)
+                    ? _vm._i(_vm.SHE.checkbox, null) > -1
+                    : _vm.SHE.checkbox
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.SHE.checkbox,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.SHE, "checkbox", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.SHE,
+                            "checkbox",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.SHE, "checkbox", $$c)
+                    }
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label",
+                  attrs: { for: "ServerHelloCheckbox" }
+                },
+                [_vm._v("Server Hello")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check form-check-inline" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.CPP.checkbox,
+                    expression: "CPP.checkbox"
+                  }
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "CiphersPerProtocolCheckbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.CPP.checkbox)
+                    ? _vm._i(_vm.CPP.checkbox, null) > -1
+                    : _vm.CPP.checkbox
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.CPP.checkbox,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.CPP, "checkbox", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.CPP,
+                            "checkbox",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.CPP, "checkbox", $$c)
+                    }
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label",
+                  attrs: { for: "CiphersPerProtocolCheckbox" }
+                },
+                [_vm._v("Ciphers per protocol")]
+              )
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", [_vm._v(_vm._s(_vm.error))]),
+      _vm._v(" "),
+      _vm.SH.started
+        ? _c("div", { staticStyle: { "margin-bottom": "10px" } }, [
+            _c("div", { staticClass: "card card-default" }, [
+              _c(
                 "div",
-                [_c("Handshakes", { attrs: { handshakes: _vm.HS.data } })],
+                { staticClass: "card-header" },
+                [_c("H3", [_vm._v(_vm._s(_vm.SH.headding))])],
                 1
-              )
-            : _c("div", [_vm._v("Loading...")])
-        ])
-      : _c("div"),
-    _vm._v(" "),
-    _vm.SV.started
-      ? _c("div", [
-          _c("h2", [_vm._v("Security breaches")]),
-          _vm._v(" "),
-          _vm.SV.loaded
-            ? _c(
-                "div",
-                [_c("Handshakes", { attrs: { handshakes: _vm.SV.data } })],
-                1
-              )
-            : _c("div", [_vm._v("Loading...")])
-        ])
-      : _c("div"),
-    _vm._v(" "),
-    _vm.CP.started
-      ? _c("div", [
-          _c("h2", [_vm._v("Offered protocols")]),
-          _vm._v(" "),
-          _vm.CP.loaded
-            ? _c(
-                "div",
-                [_c("Handshakes", { attrs: { handshakes: _vm.CP.data } })],
-                1
-              )
-            : _c("div", [_vm._v("Loading...")])
-        ])
-      : _c("div"),
-    _vm._v(" "),
-    _vm.SHE.started
-      ? _c("div", [
-          _c("h2", [_vm._v("Server Hello")]),
-          _vm._v(" "),
-          _vm.SHE.loaded
-            ? _c(
-                "div",
-                [_c("Handshakes", { attrs: { handshakes: _vm.SHE.data } })],
-                1
-              )
-            : _c("div", [_vm._v("Loading...")])
-        ])
-      : _c("div"),
-    _vm._v(" "),
-    _vm.CPP.started
-      ? _c("div", [
-          _c("h2", [_vm._v("Ciphers per protocol")]),
-          _vm._v(" "),
-          _vm.CPP.loaded
-            ? _c(
-                "div",
-                [_c("Handshakes", { attrs: { handshakes: _vm.CPP.data } })],
-                1
-              )
-            : _c("div", [_vm._v("Loading...")])
-        ])
-      : _c("div")
-  ])
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _vm.SH.loaded
+                  ? _c(
+                      "div",
+                      [
+                        _c("presentSH", {
+                          attrs: { present: _vm.SH.data.present }
+                        }),
+                        _vm._v(" "),
+                        _c("missingSH", {
+                          attrs: { missing: _vm.SH.data.missing }
+                        })
+                      ],
+                      1
+                    )
+                  : _c("div", [
+                      _c(
+                        "li",
+                        {
+                          staticClass: "list-group-item",
+                          staticStyle: {
+                            "padding-top": "0.05rem",
+                            "padding-bottom": "0.05rem"
+                          }
+                        },
+                        [_vm._v("Loading...")]
+                      )
+                    ])
+              ])
+            ])
+          ])
+        : _c("div"),
+      _vm._v(" "),
+      _c("Handshakes", { attrs: { handshakes: _vm.HS } }),
+      _vm._v(" "),
+      _c("Handshakes", { attrs: { handshakes: _vm.SV } }),
+      _vm._v(" "),
+      _c("Handshakes", { attrs: { handshakes: _vm.CP } }),
+      _vm._v(" "),
+      _c("Handshakes", { attrs: { handshakes: _vm.SHE } }),
+      _vm._v(" "),
+      _c("Handshakes", { attrs: { handshakes: _vm.CPP } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37857,10 +38247,24 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h3", [_vm._v("Missing")]),
+      _c("h4", [_vm._v("Missing")]),
       _vm._v(" "),
       _vm._l(_vm.missing, function(mis) {
-        return _c("div", [_c("div", [_vm._v(_vm._s(mis))])])
+        return _c("div", [
+          _c("div", [
+            _c(
+              "li",
+              {
+                staticClass: "list-group-item",
+                staticStyle: {
+                  "padding-top": "0.05rem",
+                  "padding-bottom": "0.05rem"
+                }
+              },
+              [_vm._v(_vm._s(mis))]
+            )
+          ])
+        ])
       })
     ],
     2
@@ -37891,11 +38295,23 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h3", [_vm._v("Present")]),
+      _c("h4", [_vm._v("Present")]),
       _vm._v(" "),
       _vm._l(_vm.present, function(value, name) {
         return _c("div", [
-          _c("div", [_vm._v(_vm._s(name) + ":" + _vm._s(value))])
+          _c("div", [
+            _c(
+              "li",
+              {
+                staticClass: "list-group-item",
+                staticStyle: {
+                  "padding-top": "0.05rem",
+                  "padding-bottom": "0.05rem"
+                }
+              },
+              [_vm._v(_vm._s(name) + ": " + _vm._s(value))]
+            )
+          ])
         ])
       })
     ],

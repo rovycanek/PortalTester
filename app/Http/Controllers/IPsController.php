@@ -50,12 +50,14 @@ class IPsController extends Controller
         'frequency' => 'required',
         'time'=> 'date_format:H:i',
         'when'=> 'date',
+        'email' => 'email',
         'ip' => 'ip'
             ]);
         $ip=new IP;
         $ip->frequency = $request->input('frequency');
         $ip->when =  join([$request->input('when')," ",$request->input('time'),":00"]);
         $ip->ip = $request->input('ip');
+        $ip->email = $request->input('email');
         $ip->save();
         return redirect('/IPs')->with('success', 'Task Created');
     }
@@ -98,12 +100,14 @@ class IPsController extends Controller
             'frequency' => 'required',
             'time'=> 'date_format:H:i',
             'when'=> 'date',
-            'ip' => 'ip'
+            'ip' => 'ip',
+            'email' => 'email',
                 ]);
         $ip=IP::find($id);
         $ip->frequency = $request->input('frequency');
         $ip->when =  join([$request->input('when')," ",$request->input('time'),":00"]);
         $ip->ip = $request->input('ip');
+        $ip->email = $request->input('email');
         $ip->save();
 
         return redirect('/IPs')->with('success', 'Task updated');

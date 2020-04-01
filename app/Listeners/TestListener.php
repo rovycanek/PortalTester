@@ -61,7 +61,7 @@ class TestListener
                 // waiting for process to finish
             }
             $ConnectionProtocols = explode("\n", $process4->getOutput());
-
+            
             $process5 = new Process(['./testssl.sh', '--server-defaults', $event->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
             $process5->setTimeout(0);
             $process5->run();
@@ -69,7 +69,6 @@ class TestListener
                 // waiting for process to finish
             }
             $ServerHello = explode("\n", $process5->getOutput());
-
             $process6 = new Process(['./testssl.sh', '--cipher-per-proto', $event->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
             $process6->setTimeout(0);
             $process6->run();
@@ -77,21 +76,7 @@ class TestListener
                 // waiting for process to finish
             }
             $CyphersPherProtocole = explode("\n", $process6->getOutput());
-        
-            Mail::to('romca.vycanek@seznam.cz')->send(new TestResults($headers,$handShakes,$SecurityVulnerabilities,$ConnectionProtocols,$ServerHello,$CyphersPherProtocole, $event->IP));
-
-
-
-
-
-
-
-
-
-
-
-
-
+            Mail::to($event->email)->send(new TestResults($headers,$handShakes,$SecurityVulnerabilities,$ConnectionProtocols,$ServerHello,$CyphersPherProtocole, $event->IP));
         } catch (ProcessFailedException $exception) {
             echo $exception->getMessage();
         }

@@ -18,6 +18,7 @@ class CreateIPSTable extends Migration
             $table->enum('frequency', ['daily', 'weekly', 'one time']);
             $table->timestamp('when');
             $table->ipAddress('ip');
+            $table->string('email');
             $table->timestamps();
         });
     }

@@ -1,71 +1,65 @@
 <template>
     <div>
-         <div class="input-group mb-3">
-          <input class="form-control" v-model="IP" placeholder="127.0.0.1">
-         
-          <div class="input-group-append">
-         <input class="btn btn-outline-secondary" v-on:click="runTests" value="Test" type="submit">       
-         </div>
-        </div>
-        <div>{{error}}</div>
-
-        
-        <div v-if="SH.started"> 
-            <h2>Security headders</h2>
-            <div v-if="SH.loaded"> 
-                <missingSH v-bind:missing="SH.data.missing"></missingSH>
-                <presentSH v-bind:present="SH.data.present"></presentSH>
+     <div class="card card-default" style="margin-bottom: 10px;">
+        <div class="card-header"><H1 align="center">Security headders</H1></div>
+        <div class="card-body">
+            <div class="input-group mb-3">
+                <input class="form-control" v-model="IP" placeholder="127.0.0.1">
+                
+                <div class="input-group-append">
+                    <input class="btn btn-outline-secondary" v-on:click="runTests" value="Test" type="submit">       
+                </div>
             </div>
-            <div v-else>Loading...</div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="SecurityHeaddersCheckbox" v-model="SH.checkbox">
+                <label class="form-check-label" for="SecurityHeaddersCheckbox">Security headders</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="HandshakesimulationCheckbox" v-model="HS.checkbox">
+                <label class="form-check-label" for="HandshakesimulationCheckbox">Handshake simulation</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="SecurityBreachesCheckbox" v-model="SV.checkbox">
+                <label class="form-check-label" for="SecurityBreachesCheckbox">Security breaches</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="OfferedProtocolsCheckbox" v-model="CP.checkbox">
+                <label class="form-check-label" for="OfferedProtocolsCheckbox">Offered protocols</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="ServerHelloCheckbox" v-model="SHE.checkbox">
+                <label class="form-check-label" for="ServerHelloCheckbox">Server Hello</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="CiphersPerProtocolCheckbox" v-model="CPP.checkbox">
+                <label class="form-check-label" for="CiphersPerProtocolCheckbox">Ciphers per protocol</label>
+            </div>
         </div>
-        <div v-else></div>
+    </div>
+       
 
 
 
-        <div v-if="HS.started"> 
-            <h2>Handshake simulation</h2>
-            <div v-if="HS.loaded"> 
-                        <Handshakes v-bind:handshakes="HS.data"></Handshakes>
+
+        <div>{{error}}</div>
+        <div v-if="SH.started" style="margin-bottom: 10px;"> 
+            <div class="card card-default">
+                <div class="card-header"><H3>{{SH.headding}}</H3></div>
+                <div class="card-body">
+                    <div v-if="SH.loaded"> 
+                        <presentSH v-bind:present="SH.data.present"></presentSH>
+                        <missingSH v-bind:missing="SH.data.missing"></missingSH>
                     </div>
-            <div v-else>Loading...</div>
+                    <div v-else><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">Loading...</li></div>
+                </div>
+            </div> 
         </div>
         <div v-else></div>
-
-        <div v-if="SV.started"> 
-            <h2>Security breaches</h2>
-            <div v-if="SV.loaded"> 
-                        <Handshakes v-bind:handshakes="SV.data"></Handshakes>
-                    </div>
-            <div v-else>Loading...</div>
-        </div>
-        <div v-else></div>
-
-        <div v-if="CP.started"> 
-            <h2>Offered protocols</h2>
-            <div v-if="CP.loaded"> 
-                        <Handshakes v-bind:handshakes="CP.data"></Handshakes>
-                    </div>
-            <div v-else>Loading...</div>
-        </div>
-        <div v-else></div>
-
-        <div v-if="SHE.started"> 
-            <h2>Server Hello</h2>
-            <div v-if="SHE.loaded"> 
-                        <Handshakes v-bind:handshakes="SHE.data"></Handshakes>
-                    </div>
-            <div v-else>Loading...</div>
-        </div>
-        <div v-else></div>
-
-        <div v-if="CPP.started"> 
-            <h2>Ciphers per protocol</h2>
-            <div v-if="CPP.loaded"> 
-                        <Handshakes v-bind:handshakes="CPP.data"></Handshakes>
-                    </div>
-            <div v-else>Loading...</div>
-        </div>
-        <div v-else></div>
+        <Handshakes v-bind:handshakes="HS"></Handshakes>
+        <Handshakes v-bind:handshakes="SV"></Handshakes>
+        <Handshakes v-bind:handshakes="CP"></Handshakes>
+        <Handshakes v-bind:handshakes="SHE"></Handshakes>
+        <Handshakes v-bind:handshakes="CPP"></Handshakes>
 
     </div>
 </template>
@@ -83,30 +77,43 @@ export default{
     },
     data(){
         return {
+            SecurityHeaddersCheckbox: true,
             SH: {"data" :{ "present": {},
                         "missing": [] },
                 "loaded": false,
                  "started": false,
+                 "checkbox": true,
+                 "headding": "Security headders",
             },
             HS: {data: [],
-            "loaded": false,
+                "loaded": false,
                  "started": false,
+                 "checkbox": true,
+                 "headding": "Handshake simulation",
             },
             SV: {data: [],
-            "loaded": false,
+                "loaded": false,
                  "started": false,
+                 "checkbox": true,
+                 "headding": "Security breaches",
             },
             CP: {data: [],
-            "loaded": false,
+                 "loaded": false,
                  "started": false,
+                 "checkbox": true,
+                 "headding": "Offered protocols",
             },
             SHE: {data: [],
-            "loaded": false,
+                  "loaded": false,
                  "started": false,
+                 "checkbox": true,
+                 "headding": "Server Hello",
             },
             CPP: {data: [],
                  "loaded": false,
                  "started": false,
+                 "checkbox": true,
+                 "headding": "Ciphers per protocol",
             },
             IP: "172.217.21.218",
             error:"",
@@ -116,13 +123,24 @@ export default{
 
     methods: {
          runTests(){
-            this.fetchSimulationHanshakes();
-            this.fetchSecurityHeadders();
-            this.fetchSecurityVulnerabities();
-            this.fetchConnectionProtocols();
-            this.fetchServerHello();
-            this.fetchCiphersPherProtocol();
-
+            if(this.HS.checkbox){
+                this.fetchSimulationHanshakes();
+            }
+            if(this.SH.checkbox){
+                this.fetchSecurityHeadders();
+            }
+            if(this.SV.checkbox){
+                this.fetchSecurityVulnerabities();
+            }
+            if(this.CP.checkbox){
+                this.fetchConnectionProtocols();
+            }
+            if(this.SHE.checkbox){
+                this.fetchServerHello();
+            }
+            if(this.CPP.checkbox){
+                this.fetchCiphersPherProtocol();
+            }
          },
        
         fetchSimulationHanshakes(){
