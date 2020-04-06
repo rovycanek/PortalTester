@@ -1,7 +1,7 @@
 <template>
     <div>
      <div class="card card-default" style="margin-bottom: 10px;">
-        <div class="card-header"><H1 align="center">Security headders</H1></div>
+        <div class="card-header"><H1 align="center">Welcome to potal tester App</H1></div>
         <div class="card-body">
             <div class="input-group mb-3">
                 <input class="form-control" v-model="IP" placeholder="127.0.0.1">
@@ -55,11 +55,11 @@
             </div> 
         </div>
         <div v-else></div>
-        <Handshakes v-bind:handshakes="HS"></Handshakes>
-        <Handshakes v-bind:handshakes="SV"></Handshakes>
-        <Handshakes v-bind:handshakes="CP"></Handshakes>
-        <Handshakes v-bind:handshakes="SHE"></Handshakes>
-        <Handshakes v-bind:handshakes="CPP"></Handshakes>
+        <testSSL v-bind:data="HS"></testSSL>
+        <testSSL v-bind:data="SV"></testSSL>
+        <testSSL v-bind:data="CP"></testSSL>
+        <testSSL v-bind:data="SHE"></testSSL>
+        <testSSL v-bind:data="CPP"></testSSL>
 
     </div>
 </template>
@@ -67,13 +67,13 @@
 <script>
 import presentSH from "./presentSH.vue"
 import missingSH from "./missingSH.vue"
-import Handshakes from "./Handshakes.vue"
+import testSSL from "./testSSL.vue"
 export default{
-    name:"securityheadders",
+    name:"tests",
     components: {
         presentSH,
         missingSH,
-        Handshakes
+        testSSL
     },
     data(){
         return {

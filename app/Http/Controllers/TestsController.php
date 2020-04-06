@@ -33,9 +33,11 @@ class TestsController extends Controller
         $this->validate($request, [
         'IP' => 'ip'
             ]);
-        $process = new Process(['./testssl.sh', '--client-simulation', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+        $process = new Process(['./testssl.sh', '--client-simulation', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+        $process->setTimeout(0);
         $process->run();
         $array = explode("\n", $process->getOutput());
+        dd(base_path());
         return response()->json(['headers'=>$array]);
        
     }
@@ -45,6 +47,7 @@ class TestsController extends Controller
                 'IP' => 'ip'
                     ]);
             $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
+            $process->setTimeout(0);
             try {
                 $process->mustRun();
                 while ($process->isRunning()) {
@@ -66,7 +69,8 @@ class TestsController extends Controller
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['./testssl.sh', '--vulnerable', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+            $process = new Process(['./testssl.sh', '--vulnerable', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+            $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
             return response()->json(['headers'=>$array]);
@@ -78,7 +82,8 @@ class TestsController extends Controller
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['./testssl.sh', '--protocols', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+            $process = new Process(['./testssl.sh', '--protocols', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+            $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
             return response()->json(['headers'=>$array]);
@@ -88,7 +93,8 @@ class TestsController extends Controller
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['./testssl.sh', '--server-defaults', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+            $process = new Process(['./testssl.sh', '--server-defaults', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+            $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
             return response()->json(['headers'=>$array]);
@@ -98,7 +104,8 @@ class TestsController extends Controller
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['./testssl.sh', '--cipher-per-proto', $request->IP],$cwd = '/opt/lampp/htdocs/PortalTester/app/Http/Controllers/testssl.sh');
+            $process = new Process(['./testssl.sh', '--cipher-per-proto', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+            $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
             return response()->json(['headers'=>$array]);

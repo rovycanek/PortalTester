@@ -22,7 +22,7 @@ Route::post('/tests/SHE', 'TestsController@ServerHello');
 Route::post('/tests/CPP', 'TestsController@CiphersPherProtocol');
 Route::resource('/pokus','TestsController');
 Route::get('/about', 'PagesController@about');
-Route::get('/services', 'PagesController@services');
+
 
 Auth::routes();
 

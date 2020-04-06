@@ -46,7 +46,6 @@ class runPlannedTests extends Command
     {
         $IPs= IP::where('when','<', Carbon::now())->get();
         foreach ($IPs as $IP) {
-            var_dump($IP->when);
             if(!strcmp($IP->frequency,'daily')){
                 $IP->when=Carbon::parse($IP->when)->addDays(1);
                 $IP->save();
