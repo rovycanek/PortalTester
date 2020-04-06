@@ -37,7 +37,6 @@ class TestsController extends Controller
         $process->setTimeout(0);
         $process->run();
         $array = explode("\n", $process->getOutput());
-        dd(base_path());
         return response()->json(['headers'=>$array]);
        
     }

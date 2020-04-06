@@ -123,6 +123,7 @@ export default{
 
     methods: {
          runTests(){
+            this.resetstates();
             if(this.HS.checkbox){
                 this.fetchSimulationHanshakes();
             }
@@ -141,6 +142,14 @@ export default{
             if(this.CPP.checkbox){
                 this.fetchCiphersPherProtocol();
             }
+         },
+         resetstates(){
+            this.HS.started=false;
+            this.SH.started=false;
+            this.SV.started=false;
+            this.CP.started=false;
+            this.SHE.started=false;
+            this.CPP.started=false;
          },
        
         fetchSimulationHanshakes(){

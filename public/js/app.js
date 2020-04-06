@@ -2127,6 +2127,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     runTests: function runTests() {
+      this.resetstates();
+
       if (this.HS.checkbox) {
         this.fetchSimulationHanshakes();
       }
@@ -2150,6 +2152,14 @@ __webpack_require__.r(__webpack_exports__);
       if (this.CPP.checkbox) {
         this.fetchCiphersPherProtocol();
       }
+    },
+    resetstates: function resetstates() {
+      this.HS.started = false;
+      this.SH.started = false;
+      this.SV.started = false;
+      this.CP.started = false;
+      this.SHE.started = false;
+      this.CPP.started = false;
     },
     fetchSimulationHanshakes: function fetchSimulationHanshakes() {
       this.HS.started = true;
