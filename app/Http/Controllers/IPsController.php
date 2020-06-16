@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\IP;
 
 class IPsController extends Controller
@@ -24,7 +25,12 @@ class IPsController extends Controller
      */
     public function index()
     {
-        $IPs= IP::orderBy('ip','desc')->paginate(5);
+        #$IPs= IP::orderBy('ip','desc')->paginate(5);
+        $user_id = auth()->user()->id;
+        $IPs= IP::where('user_id', $user_id )->orderBy('ip','desc')->paginate(5);
+
+        $user = User::find($user_id);
+        #return view('IPs.index')->with('ips', $user->ips::orderBy('ip','desc')->paginate(5));
         return view('IPs.index')->with('ips', $IPs);
     }
 
@@ -58,6 +64,7 @@ class IPsController extends Controller
         $ip->when =  join([$request->input('when')," ",$request->input('time'),":00"]);
         $ip->ip = $request->input('ip');
         $ip->email = $request->input('email');
+        $ip->user_id = auth()->user()->id;
         $ip->save();
         return redirect('/IPs')->with('success', 'Task Created');
     }
@@ -83,7 +90,11 @@ class IPsController extends Controller
      */
     public function edit($id)
     {
-       $ip = IP::find($id);
+
+        $ip = IP::find($id);
+        if(auth()->user()->id !== $ip->user_id){
+            return redirect('/IPs')->with('error', 'Unauthorized page');
+        }
         return view('IPs.edit')->with('ip',$ip);
     }
 

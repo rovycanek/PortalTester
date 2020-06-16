@@ -13,7 +13,10 @@
                     <!-- Left Side Of Navbar -->
                    <ul class="navbar-nav mr-auto">
                         <li><a class="nav-link" href="/about">About</a></li>
+                        @guest
+                        @else
                         <li><a class="nav-link" href="/IPs">IPs</a></li>
+                        @endguest
                     </ul>
 
 
