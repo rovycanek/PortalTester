@@ -30,13 +30,28 @@ class TestListener implements ShouldQueue{
      */
     public function handle(runTestsEvent $event)
     {
-        $process = new Process(['./app/Http/Controllers/shcheck.py', '-dj', $event->IP]);
+        $process = new Process(['./app/Http/Controllers/shcheck.py', '-d', $event->IP]);
         try {
             $process->mustRun();
             while ($process->isRunning()) {
                 // waiting for process to finish
             }
             $headers = json_decode($process->getOutput(),true);
+            $headers = explode("\n", $process->getOutput());
+
+            $arrayNoHeadders=array();
+            $arrayWithHeadders=array();
+            for ($i = 0; $i < count($headers); $i++) {
+                if (strpos($headers[$i], ':') !== false){
+                    array_push($arrayWithHeadders, $headers[$i]);
+                }else{
+                    array_push($arrayNoHeadders, $headers[$i]);  
+                }
+            }
+
+
+
+
             
             $process2 = new Process(['./testssl.sh', '--client-simulation', $event->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process2->setTimeout(0);
@@ -76,7 +91,7 @@ class TestListener implements ShouldQueue{
                 // waiting for process to finish
             }
             $CyphersPherProtocole = explode("\n", $process6->getOutput());
-            Mail::to($event->email)->send(new TestResults($headers,$handShakes,$SecurityVulnerabilities,$ConnectionProtocols,$ServerHello,$CyphersPherProtocole, $event->IP));
+            Mail::to($event->email)->send(new TestResults($arrayNoHeadders,$arrayWithHeadders,$handShakes,$SecurityVulnerabilities,$ConnectionProtocols,$ServerHello,$CyphersPherProtocole, $event->IP));
         } catch (ProcessFailedException $exception) {
             echo $exception->getMessage();
         }

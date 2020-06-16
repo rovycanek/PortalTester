@@ -42,6 +42,7 @@
 
 
         <div>{{error}}</div>
+        
         <div v-if="SH.started" style="margin-bottom: 10px;"> 
             <div class="card card-default">
                 <div class="card-header"><H3>{{SH.headding}}</H3></div>
@@ -52,9 +53,10 @@
                     </div>
                     <div v-else><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">Loading...</li></div>
                 </div>
-            </div> 
+            </div>
         </div>
         <div v-else></div>
+
         <testSSL v-bind:data="HS"></testSSL>
         <testSSL v-bind:data="SV"></testSSL>
         <testSSL v-bind:data="CP"></testSSL>
@@ -79,7 +81,7 @@ export default{
         return {
             SecurityHeaddersCheckbox: true,
             SH: {"data" :{ "present": {},
-                        "missing": [] },
+                        "missing": {} },
                 "loaded": false,
                  "started": false,
                  "checkbox": true,
@@ -202,7 +204,8 @@ export default{
                     IP: this.IP,
                 },
                 success: function(result){
-                    this.SH.data=result.headers;
+                    this.SH.data.present=result.headersWith;
+                    this.SH.data.missing=result.headersWithout;
                     this.SH.loaded=true;
                 }.bind(this),
                 error: function(result){

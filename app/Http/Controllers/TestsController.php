@@ -45,16 +45,31 @@ class TestsController extends Controller
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['../app/Http/Controllers/shcheck.py', '-dj', $request->IP]);
+            $process = new Process(['../app/Http/Controllers/shcheck.py', '-d', $request->IP]);
             $process->setTimeout(0);
             try {
                 $process->mustRun();
                 while ($process->isRunning()) {
                     // waiting for process to finish
                 }
-                $headers = json_decode($process->getOutput(),true);
-                
-                return response()->json(['headers'=>$headers,'ip'=>$request->IP]);
+                //$headers = json_decode($process->getOutput(),true);
+                $headers = explode("\n", $process->getOutput());
+
+                $arrayNoHeadders=array();
+                $arrayWithHeadders=array();
+                for ($i = 0; $i < count($headers); $i++) {
+                    if (strpos($headers[$i], ':') !== false){
+                        array_push($arrayWithHeadders, $headers[$i]);
+                    }else{
+                        array_push($arrayNoHeadders, $headers[$i]);  
+                    }
+                }
+
+
+
+
+
+                return response()->json(['headersWith'=>$arrayWithHeadders,'headersWithout'=>$arrayNoHeadders,'ip'=>$request->IP]);
               
             } catch (ProcessFailedException $exception) {
                 echo $exception->getMessage();
@@ -72,6 +87,7 @@ class TestsController extends Controller
             $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
+            
             return response()->json(['headers'=>$array]);
            
     

@@ -50,15 +50,21 @@ client_headers = {
 
 # Security headers that should be enabled
 sec_headers = {
-    'X-XSS-Protection': 'warning',
+   # 'X-XSS-Protection': 'warning',
+   # 'X-Frame-Options': 'warning',
+   # 'X-Content-Type-Options': 'warning',
+   # 'Strict-Transport-Security': 'error',
+   # 'Public-Key-Pins': 'none',
+   # 'Content-Security-Policy': 'warning',
+   # 'X-Permitted-Cross-Domain-Policies': 'warning',
+   # 'Referrer-Policy': 'warning'
     'X-Frame-Options': 'warning',
+    'Strict-Transport-Secutity': 'warning',
     'X-Content-Type-Options': 'warning',
-    'Strict-Transport-Security': 'error',
-    'Public-Key-Pins': 'none',
     'Content-Security-Policy': 'warning',
-    'X-Permitted-Cross-Domain-Policies': 'warning',
-    'Referrer-Policy': 'warning'
-
+    'Referrer-Policy': 'warning',
+    'Feature-Policy': 'warning',
+     
 }
 
 information_headers = {
@@ -251,13 +257,13 @@ def main(options, targets):
 
                 # X-XSS-Protection Should be enabled
                 if safeh == 'X-XSS-Protection' and headers.get(safeh) == '0':
-                    print("[*] Header {} is present! (Value: {})".format(
+                    ("[*] Header {} is present! (Value: {})".format(
                             colorize(safeh, 'ok'),
                             colorize(headers.get(safeh), 'warning')))
 
                 # Printing generic message if not specified above
                 else:
-                    print("Header {} is present! (Value: {})".format(
+                    print("{}: {}".format(
                             colorize(safeh, 'ok'),
                             headers.get(safeh)))
             else:
@@ -268,7 +274,7 @@ def main(options, targets):
                     unsafe -= 1
                     json_headers["missing"].remove(safeh)
                     continue
-                print('Missing security header: {}'.format(
+                print('{}'.format(
                     colorize(safeh, sec_headers.get(safeh))))
 
         if information:

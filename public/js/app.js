@@ -1917,6 +1917,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "missingSH",
   props: ['missing']
@@ -1933,6 +1935,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2063,6 +2067,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2079,7 +2085,7 @@ __webpack_require__.r(__webpack_exports__);
       SH: {
         "data": {
           "present": {},
-          "missing": []
+          "missing": {}
         },
         "loaded": false,
         "started": false,
@@ -2209,7 +2215,8 @@ __webpack_require__.r(__webpack_exports__);
           IP: this.IP
         },
         success: function (result) {
-          this.SH.data = result.headers;
+          this.SH.data.present = result.headersWith;
+          this.SH.data.missing = result.headersWithout;
           this.SH.loaded = true;
         }.bind(this),
         error: function (result) {
@@ -37729,19 +37736,23 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.missing, function(mis) {
         return _c("div", [
-          _c("div", [
-            _c(
-              "li",
-              {
-                staticClass: "list-group-item",
-                staticStyle: {
-                  "padding-top": "0.05rem",
-                  "padding-bottom": "0.05rem"
-                }
-              },
-              [_vm._v(_vm._s(mis))]
-            )
-          ])
+          mis.length > 2
+            ? _c("div", [
+                _c("div", [
+                  _c(
+                    "li",
+                    {
+                      staticClass: "list-group-item",
+                      staticStyle: {
+                        "padding-top": "0.05rem",
+                        "padding-bottom": "0.05rem"
+                      }
+                    },
+                    [_vm._v(_vm._s(mis))]
+                  )
+                ])
+              ])
+            : _vm._e()
         ])
       })
     ],
@@ -37775,21 +37786,25 @@ var render = function() {
     [
       _c("h4", [_vm._v("Present")]),
       _vm._v(" "),
-      _vm._l(_vm.present, function(value, name) {
+      _vm._l(_vm.present, function(value) {
         return _c("div", [
-          _c("div", [
-            _c(
-              "li",
-              {
-                staticClass: "list-group-item",
-                staticStyle: {
-                  "padding-top": "0.05rem",
-                  "padding-bottom": "0.05rem"
-                }
-              },
-              [_vm._v(_vm._s(name) + ": " + _vm._s(value))]
-            )
-          ])
+          value.length > 2
+            ? _c("div", [
+                _c("div", [
+                  _c(
+                    "li",
+                    {
+                      staticClass: "list-group-item",
+                      staticStyle: {
+                        "padding-top": "0.05rem",
+                        "padding-bottom": "0.05rem"
+                      }
+                    },
+                    [_vm._v(_vm._s(value))]
+                  )
+                ])
+              ])
+            : _vm._e()
         ])
       })
     ],

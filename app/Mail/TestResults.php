@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 class TestResults extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $headers=[];
+    protected $arrayNoHeadders=[];
+    protected $arrayWithHeadders=[];
     protected $handShakes=[];
     protected $SecurityVulnerabilities=[];
     protected $ConnectionProtocols=[];
@@ -22,9 +23,10 @@ class TestResults extends Mailable
      *
      * @return void
      */
-    public function __construct(array $headers,array $handShakes,array $SecurityVulnerabilities,array $ConnectionProtocols,array $ServerHello,array $CyphersPherProtocole,$IP)
+    public function __construct(array $arrayNoHeadders,array $arrayWithHeadders,array $handShakes,array $SecurityVulnerabilities,array $ConnectionProtocols,array $ServerHello,array $CyphersPherProtocole,$IP)
     {
-    $this->headers=$headers;
+    $this->arrayNoHeadders=$arrayNoHeadders;
+    $this->arrayWithHeadders=$arrayWithHeadders;
     $this->handShakes=$handShakes;
     $this->SecurityVulnerabilities=$SecurityVulnerabilities;
     $this->ConnectionProtocols=$ConnectionProtocols;
@@ -41,7 +43,8 @@ class TestResults extends Mailable
     public function build()
     {
       return $this->markdown('emails.testResults')->with([
-          'headers' => $this->headers,
+          'arrayNoHeadders' => $this->arrayNoHeadders,
+          'arrayWithHeadders' => $this->arrayWithHeadders,
           'handShakes' => $this->handShakes,
           'SecurityVulnerabilities' => $this->SecurityVulnerabilities,
           'ConnectionProtocols' => $this->ConnectionProtocols,

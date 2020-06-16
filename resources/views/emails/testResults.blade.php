@@ -1,21 +1,19 @@
 @component('mail::message')
 <H1 style="font-family: Nunito">Testing for IP:{{$IP}}</H1>
 
+
 <h2>Headers</h2>
 <div class="no-gutters border rounded overflow-hidden flex-md-row shadow-sm position-relative  p-2 row">
 <ul>
-@foreach($headers as  $head=> $head_value)
-<li style="font-family: Nunito">{{$head}}</li>
-<ul>
-@foreach($head_value as $he=> $x_value)
-@if(strlen($he)>3)
-<li style="font-family: Nunito">{{$he}}: {{$x_value}}</li>
-@endif
-@if(strlen($he)<=3)
-<li style="font-family: Nunito">{{$x_value}}</li>
+@foreach($arrayWithHeadders as $WithHeadders)
+@if(strlen($WithHeadders)>2)
+<pre style="font-family: Nunito padding-top: 0.05rem;padding-bottom: 0.05rem;">{{$WithHeadders}}</pre>
 @endif
 @endforeach
-</ul>
+@foreach($arrayNoHeadders as $NoHeadders)
+@if(strlen($NoHeadders)>2)
+<pre style="font-family: Nunito padding-top: 0.05rem;padding-bottom: 0.05rem;">{{$NoHeadders}}</pre>
+@endif
 @endforeach
 </ul>
 </div>
