@@ -96,7 +96,7 @@ def colorize(string, alert):
 
 def parse_headers(hdrs):
     global headers
-    headers = dict((x,y) for x,y in hdrs)
+    headers = dict((x.upper(),y) for x,y in hdrs)
 
 def append_port(target, port):
     return target[:-1] + ':' + port + '/' \
@@ -249,23 +249,23 @@ def main(options, targets):
         json_headers["missing"] = []
 
         for safeh in sec_headers:
-            if safeh in headers:
+            if safeh.upper() in headers:
                 safe += 1
-                json_headers["present"][safeh] = headers.get(safeh)
+                json_headers["present"][safeh] = headers.get(safeh.upper())
 
                 # Taking care of special headers that could have bad values
 
                 # X-XSS-Protection Should be enabled
-                if safeh == 'X-XSS-Protection' and headers.get(safeh) == '0':
+                if safeh == 'X-XSS-Protection' and headers.get(safeh.upper()) == '0':
                     ("[*] Header {} is present! (Value: {})".format(
                             colorize(safeh, 'ok'),
-                            colorize(headers.get(safeh), 'warning')))
+                            colorize(headers.get(safeh.upper()), 'warning')))
 
                 # Printing generic message if not specified above
                 else:
                     print("{}: {}".format(
                             colorize(safeh, 'ok'),
-                            headers.get(safeh)))
+                            headers.get(safeh.upper())))
             else:
                 unsafe += 1
                 json_headers["missing"].append(safeh)
@@ -354,3 +354,4 @@ if __name__ == "__main__":
         parser.print_help()
         sys.exit(1)
     main(options, args)
+
