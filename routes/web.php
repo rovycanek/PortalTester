@@ -20,12 +20,12 @@ Route::post('/tests/SV', 'TestsController@SecurityVulnerabities');
 Route::post('/tests/CP', 'TestsController@ConnectionProtocols');
 Route::post('/tests/SHE', 'TestsController@ServerHello');
 Route::post('/tests/CPP', 'TestsController@CiphersPherProtocol');
-Route::resource('/pokus','TestsController');
+
 Route::get('/about', 'PagesController@about');
 
 
 Auth::routes();
-
+Route::resource('LoginLog','LoginLogController');
 Route::resource('IPs','IPsController');
 
 Auth::routes();

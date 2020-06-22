@@ -44,6 +44,9 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+                                    <a class="dropdown-item" href="/LoginLog">
+                                        Login history
+                                    </a>
                                     <a class="dropdown-item" href="/IPs/create">
                                         Create IP
                                     </a>
