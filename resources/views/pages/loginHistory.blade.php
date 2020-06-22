@@ -3,22 +3,29 @@
 @section ('content')
     <div class="card card-default">
     <div class="card-header"><H3>Login history</H3></div>
-    <div class="card-body">
-    @if(count($ips)>0)
-        @foreach($ips as $ip)  
-        <div class="card card-default w-50" style="margin-bottom: 10px;">
-            <div class="card-header"><H4>{{$ip->ip}}</H4></div>
-            <div class="card-body">
-                <div><small>fingerPrint: <b>{{$ip->fingerprint}} </b></small></div>
-                <div><small>created at: <b>{{$ip->created_at}} </b></small></div>
-            </div>
-        </div>
-        @endforeach
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Loggined in at</th>
+                <th scope="col">Finger print</th>
+                <th scope="col">IP</th>
+              </tr>
+        </thead>
+        <tbody>
+            @if(count($ips)>0)
+                @foreach($ips as $ip)  
+                <tr>
+                    <td>{{$ip->created_at->format('Y.m.d H:i:s') }}</td>
+                    <td>{{$ip->fingerprint}}</td>
+                    <td>{{$ip->ip}}</td>
+                </tr>
+                @endforeach
+                
+            @else
+            @endif
+        </tbody>
         {{$ips->links()}}
-    @else
-        <p>No history found</p>
-    @endif
-    </div>
-    
+    </table>    
     </div>
 @endsection
