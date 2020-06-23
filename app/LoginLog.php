@@ -10,5 +10,4 @@ class LoginLog extends Model
     public $primaryKey = 'id';
     public $timestamps = true;
 
-
 }

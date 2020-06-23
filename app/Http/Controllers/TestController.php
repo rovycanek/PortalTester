@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Test;
+use App\SecurityHeaders;
+use App\Handshakesimulation;
+use App\Securitybreaches;
+use App\Offeredprotocols;
+use App\Serverhello;
+use App\Ciphersperprotocol;
 
 class TestController extends Controller
 {
@@ -60,7 +66,15 @@ class TestController extends Controller
      */
     public function show($id)
     {
-
+        $test = Test::find($id);
+        if(auth()->user()->id !== $test->user_id){
+            return redirect('/tests')->with('error', 'Unauthorized page');
+        }
+       
+        return view('tests.show',['test' => $test,'serverhello' => $test->serverhello,
+        'securityHeaders' => $test->securityHeaders,'handshakesimulation' => $test->handshakesimulation,
+        'securitybreaches' => $test->securitybreaches,'offeredprotocols' => $test->offeredprotocols,
+        'ciphersperprotocol' => $test->ciphersperprotocol]);
     }
 
     /**
