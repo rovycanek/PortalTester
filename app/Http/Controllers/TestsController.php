@@ -9,6 +9,14 @@ use Event;
 use App\Events\runTestsEvent;
 
 use Illuminate\Http\Response;
+use App\SecurityHeaders;
+use App\Handshakesimulation;
+use App\Securitybreaches;
+use App\Offeredprotocols;
+use App\Serverhello;
+use App\Ciphersperprotocol;
+
+
 
 class TestsController extends Controller
 {
@@ -37,6 +45,14 @@ class TestsController extends Controller
         $process->setTimeout(0);
         $process->run();
         $array = explode("\n", $process->getOutput());
+        for ($i = 0; $i < count($array); $i++) {
+            if(strlen($array[$i])>2){
+                $securityHeaders=new Handshakesimulation;
+                $securityHeaders->test_id=$request->testID;
+                $securityHeaders->data=$array[$i];
+                $securityHeaders->save();
+            }
+        }
         return response()->json(['headers'=>$array]);
        
     }
@@ -65,8 +81,27 @@ class TestsController extends Controller
                     }
                 }
 
+                for ($i = 0; $i < count($arrayWithHeadders); $i++) {
+                    if(strlen($arrayWithHeadders[$i])>2){
+                        $securityHeaders=new SecurityHeaders;
+                        $securityHeaders->test_id=$request->testID;
+                        $securityHeaders->data=$arrayWithHeadders[$i];
+                    
+                        $securityHeaders->type = true;
+                        $securityHeaders->save();
+                    }
+              
+                }
+                for ($i = 0; $i < count($arrayNoHeadders); $i++) {
+                    if(strlen($arrayNoHeadders[$i])>2){
+                        $securityHeaders=new SecurityHeaders;
+                        $securityHeaders->test_id=$request->testID;
+                        $securityHeaders->data=$arrayNoHeadders[$i];
+                        $securityHeaders->type = false;
+                        $securityHeaders->save();
+                    }
 
-
+                }
 
 
                 return response()->json(['headersWith'=>$arrayWithHeadders,'headersWithout'=>$arrayNoHeadders,'ip'=>$request->IP]);
@@ -87,7 +122,15 @@ class TestsController extends Controller
             $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
-            
+
+            for ($i = 0; $i < count($array); $i++) {
+                if(strlen($array[$i])>2){
+                    $securityHeaders=new Securitybreaches;
+                    $securityHeaders->test_id=$request->testID;
+                    $securityHeaders->data=$array[$i];
+                    $securityHeaders->save();
+                }
+            }
             return response()->json(['headers'=>$array]);
            
     
@@ -101,6 +144,15 @@ class TestsController extends Controller
             $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
+            for ($i = 0; $i < count($array); $i++) {
+                if(strlen($array[$i])>2){
+                    $securityHeaders=new Offeredprotocols;
+                    $securityHeaders->test_id=$request->testID;
+                    $securityHeaders->data=$array[$i];
+                    $securityHeaders->save();
+                }
+            }
+
             return response()->json(['headers'=>$array]);
         }
         
@@ -112,6 +164,17 @@ class TestsController extends Controller
             $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
+
+            for ($i = 0; $i < count($array); $i++) {
+                if(strlen($array[$i])>2){
+                    $securityHeaders=new Serverhello;
+                    $securityHeaders->test_id=$request->testID;
+                    $securityHeaders->data=$array[$i];
+                    $securityHeaders->save();
+                }
+            }
+
+
             return response()->json(['headers'=>$array]);
         }
         
@@ -123,6 +186,16 @@ class TestsController extends Controller
             $process->setTimeout(0);
             $process->run();
             $array = explode("\n", $process->getOutput());
+
+            for ($i = 0; $i < count($array); $i++) {
+                if(strlen($array[$i])>2){
+                    $securityHeaders=new Ciphersperprotocol;
+                    $securityHeaders->test_id=$request->testID;
+                    $securityHeaders->data=$array[$i];
+                    $securityHeaders->save();
+                }
+            }
+
             return response()->json(['headers'=>$array]);
         }
 

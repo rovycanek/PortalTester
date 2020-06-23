@@ -2065,10 +2065,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -2128,13 +2124,18 @@ __webpack_require__.r(__webpack_exports__);
         "headding": "Ciphers per protocol"
       },
       IP: "172.217.21.218",
-      error: ""
+      error: "",
+      testID: {
+        ID: "0"
+      }
     };
   },
   methods: {
     runTests: function runTests() {
       this.resetstates();
-
+      this.testSaveToDB();
+    },
+    startTest: function startTest() {
       if (this.HS.checkbox) {
         this.fetchSimulationHanshakes();
       }
@@ -2159,6 +2160,30 @@ __webpack_require__.r(__webpack_exports__);
         this.fetchCiphersPherProtocol();
       }
     },
+    testSaveToDB: function testSaveToDB() {
+      this.testID.success = false;
+      $.ajaxSetup({
+        timeout: 3000000,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      jQuery.post({
+        url: '/tests/start',
+        datatype: 'json',
+        data: {
+          name: "csrf-token",
+          IP: this.IP
+        },
+        success: function (result) {
+          this.testID.ID = result.ID;
+          this.startTest();
+        }.bind(this),
+        error: function (result) {
+          console.log(result.responseJSON.message);
+        }.bind(this)
+      });
+    },
     resetstates: function resetstates() {
       this.HS.started = false;
       this.SH.started = false;
@@ -2182,7 +2207,8 @@ __webpack_require__.r(__webpack_exports__);
         datatype: 'json',
         data: {
           name: "csrf-token",
-          IP: this.IP
+          IP: this.IP,
+          testID: this.testID.ID
         },
         success: function (result) {
           this.HS.data = result.headers;
@@ -2212,7 +2238,8 @@ __webpack_require__.r(__webpack_exports__);
         datatype: 'json',
         data: {
           name: "csrf-token",
-          IP: this.IP
+          IP: this.IP,
+          testID: this.testID.ID
         },
         success: function (result) {
           this.SH.data.present = result.headersWith;
@@ -2245,7 +2272,8 @@ __webpack_require__.r(__webpack_exports__);
         datatype: 'json',
         data: {
           name: "csrf-token",
-          IP: this.IP
+          IP: this.IP,
+          testID: this.testID.ID
         },
         success: function (result) {
           this.SV.data = result.headers;
@@ -2277,7 +2305,8 @@ __webpack_require__.r(__webpack_exports__);
         datatype: 'json',
         data: {
           name: "csrf-token",
-          IP: this.IP
+          IP: this.IP,
+          testID: this.testID.ID
         },
         success: function (result) {
           this.CP.data = result.headers;
@@ -2309,7 +2338,8 @@ __webpack_require__.r(__webpack_exports__);
         datatype: 'json',
         data: {
           name: "csrf-token",
-          IP: this.IP
+          IP: this.IP,
+          testID: this.testID.ID
         },
         success: function (result) {
           this.SHE.data = result.headers;
@@ -2341,7 +2371,8 @@ __webpack_require__.r(__webpack_exports__);
         datatype: 'json',
         data: {
           name: "csrf-token",
-          IP: this.IP
+          IP: this.IP,
+          testID: this.testID.ID
         },
         success: function (result) {
           this.CPP.data = result.headers;

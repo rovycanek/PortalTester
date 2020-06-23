@@ -36,10 +36,6 @@
             </div>
         </div>
     </div>
-       
-
-
-
 
         <div>{{error}}</div>
         
@@ -119,6 +115,8 @@ export default{
             },
             IP: "172.217.21.218",
             error:"",
+            testID:{ID:"0"
+            },
             
         }
     },
@@ -126,6 +124,9 @@ export default{
     methods: {
          runTests(){
             this.resetstates();
+            this.testSaveToDB();
+         },
+         startTest(){
             if(this.HS.checkbox){
                 this.fetchSimulationHanshakes();
             }
@@ -145,6 +146,34 @@ export default{
                 this.fetchCiphersPherProtocol();
             }
          },
+
+        testSaveToDB(){
+            this.testID.success=false;
+            $.ajaxSetup({
+                timeout: 3000000,
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            jQuery.post({
+                url: '/tests/start',
+                datatype: 'json',
+                data: {
+                    name: "csrf-token",
+                    IP: this.IP,
+                },
+                success: function(result){
+                    this.testID.ID=result.ID;
+                    this.startTest();
+
+                }.bind(this),
+                error: function(result){
+                    console.log(result.responseJSON.message);
+                }.bind(this),
+            });
+
+        },
+
          resetstates(){
             this.HS.started=false;
             this.SH.started=false;
@@ -171,6 +200,7 @@ export default{
                 data: {
                     name: "csrf-token",
                     IP: this.IP,
+                    testID: this.testID.ID,
                 },
                 success: function(result){
                     this.HS.data=result.headers;
@@ -202,6 +232,7 @@ export default{
                 data: {
                     name: "csrf-token",
                     IP: this.IP,
+                    testID: this.testID.ID,
                 },
                 success: function(result){
                     this.SH.data.present=result.headersWith;
@@ -233,6 +264,7 @@ export default{
                 data: {
                     name: "csrf-token",
                     IP: this.IP,
+                    testID: this.testID.ID,
                 },
                 success: function(result){
                     this.SV.data=result.headers;
@@ -264,6 +296,7 @@ export default{
                 data: {
                     name: "csrf-token",
                     IP: this.IP,
+                    testID: this.testID.ID,
                 },
                 success: function(result){
                     this.CP.data=result.headers;
@@ -296,6 +329,7 @@ export default{
                 data: {
                     name: "csrf-token",
                     IP: this.IP,
+                    testID: this.testID.ID,
                 },
                 success: function(result){
                     this.SHE.data=result.headers;
@@ -326,6 +360,7 @@ export default{
                 data: {
                     name: "csrf-token",
                     IP: this.IP,
+                    testID: this.testID.ID,
                 },
                 success: function(result){
                     this.CPP.data=result.headers;
@@ -338,10 +373,6 @@ export default{
                 }.bind(this),
             });
         }
-
-        
-
-
     }
 }
 </script>
