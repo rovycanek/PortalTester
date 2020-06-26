@@ -15,15 +15,17 @@ class runTestsEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $email;
     public $IP;
+    public $user_id;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($email,$IP)
+    public function __construct($email,$IP,$user_id)
     {
         $this->email=$email;
         $this->IP=$IP;
+        $this->user_id=$user_id;
     }
 
     /**

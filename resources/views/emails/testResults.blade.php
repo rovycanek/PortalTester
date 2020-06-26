@@ -5,14 +5,16 @@
 <h2>Headers</h2>
 <div class="no-gutters border rounded overflow-hidden flex-md-row shadow-sm position-relative  p-2 row">
 <ul>
+<h4>Present</h4>
 @foreach($arrayWithHeadders as $WithHeadders)
 @if(strlen($WithHeadders)>2)
-<pre style="font-family: Nunito padding-top: 0.05rem;padding-bottom: 0.05rem;">{{$WithHeadders}}</pre>
+<pre style="font-family: Nunito padding-top: 0.05rem;padding-bottom: 0.05rem;"> {{$WithHeadders}}</pre>
 @endif
 @endforeach
+<h4>Missing</h4>
 @foreach($arrayNoHeadders as $NoHeadders)
 @if(strlen($NoHeadders)>2)
-<pre style="font-family: Nunito padding-top: 0.05rem;padding-bottom: 0.05rem;">{{$NoHeadders}}</pre>
+<pre style="font-family: Nunito padding-top: 0.05rem;padding-bottom: 0.05rem;"> {{$NoHeadders}}</pre>
 @endif
 @endforeach
 </ul>
