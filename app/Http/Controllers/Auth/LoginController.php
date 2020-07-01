@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\LoginLog;
 
 class LoginController extends Controller
@@ -47,5 +48,15 @@ class LoginController extends Controller
         $ip->user_id =  $user->id;
         $ip->ip =  $request->getClientIp();
         $ip->save();
+    }
+
+    public function redirectTo()
+    {
+        if(Auth::user()->hasRole('admin')){
+            $this->redirectTo=route('admin.users.index');
+            return $this->redirectTo;
+        }
+        $this->redirectTo=route('home');
+        return $this->redirectTo;
     }
 }

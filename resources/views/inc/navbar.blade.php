@@ -50,6 +50,11 @@
                                     <a class="dropdown-item" href="/LoginLog">
                                         Login history
                                     </a>
+                                    @can('manage-users')
+                                    <a class="dropdown-item" href="/admin/users">
+                                        User Management
+                                    </a>
+                                    @endcan
                                     <a class="dropdown-item" href="/IPs/create">
                                         Create IP
                                     </a>

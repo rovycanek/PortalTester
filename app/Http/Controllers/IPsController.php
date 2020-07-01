@@ -25,12 +25,9 @@ class IPsController extends Controller
      */
     public function index()
     {
-        #$IPs= IP::orderBy('ip','desc')->paginate(5);
         $user_id = auth()->user()->id;
         $IPs= IP::where('user_id', $user_id )->orderBy('ip','desc')->paginate(5);
-
         $user = User::find($user_id);
-        #return view('IPs.index')->with('ips', $user->ips::orderBy('ip','desc')->paginate(5));
         return view('IPs.index')->with('ips', $IPs);
     }
 
