@@ -3,7 +3,7 @@
         <h4>Present</h4>
         <div v-for="(value in present">
             <div v-if="value.length>2">
-                <div><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">{{value}}</li></div>
+                <div><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;"><span style="color:lime">{{value}}</span></li></div>
             </div>
         </div>
     </div>

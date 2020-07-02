@@ -121,11 +121,11 @@ linked OpenSSL binaries for major operating systems are supplied in <code>./bin/
 
 <p>1) SSL/TLS protocol check</p>
 
-<p>2) standard cipher categories to give you upfront an idea for the ciphers supported</p>
+<p>2) standard cipher categories</p>
 
-<p>3) checks (perfect) forward secrecy: ciphers and elliptical curves</p>
+<p>3) server's cipher preferences (server order?)</p>
 
-<p>4) server preferences (server order)</p>
+<p>4) forward secrecy: ciphers and elliptical curves</p>
 
 <p>5) server defaults (certificate info, TLS extensions, session information)</p>
 
@@ -133,9 +133,9 @@ linked OpenSSL binaries for major operating systems are supplied in <code>./bin/
 
 <p>7) vulnerabilities</p>
 
-<p>8) testing each of 370 preconfigured ciphers</p>
+<p>8) client simulation</p>
 
-<p>9) client simulation</p>
+<p>9) rating</p>
 
 <h2 id="OPTIONS-AND-PARAMETERS">OPTIONS AND PARAMETERS</h2>
 
@@ -147,7 +147,7 @@ linked OpenSSL binaries for major operating systems are supplied in <code>./bin/
 
 <p><code>--help</code> (or no arg) display command line help</p>
 
-<p><code>-b, --banner</code>        displays testssl.sh banner, including license, usage conditions, version of testssl.sh, detected openssl version, its path to it, # of ciphers of openssl, its build date and the architecture</p>
+<p><code>-b, --banner</code>        displays testssl.sh banner, including license, usage conditions, version of testssl.sh, detected openssl version, its path to it, # of ciphers of openssl, its build date and the architecture.</p>
 
 <p><code>-v, --version</code>     same as before</p>
 
@@ -181,15 +181,15 @@ host.example.com:631
 <p><code>--warnings &lt;batch|off></code>.  The warnings parameter determines how testssl.sh will deal with situations where user input normally will be necessary. There are two options. <code>batch</code> doesn't wait for a confirming keypress when a client- or server-side probem is encountered. As of 3.0 it just then terminates the particular scan.  This is automatically chosen for mass testing (<code>--file</code>). <code>off</code> just skips the warning, the confirmation but continues the scan, independent whether it makes sense or not. Please note that there are conflicts where testssl.sh will still ask for confirmation which are the ones which otherwise would have a drastic impact on the results. Almost any other decision will be made in the future as a best guess by testssl.sh.
 The same can be achieved by setting the environment variable <code>WARNINGS</code>.</p>
 
-<p><code>--connect-timeout &lt;seconds></code>  This is useful for socket TCP connections to a node. If the node does not complete a TCP handshake (e.g. because it is down or behind a firewall or there's an IDS or a tarpit) testssl.sh may ususally hang for around 2 minutes or even much more. This parameter instructs testssl.sh to wait at most <code>seconds</code> for the handshake to complete before giving up. This option only works if your OS has a timeout binary installed. CONNECT_TIMEOUT is the corresponding enviroment variable.</p>
+<p><code>--connect-timeout &lt;seconds></code>  This is useful for socket TCP connections to a node. If the node does not complete a TCP handshake (e.g. because it is down or behind a firewall or there's an IDS or a tarpit) testssl.sh may usually hang for around 2 minutes or even much more. This parameter instructs testssl.sh to wait at most <code>seconds</code> for the handshake to complete before giving up. This option only works if your OS has a timeout binary installed. CONNECT_TIMEOUT is the corresponding environment variable.</p>
 
 <p><code>--openssl-timeout &lt;seconds></code> This is especially useful for all connects using openssl and practically useful for mass testing. It avoids the openssl connect to hang for ~2 minutes. The expected parameter <code>seconds</code> instructs testssl.sh to wait before the openssl connect will be terminated. The option is only available if your OS has a timeout binary installed. As there are different implementations of <code>timeout</code>: It automatically calls the binary with the right parameters. OPENSSL_TIMEOUT is the equivalent environment variable.</p>
 
-<p><code>--basicauth &lt;user:pass></code> This can be set to provide HTTP basic auth credentials which are used during checks for security headers. BASICAUTH is the ENV variable you can use instead.</p>
+<p><code>--basicauth &lt;user:pass&gt;</code> This can be set to provide HTTP basic auth credentials which are used during checks for security headers. BASICAUTH is the ENV variable you can use instead.</p>
 
 <h3 id="SPECIAL-INVOCATIONS">SPECIAL INVOCATIONS</h3>
 
-<p><code>-t &lt;protocol>, --starttls &lt;protocol></code>    does a default run against a STARTTLS enabled <code>protocol</code>. <code>protocol</code> must be one of <code>ftp</code>, <code>smtp</code>,  <code>pop3</code>, <code>imap</code>, <code>xmpp</code>, <code>telnet</code>, <code>ldap</code>, <code>irc</code>, <code>lmtp</code>, <code>nntp</code>, <code>postgres</code>, <code>mysql</code>. For the latter four you need e.g. the supplied OpenSSL or OpenSSL version 1.1.1. Please note: MongoDB doesn't offer a STARTTLS connection, LDAP currently only works with <code>--ssl-native</code>. <code>telnet</code> and <code>irc</code> is WIP.</p>
+<p><code>-t &lt;protocol>, --starttls &lt;protocol></code>    does a default run against a STARTTLS enabled <code>protocol</code>. <code>protocol</code> must be one of <code>ftp</code>, <code>smtp</code>,  <code>pop3</code>, <code>imap</code>, <code>xmpp</code>,<code>xmpp-server<code>, <code>telnet</code>, <code>ldap</code>, <code>irc</code>, <code>lmtp</code>, <code>nntp</code>, <code>postgres</code>, <code>mysql</code>. For the latter four you need e.g. the supplied OpenSSL or OpenSSL version 1.1.1. Please note: MongoDB doesn't offer a STARTTLS connection, LDAP currently only works with <code>--ssl-native</code>. <code>telnet</code> and <code>irc</code> is WIP.</p>
 
 <p><code>--xmpphost &lt;jabber_domain></code> is an additional option for STARTTLS enabled XMPP: It expects the jabber domain as a parameter. This is only needed if the domain is different from the URI supplied.</p>
 
@@ -212,7 +212,7 @@ The same can be achieved by setting the environment variable <code>WARNINGS</cod
 <p><code>--assuming-http</code>  testssl.sh normally does upfront an application protocol detection. In cases where HTTP cannot be automatically detected you may want to use this option. It enforces testssl.sh not to skip HTTP specific tests (HTTP header) and to run a browser based client simulation. Please note that sometimes also the severity depends on the application protocol, e.g. SHA1 signed certificates, the lack of any SAN matches and some vulnerabilities will be punished harder when checking a web server as opposed to a mail server.</p>
 
 <p><code>-n, --nodns &lt;min|none></code> tells testssl.sh which DNS lookups should be performed. <code>min</code> uses only forward DNS resolution (A and AAAA record or MX record) and skips CAA lookups and PTR records from the IP address back to a DNS name.  <code>none</code> performs no DNS lookups at all. For the latter you either have to supply the IP address as a target, to use <code>--ip</code> or have the IP address
-in <code>/etc/hosts</code>.  The use of the switch is only useful if you either can't or are not willing to perform DNS lookups. The latter can apply e.g. to some pentests. In general this option could e.g. help you to avoid timeouts by DNS lookups. <code>NODNS</code> is the enviroment variable for this.</p>
+in <code>/etc/hosts</code>.  The use of the switch is only useful if you either can't or are not willing to perform DNS lookups. The latter can apply e.g. to some pentests. In general this option could e.g. help you to avoid timeouts by DNS lookups. <code>NODNS</code> is the environment variable for this.</p>
 
 <p><code>--sneaky</code> For HTTP header checks testssl.sh uses normally the server friendly HTTP user agent <code>TLS tester from ${URL}</code>. With this option your traces are less verbose and a Firefox user agent is being used. Be aware that it doesn't hide your activities. That is just not possible (environment preset via <code>SNEAKY=true</code>).</p>
 
@@ -221,7 +221,7 @@ in <code>/etc/hosts</code>.  The use of the switch is only useful if you either 
 <p><code>--phone-out</code> Checking for revoked certificates via CRL and OCSP is not done per default. This switch instructs testssl.sh to query external -- in a sense of the current run -- URIs. By using this switch you acknowledge that the check might have privacy issues, a download of several megabytes (CRL file) may happen and there may be network connectivity problems while contacting the endpoint which testssl.sh doesn't handle. PHONE_OUT is the environment variable for this which needs to be set to true if you want this.</p>
 
 <p><code>--add-ca &lt;cafile></code> enables you to add your own CA(s) for trust chain checks. <code>cafile</code> can be a single path or multiple paths as a comma separated list of root CA files. Internally they will be added during runtime to all CA stores. This is (only) useful for internal hosts whose certificates is issued by internal CAs. Alternatively
-ADDITIONAL_CA_FILES is the environment variable for this.</p>
+ADDTL_CA_FILES is the environment variable for this.</p>
 
 <h3 id="SINGLE-CHECK-OPTIONS">SINGLE CHECK OPTIONS</h3>
 
@@ -240,11 +240,11 @@ ADDITIONAL_CA_FILES is the environment variable for this.</p>
 <li><code>LOW</code> (64 Bit + DES ciphers, without EXPORT ciphers): 'LOW:DES:RC2:RC4:!ADH:!EXP:!NULL:!eNULL'</li>
 <li><code>3DES + IDEA Ciphers</code>: '3DES:IDEA:!aNULL:!ADH'</li>
 <li><code>Average grade Ciphers</code>: 'HIGH:MEDIUM:AES:CAMELLIA:ARIA:!IDEA:!CHACHA20:!3DES:!RC2:!RC4:!AESCCM8:!AESCCM:!AESGCM:!ARIAGCM:!aNULL'</li>
-<li><code>Strong grade Ciphers</code> (AEAD): 'AESGCM:CHACHA20:AESGCM:CamelliaGCM:AESCCM8:AESCCM'</li>
+<li><code>Strong grade Ciphers</code> (AEAD): 'AESGCM:CHACHA20:CamelliaGCM:AESCCM8:AESCCM'</li>
 </ul>
 
 
-<p><code>-f, --pfs, --fs,--nsa</code> Checks robust (perfect) forward secrecy key exchange. "Robust" means that ciphers having intrinsic severe weaknesses like Null Authentication or Encryption, 3DES and RC4 won't be considered here. There shouldn't be the wrong impression that a secure key exchange has been taking place and everything is fine when in reality the encryption sucks. Also this section lists the available elliptical curves and Diffie Hellman groups, as well as FFDHE groups (TLS 1.2 and TLS 1.3).</p>
+<p><code>-f, --fs, --nsa, --forward-secrecy</code> Checks robust forward secrecy key exchange. "Robust" means that ciphers having intrinsic severe weaknesses like Null Authentication or Encryption, 3DES and RC4 won't be considered here. There shouldn't be the wrong impression that a secure key exchange has been taking place and everything is fine when in reality the encryption sucks. Also this section lists the available elliptical curves and Diffie Hellman groups, as well as FFDHE groups (TLS 1.2 and TLS 1.3).</p>
 
 <p><code>-p, --protocols</code>  checks TLS/SSL protocols SSLv2, SSLv3, TLS 1.0 through TLS 1.3 and for HTTP: SPDY (NPN) and ALPN, a.k.a. HTTP/2. For TLS 1.3 several drafts (from 18 on) and final are supported and being tested for.</p>
 
@@ -278,7 +278,7 @@ ADDITIONAL_CA_FILES is the environment variable for this.</p>
 
 
 <p>For the trust chain check 5 certificate stores are provided. If the test against one of the trust stores failed, the one is being identified and the reason for the failure is displayed - in addition the ones which succeeded are displayed too.
-You can configure your own CA via ADDITIONAL_CA_FILES, see section <code>FILES</code> below.  If the server provides no matching record in Subject Alternative Name (SAN) but in Common Name (CN), it will be indicated as this is deprecated.
+You can configure your own CA via ADDTL_CA_FILES, see section <code>FILES</code> below.  If the server provides no matching record in Subject Alternative Name (SAN) but in Common Name (CN), it will be indicated as this is deprecated.
 Also for multiple server certificates are being checked for as well as for the certificate reply to a non-SNI (Server Name Indication) client hello to the IP address. Regarding the TLS clock skew: it displays the time difference to the client. Only a few TLS stacks nowadays still support this and return the local clock <code>gmt_unix_time</code>, e.g. IIS, openssl &lt; 1.0.1f. In addition to the HTTP date you could e.g. derive that there are different hosts where your TLS and your HTTP request ended -- if the time deltas differ significantly.</p>
 
 <p><code>-x &lt;pattern>, --single-cipher &lt;pattern></code> tests matched <code>pattern</code> of ciphers against a server. Patterns are similar to <code>-V pattern , --local pattern</code>, see above about matching.</p>
@@ -345,7 +345,7 @@ Also for multiple server certificates are being checked for as well as for the c
 
 <p><code>-q, --quiet</code>  Normally testssl.sh displays a banner on stdout with several version information, usage rights and a warning. This option suppresses it. Please note that by choosing this option you acknowledge usage terms and the warning normally appearing in the banner.</p>
 
-<p><code>--wide</code> Except the "each cipher output" all tests displays the single cipher name (scheme see below). This option enables testssl.sh to display also for the following sections the same output as for testing each ciphers: BEAST, PFS, RC4. The client simulation has also a wide mode. The difference here is restricted to a column aligned output and a proper headline. The environment variable <code>WIDE</code> can be used instead.</p>
+<p><code>--wide</code> Except the "each cipher output" all tests displays the single cipher name (scheme see below). This option enables testssl.sh to display also for the following sections the same output as for testing each ciphers: BEAST, FS, RC4. The client simulation has also a wide mode. The difference here is restricted to a column aligned output and a proper headline. The environment variable <code>WIDE</code> can be used instead.</p>
 
 <p><code>--mapping &lt;openssl|iana|no-openssl|no-iana></code></p>
 
@@ -357,7 +357,7 @@ Also for multiple server certificates are being checked for as well as for the c
 </ul>
 
 
-<p>Please note that in testssl.sh 3,0 you can still use <code>rfc</code> instead of <code>iana</code> and <code>no-rfc</code> instead of <code>no-iana</code> but it'll disappear after 3.0.</p>
+<p>Please note that in testssl.sh 3.0 you can still use <code>rfc</code> instead of <code>iana</code> and <code>no-rfc</code> instead of <code>no-iana</code> but it'll disappear after 3.0.</p>
 
 <p><code>--show-each</code> This is an option for all wide modes only: it displays all ciphers tested -- not only succeeded ones.  <code>SHOW_EACH_C</code> is your friend if you prefer to set this via the shell environment.</p>
 
@@ -376,6 +376,9 @@ Also for multiple server certificates are being checked for as well as for the c
 <li>whole 9 yards</li>
 </ol>
 
+
+<p><code>--disable-rating</code> disables rating.
+Rating automatically gets disabled, to not give a wrong or misleading grade, when not all required functions are executed (e.g when checking for a single vulnerabilities).</p>
 
 <h3 id="FILE-OUTPUT-OPTIONS">FILE OUTPUT OPTIONS</h3>
 
@@ -475,12 +478,61 @@ Also for multiple server certificates are being checked for as well as for the c
 </ul>
 
 
+<h3 id="RATING">RATING</h3>
+
+<p>This program has a near-complete implementation of SSL Labs's '<a href="https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide">SSL Server Rating Guide</a>'.</p>
+
+<p>This is <em>not</em> a 100% reimplementation of the <a href="https://www.ssllabs.com/ssltest/analyze.html">SSL Lab's SSL Server Test</a>, but an implementation of the above rating specification, slight discrepancies may occur. Please note that for now we stick to the SSL Labs rating as good as possible. We are not responsible for their rating. Before filing issues please inspect their Rating Guide.</p>
+
+<p>Disclaimer: Having a good grade is <strong>NOT</strong> necessarily equal to having good security! Don't start a competition for the best grade, at least not without monitoring the client handshakes and not without adding a portion of good sense to it. Please note STARTTLS always results in a grade cap to T. Anything else would lead to a false sense of security - at least until we test for DANE or MTA-STS.</p>
+
+<p>As of writing, these checks are missing:
+* GOLDENDOODLE - should be graded <strong>F</strong> if vulnerable
+* Insecure renegotiation - should be graded <strong>F</strong> if vulnerable
+* Padding oracle in AES-NI CBC MAC check (CVE-2016-2107) - should be graded <strong>F</strong> if vulnerable
+* Sleeping POODLE - should be graded <strong>F</strong> if vulnerable
+* Zero Length Padding Oracle (CVE-2019-1559) - should be graded <strong>F</strong> if vulnerable
+* Zombie POODLE - should be graded <strong>F</strong> if vulnerable
+* All remaining old Symantec PKI certificates are distrusted - should be graded <strong>T</strong>
+* Symantec certificates issued before June 2016 are distrusted - should be graded <strong>T</strong>
+* ! A reading of DH params - should give correct points in <code>set_key_str_score()</code>
+* Anonymous key exchange - should give <strong>0</strong> points in <code>set_key_str_score()</code>
+* Exportable key exchange - should give <strong>40</strong> points in <code>set_key_str_score()</code>
+* Weak key (Debian OpenSSL Flaw) - should give <strong>0</strong> points in <code>set_key_str_score()</code></p>
+
+<h4 id="Implementing-new-grades-caps-or-warnings">Implementing new grades caps or -warnings</h4>
+
+<p>To implement a new grading cap, simply call the <code>set_grade_cap()</code> function, with the grade and a reason:
+<code>bash
+set_grade_cap "D" "Vulnerable to documentation"
+</code>
+To implement a new grade warning, simply call the <code>set_grade_warning()</code> function, with a message:
+<code>bash
+set_grade_warning "Documentation is always right"
+</code></p>
+
+<h4 id="Implementing-a-new-check-which-contains-grade-caps">Implementing a new check which contains grade caps</h4>
+
+<p>When implementing a new check (be it vulnerability or not) that sets grade caps, the <code>set_rating_state()</code> has to be updated (i.e. the <code>$do_mycheck</code> variable-name has to be added to the loop, and <code>$nr_enabled</code> if-statement has to be incremented)</p>
+
+<p>The <code>set_rating_state()</code> automatically disables rating, if all the required checks are <em>not</em> enabled.
+This is to prevent giving out a misleading or wrong grade.</p>
+
+<h4 id="Implementing-a-new-revision">Implementing a new revision</h4>
+
+<p>When a new revision of the rating specification comes around, the following has to be done:
+* New grade caps has to be either:
+  1. Added to the script wherever relevant, or
+  2. Added to the above list of missing checks (if above is not possible)
+* New grade warnings has to be added wherever relevant
+* The revision output in <code>run_rating()</code> function has to updated</p>
+
 <h2 id="EXAMPLES">EXAMPLES</h2>
 
 <pre><code>  testssl.sh testssl.sh
 </code></pre>
 
-<p>does a default run on https://testssl.sh (protocols, standard cipher lists, PFS, server preferences, server defaults, vulnerabilities, testing all known 370 ciphers, client simulation.</p>
+<p>does a default run on https://testssl.sh (protocols, standard cipher lists, server's cipher preferences, forward secrecy, server defaults, vulnerabilities, client simulation, and rating.</p>
 
 <pre><code>  testssl.sh testssl.net:443
 </code></pre>
@@ -586,10 +638,18 @@ Also for multiple server certificates are being checked for as well as for the c
 <h2 id="COPYRIGHT">COPYRIGHT</h2>
 
 <p>Copyright © 2012 Dirk Wetter. License GPLv2: Free Software Foundation, Inc.
-       This is free software: you are free to change and redistribute it under the terms of the license. Usage WITHOUT ANY WARRANTY. USE at your OWN RISK!</p>
+       This is free software: you are free to change and redistribute it under the terms of the license, see LICENSE.</p>
 
-<p>If you're offering testssl.sh as a public and / or paid service in the internet you need to mention to your audience that you're using this program and
-where to get this program from.</p>
+<p>
+Attribution is important for the future of this project - also in the
+internet. Thus if you're offering a scanner based on testssl.sh as a public
+and/or paid service in the internet you are strongly encouraged to mention to
+your audience that you're using this program and where to get this program
+from. That helps us to get bugfixes, other feedback and more contributions.
+</p>
+
+<p> Usage WITHOUT ANY WARRANTY. USE at your OWN RISK!</p>
+
 
 <h2 id="LIMITATION">LIMITATION</h2>
 
@@ -606,7 +666,7 @@ where to get this program from.</p>
 
   <ol class='man-decor man-foot man foot'>
     <li class='tl'></li>
-    <li class='tc'>January 2020</li>
+    <li class='tc'>May 2020</li>
     <li class='tr'>testssl(1)</li>
   </ol>
 

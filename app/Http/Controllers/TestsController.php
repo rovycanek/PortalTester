@@ -46,10 +46,10 @@ class TestsController extends Controller
         $process->run();
         $array = explode("\n", $process->getOutput());
         for ($i = 0; $i < count($array); $i++) {
-            if(strlen($array[$i])>2){
+            if(strlen($array[$i])>8){
                 $securityHeaders=new Handshakesimulation;
                 $securityHeaders->test_id=$request->testID;
-                $securityHeaders->data=$array[$i];
+                $securityHeaders->data=rtrim($array[$i]);
                 $securityHeaders->save();
             }
         }
@@ -124,10 +124,10 @@ class TestsController extends Controller
             $array = explode("\n", $process->getOutput());
 
             for ($i = 0; $i < count($array); $i++) {
-                if(strlen($array[$i])>2){
+                if(strlen($array[$i])>8){
                     $securityHeaders=new Securitybreaches;
                     $securityHeaders->test_id=$request->testID;
-                    $securityHeaders->data=$array[$i];
+                    $securityHeaders->data=rtrim($array[$i]);
                     $securityHeaders->save();
                 }
             }
@@ -145,10 +145,10 @@ class TestsController extends Controller
             $process->run();
             $array = explode("\n", $process->getOutput());
             for ($i = 0; $i < count($array); $i++) {
-                if(strlen($array[$i])>2){
+                if(strlen($array[$i])>8){
                     $securityHeaders=new Offeredprotocols;
                     $securityHeaders->test_id=$request->testID;
-                    $securityHeaders->data=$array[$i];
+                    $securityHeaders->data=rtrim($array[$i]);
                     $securityHeaders->save();
                 }
             }
@@ -166,10 +166,10 @@ class TestsController extends Controller
             $array = explode("\n", $process->getOutput());
 
             for ($i = 0; $i < count($array); $i++) {
-                if(strlen($array[$i])>2){
+                if(strlen($array[$i])>8){
                     $securityHeaders=new Serverhello;
                     $securityHeaders->test_id=$request->testID;
-                    $securityHeaders->data=$array[$i];
+                    $securityHeaders->data=rtrim($array[$i]);
                     $securityHeaders->save();
                 }
             }
@@ -188,10 +188,10 @@ class TestsController extends Controller
             $array = explode("\n", $process->getOutput());
 
             for ($i = 0; $i < count($array); $i++) {
-                if(strlen($array[$i])>2){
+                if(strlen($array[$i])>8){
                     $securityHeaders=new Ciphersperprotocol;
                     $securityHeaders->test_id=$request->testID;
-                    $securityHeaders->data=$array[$i];
+                    $securityHeaders->data=rtrim($array[$i]);
                     $securityHeaders->save();
                 }
             }

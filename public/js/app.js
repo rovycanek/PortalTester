@@ -37779,7 +37779,11 @@ var render = function() {
                         "padding-bottom": "0.05rem"
                       }
                     },
-                    [_vm._v(_vm._s(mis))]
+                    [
+                      _c("span", { staticStyle: { color: "#cd8000" } }, [
+                        _vm._v(_vm._s(mis))
+                      ])
+                    ]
                   )
                 ])
               ])
@@ -37831,7 +37835,11 @@ var render = function() {
                         "padding-bottom": "0.05rem"
                       }
                     },
-                    [_vm._v(_vm._s(value))]
+                    [
+                      _c("span", { staticStyle: { color: "lime" } }, [
+                        _vm._v(_vm._s(value))
+                      ])
+                    ]
                   )
                 ])
               ])
@@ -37881,7 +37889,7 @@ var render = function() {
                     "div",
                     _vm._l(_vm.data.data, function(value, name) {
                       return _c("div", [
-                        value.length > 2
+                        value.length > 8
                           ? _c("div", [
                               _c(
                                 "li",
@@ -37894,7 +37902,13 @@ var render = function() {
                                 },
                                 [
                                   _c("pre", { staticStyle: { margin: "0" } }, [
-                                    _vm._v(_vm._s(value))
+                                    _c(
+                                      "div",
+                                      {
+                                        domProps: { innerHTML: _vm._s(value) }
+                                      },
+                                      [_vm._v(" ")]
+                                    )
                                   ])
                                 ]
                               )

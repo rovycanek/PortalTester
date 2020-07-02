@@ -40,11 +40,11 @@ linked OpenSSL binaries for major operating systems are supplied in `./bin/`.
 
 1) SSL/TLS protocol check
 
-2) standard cipher categories to give you upfront an idea for the ciphers supported
+2) standard cipher categories
 
-3) checks (perfect) forward secrecy: ciphers and elliptical curves
+3) server's cipher preferences (server order?)
 
-4) server preferences (server order)
+4) forward secrecy: ciphers and elliptical curves
 
 5) server defaults (certificate info, TLS extensions, session information)
 
@@ -54,7 +54,10 @@ linked OpenSSL binaries for major operating systems are supplied in `./bin/`.
 
 8) testing each of 370 preconfigured ciphers
 
-9) client simulation
+8) client simulation
+
+9) rating
+
 
 
 ## OPTIONS AND PARAMETERS
@@ -67,7 +70,7 @@ Options are either short or long options. Any long or short option requiring a v
 
 `--help` (or no arg) display command line help
 
-`-b, --banner`        displays testssl.sh banner, including license, usage conditions, version of testssl.sh, detected openssl version, its path to it, # of ciphers of openssl, its build date and the architecture
+`-b, --banner`        displays testssl.sh banner, including license, usage conditions, version of testssl.sh, detected openssl version, its path to it, # of ciphers of openssl, its build date and the architecture.
 
 `-v, --version`     same as before
 
@@ -101,7 +104,7 @@ Please note that `fname` has to be in Unix format. DOS carriage returns won't be
 `--warnings <batch|off>`.  The warnings parameter determines how testssl.sh will deal with situations where user input normally will be necessary. There are two options. `batch` doesn't wait for a confirming keypress when a client- or server-side probem is encountered. As of 3.0 it just then terminates the particular scan.  This is automatically chosen for mass testing (`--file`). `off` just skips the warning, the confirmation but continues the scan, independent whether it makes sense or not. Please note that there are conflicts where testssl.sh will still ask for confirmation which are the ones which otherwise would have a drastic impact on the results. Almost any other decision will be made in the future as a best guess by testssl.sh.
 The same can be achieved by setting the environment variable `WARNINGS`.
 
-`--connect-timeout <seconds>`  This is useful for socket TCP connections to a node. If the node does not complete a TCP handshake (e.g. because it is down or behind a firewall or there's an IDS or a tarpit) testssl.sh may ususally hang for around 2 minutes or even much more. This parameter instructs testssl.sh to wait at most `seconds` for the handshake to complete before giving up. This option only works if your OS has a timeout binary installed. CONNECT_TIMEOUT is the corresponding enviroment variable.
+`--connect-timeout <seconds>`  This is useful for socket TCP connections to a node. If the node does not complete a TCP handshake (e.g. because it is down or behind a firewall or there's an IDS or a tarpit) testssl.sh may usually hang for around 2 minutes or even much more. This parameter instructs testssl.sh to wait at most `seconds` for the handshake to complete before giving up. This option only works if your OS has a timeout binary installed. CONNECT_TIMEOUT is the corresponding environment variable.
 
 `--openssl-timeout <seconds>` This is especially useful for all connects using openssl and practically useful for mass testing. It avoids the openssl connect to hang for ~2 minutes. The expected parameter `seconds` instructs testssl.sh to wait before the openssl connect will be terminated. The option is only available if your OS has a timeout binary installed. As there are different implementations of `timeout`: It automatically calls the binary with the right parameters. OPENSSL_TIMEOUT is the equivalent environment variable.
 
@@ -110,7 +113,7 @@ The same can be achieved by setting the environment variable `WARNINGS`.
 
 ### SPECIAL INVOCATIONS
 
-`-t <protocol>, --starttls <protocol>`    does a default run against a STARTTLS enabled `protocol`. `protocol` must be one of `ftp`, `smtp`,  `pop3`, `imap`, `xmpp`, `telnet`, `ldap`, `irc`, `lmtp`, `nntp`, `postgres`, `mysql`. For the latter four you need e.g. the supplied OpenSSL or OpenSSL version 1.1.1. Please note: MongoDB doesn't offer a STARTTLS connection, LDAP currently only works with `--ssl-native`. `telnet` and `irc` is WIP.
+`-t <protocol>, --starttls <protocol>`    does a default run against a STARTTLS enabled `protocol`. `protocol` must be one of `ftp`, `smtp`,  `pop3`, `imap`, `xmpp`, `xmpp-server`, `telnet`, `ldap`, `irc`, `lmtp`, `nntp`, `postgres`, `mysql`. For the latter four you need e.g. the supplied OpenSSL or OpenSSL version 1.1.1. Please note: MongoDB doesn't offer a STARTTLS connection, LDAP currently only works with `--ssl-native`. `telnet` and `irc` is WIP.
 
 `--xmpphost <jabber_domain>` is an additional option for STARTTLS enabled XMPP: It expects the jabber domain as a parameter. This is only needed if the domain is different from the URI supplied.
 
@@ -134,7 +137,7 @@ The same can be achieved by setting the environment variable `WARNINGS`.
 `--assuming-http`  testssl.sh normally does upfront an application protocol detection. In cases where HTTP cannot be automatically detected you may want to use this option. It enforces testssl.sh not to skip HTTP specific tests (HTTP header) and to run a browser based client simulation. Please note that sometimes also the severity depends on the application protocol, e.g. SHA1 signed certificates, the lack of any SAN matches and some vulnerabilities will be punished harder when checking a web server as opposed to a mail server.
 
 `-n, --nodns <min|none>` tells testssl.sh which DNS lookups should be performed. `min` uses only forward DNS resolution (A and AAAA record or MX record) and skips CAA lookups and PTR records from the IP address back to a DNS name.  `none` performs no DNS lookups at all. For the latter you either have to supply the IP address as a target, to use `--ip` or have the IP address
-in `/etc/hosts`.  The use of the switch is only useful if you either can't or are not willing to perform DNS lookups. The latter can apply e.g. to some pentests. In general this option could e.g. help you to avoid timeouts by DNS lookups. `NODNS` is the enviroment variable for this.
+in `/etc/hosts`.  The use of the switch is only useful if you either can't or are not willing to perform DNS lookups. The latter can apply e.g. to some pentests. In general this option could e.g. help you to avoid timeouts by DNS lookups. `NODNS` is the environment variable for this.
 
 `--sneaky` For HTTP header checks testssl.sh uses normally the server friendly HTTP user agent `TLS tester from ${URL}`. With this option your traces are less verbose and a Firefox user agent is being used. Be aware that it doesn't hide your activities. That is just not possible (environment preset via `SNEAKY=true`).
 
@@ -142,8 +145,7 @@ in `/etc/hosts`.  The use of the switch is only useful if you either can't or ar
 
 `--phone-out` Checking for revoked certificates via CRL and OCSP is not done per default. This switch instructs testssl.sh to query external -- in a sense of the current run -- URIs. By using this switch you acknowledge that the check might have privacy issues, a download of several megabytes (CRL file) may happen and there may be network connectivity problems while contacting the endpoint which testssl.sh doesn't handle. PHONE_OUT is the environment variable for this which needs to be set to true if you want this.
 
-`--add-ca <cafile>` enables you to add your own CA(s) for trust chain checks. `cafile` can be a single path or multiple paths as a comma separated list of root CA files. Internally they will be added during runtime to all CA stores. This is (only) useful for internal hosts whose certificates is issued by internal CAs. Alternatively 
-ADDITIONAL_CA_FILES is the environment variable for this.
+`--add-ca <cafile>` enables you to add your own CA(s) for trust chain checks. `cafile` can be a single path or multiple paths as a comma separated list of root CA files. Internally they will be added during runtime to all CA stores. This is (only) useful for internal hosts whose certificates is issued by internal CAs. Alternatively ADDTL_CA_FILES is the environment variable for this.
 
 
 ### SINGLE CHECK OPTIONS
@@ -162,9 +164,9 @@ Any single check switch supplied as an argument prevents testssl.sh from doing a
 * `LOW` (64 Bit + DES ciphers, without EXPORT ciphers): 'LOW:DES:RC2:RC4:!ADH:!EXP:!NULL:!eNULL'
 * `3DES + IDEA Ciphers`: '3DES:IDEA:!aNULL:!ADH'
 * `Average grade Ciphers`: 'HIGH:MEDIUM:AES:CAMELLIA:ARIA:!IDEA:!CHACHA20:!3DES:!RC2:!RC4:!AESCCM8:!AESCCM:!AESGCM:!ARIAGCM:!aNULL'
-* `Strong grade Ciphers` (AEAD): 'AESGCM:CHACHA20:AESGCM:CamelliaGCM:AESCCM8:AESCCM'
+* `Strong grade Ciphers` (AEAD): 'AESGCM:CHACHA20:CamelliaGCM:AESCCM8:AESCCM'
 
-`-f, --pfs, --fs,--nsa ` Checks robust (perfect) forward secrecy key exchange. "Robust" means that ciphers having intrinsic severe weaknesses like Null Authentication or Encryption, 3DES and RC4 won't be considered here. There shouldn't be the wrong impression that a secure key exchange has been taking place and everything is fine when in reality the encryption sucks. Also this section lists the available elliptical curves and Diffie Hellman groups, as well as FFDHE groups (TLS 1.2 and TLS 1.3).
+`-f, --fs, --nsa, --forward-secrecy` Checks robust forward secrecy key exchange. "Robust" means that ciphers having intrinsic severe weaknesses like Null Authentication or Encryption, 3DES and RC4 won't be considered here. There shouldn't be the wrong impression that a secure key exchange has been taking place and everything is fine when in reality the encryption sucks. Also this section lists the available elliptical curves and Diffie Hellman groups, as well as FFDHE groups (TLS 1.2 and TLS 1.3).
 
 `-p, --protocols`  checks TLS/SSL protocols SSLv2, SSLv3, TLS 1.0 through TLS 1.3 and for HTTP: SPDY (NPN) and ALPN, a.k.a. HTTP/2. For TLS 1.3 several drafts (from 18 on) and final are supported and being tested for.
 
@@ -191,7 +193,7 @@ Any single check switch supplied as an argument prevents testssl.sh from doing a
     - Certificate Transparency info (if provided by server).
 
 For the trust chain check 5 certificate stores are provided. If the test against one of the trust stores failed, the one is being identified and the reason for the failure is displayed - in addition the ones which succeeded are displayed too.
-You can configure your own CA via ADDITIONAL_CA_FILES, see section `FILES` below.  If the server provides no matching record in Subject Alternative Name (SAN) but in Common Name (CN), it will be indicated as this is deprecated.
+You can configure your own CA via ADDTL_CA_FILES, see section `FILES` below.  If the server provides no matching record in Subject Alternative Name (SAN) but in Common Name (CN), it will be indicated as this is deprecated.
 Also for multiple server certificates are being checked for as well as for the certificate reply to a non-SNI (Server Name Indication) client hello to the IP address. Regarding the TLS clock skew: it displays the time difference to the client. Only a few TLS stacks nowadays still support this and return the local clock `gmt_unix_time`, e.g. IIS, openssl < 1.0.1f. In addition to the HTTP date you could e.g. derive that there are different hosts where your TLS and your HTTP request ended -- if the time deltas differ significantly.
 
 `-x <pattern>, --single-cipher <pattern>` tests matched `pattern` of ciphers against a server. Patterns are similar to `-V pattern , --local pattern`, see above about matching.
@@ -258,7 +260,7 @@ Also for multiple server certificates are being checked for as well as for the c
 
 `-q, --quiet`  Normally testssl.sh displays a banner on stdout with several version information, usage rights and a warning. This option suppresses it. Please note that by choosing this option you acknowledge usage terms and the warning normally appearing in the banner.
 
-`--wide` Except the "each cipher output" all tests displays the single cipher name (scheme see below). This option enables testssl.sh to display also for the following sections the same output as for testing each ciphers: BEAST, PFS, RC4. The client simulation has also a wide mode. The difference here is restricted to a column aligned output and a proper headline. The environment variable `WIDE` can be used instead.
+`--wide` Except the "each cipher output" all tests displays the single cipher name (scheme see below). This option enables testssl.sh to display also for the following sections the same output as for testing each ciphers: BEAST, FS, RC4. The client simulation has also a wide mode. The difference here is restricted to a column aligned output and a proper headline. The environment variable `WIDE` can be used instead.
 
 `--mapping <openssl|iana|no-openssl|no-iana>`
 
@@ -267,7 +269,7 @@ Also for multiple server certificates are being checked for as well as for the c
 * `no-openssl`: don't display the OpenSSL cipher suite name, display IANA names only.
 * `no-iana`: don't display the IANA cipher suite name, display OpenSSL names only.
 
-Please note that in testssl.sh 3,0 you can still use `rfc` instead of `iana` and `no-rfc` instead of `no-iana` but it'll disappear after 3.0.
+Please note that in testssl.sh 3.0 you can still use `rfc` instead of `iana` and `no-rfc` instead of `no-iana` but it'll disappear after 3.0.
 
 `--show-each` This is an option for all wide modes only: it displays all ciphers tested -- not only succeeded ones.  `SHOW_EACH_C` is your friend if you prefer to set this via the shell environment.
 
@@ -286,6 +288,8 @@ Please note that in testssl.sh 3,0 you can still use `rfc` instead of `iana` and
 5. display bytes received via sockets
 6. whole 9 yards
 
+`--disable-rating` disables rating.
+Rating automatically gets disabled, to not give a wrong or misleading grade, when not all required functions are executed (e.g when checking for a single vulnerabilities).
 
 
 ### FILE OUTPUT OPTIONS
@@ -383,13 +387,55 @@ Except the environment variables mentioned above which can replace command line 
 * MAX_OSSL_FAIL: A number which tells testssl.sh how often an OpenSSL s_client connect may fail before the program gives up and terminates. The default is 2. You can increase it to a higher value if you frequently see a message like *Fatal error: repeated TCP connect problems, giving up*.
 * MAX_HEADER_FAIL: A number which tells testssl.sh how often a HTTP GET request over OpenSSL may return an empty file before the program gives up and terminates. The default is 3. Also here you can incerase the threshold when you spot messages like *Fatal error: repeated HTTP header connect problems, doesn't make sense to continue*.
 
+### RATING
+This program has a near-complete implementation of SSL Labs's '[SSL Server Rating Guide](https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide)'.
 
+This is *not* a 100% reimplementation of the [SSL Lab's SSL Server Test](https://www.ssllabs.com/ssltest/analyze.html), but an implementation of the above rating specification, slight discrepancies may occur. Please note that for now we stick to the SSL Labs rating as good as possible. We are not responsible for their rating. Before filing issues please inspect their Rating Guide.
+
+Disclaimer: Having a good grade is **NOT** necessarily equal to having good security! Don't start a competition for the best grade, at least not without monitoring the client handshakes and not without adding a portion of good sense to it. Please note STARTTLS always results in a grade cap to T. Anything else
+would lead to a false sense of security - at least until we test for DANE or MTA-STS.
+
+As of writing, these checks are missing:
+* GOLDENDOODLE - should be graded **F** if vulnerable
+* Insecure renegotiation - should be graded **F** if vulnerable
+* Padding oracle in AES-NI CBC MAC check (CVE-2016-2107) - should be graded **F** if vulnerable
+* Sleeping POODLE - should be graded **F** if vulnerable
+* Zero Length Padding Oracle (CVE-2019-1559) - should be graded **F** if vulnerable
+* Zombie POODLE - should be graded **F** if vulnerable
+* All remaining old Symantec PKI certificates are distrusted - should be graded **T**
+* Symantec certificates issued before June 2016 are distrusted - should be graded **T**
+* Anonymous key exchange - should give **0** points in `set_key_str_score()`
+* Exportable key exchange - should give **40** points in `set_key_str_score()`
+* Weak key (Debian OpenSSL Flaw) - should give **0** points in `set_key_str_score()`
+
+#### Implementing new grades caps or -warnings
+To implement a new grading cap, simply call the `set_grade_cap()` function, with the grade and a reason:
+```bash
+set_grade_cap "D" "Vulnerable to documentation"
+```
+To implement a new grade warning, simply call the `set_grade_warning()` function, with a message:
+```bash
+set_grade_warning "Documentation is always right"
+```
+#### Implementing a new check which contains grade caps
+When implementing a new check (be it vulnerability or not) that sets grade caps, the `set_rating_state()` has to be updated (i.e. the `$do_mycheck` variable-name has to be added to the loop, and `$nr_enabled` if-statement has to be incremented)
+
+The `set_rating_state()` automatically disables rating, if all the required checks are *not* enabled.
+This is to prevent giving out a misleading or wrong grade.
+
+#### Implementing a new revision
+When a new revision of the rating specification comes around, the following has to be done:
+* New grade caps has to be either:
+  1. Added to the script wherever relevant, or
+  2. Added to the above list of missing checks (if above is not possible)
+* New grade warnings has to be added wherever relevant
+* The revision output in `run_rating()` function has to updated
 
 ## EXAMPLES
 
       testssl.sh testssl.sh
 
-does a default run on https://testssl.sh (protocols, standard cipher lists, PFS, server preferences, server defaults, vulnerabilities, testing all known 370 ciphers, client simulation.
+does a default run on https://testssl.sh (protocols, standard cipher lists, server's cipher preferences, forward secrecy, server defaults, vulnerabilities, client simulation, and rating.
 
       testssl.sh testssl.net:443
 
@@ -489,10 +535,15 @@ Developed by Dirk Wetter, David Cooper and many others, see CREDITS.md .
 ## COPYRIGHT
 
 Copyright © 2012 Dirk Wetter. License GPLv2: Free Software Foundation, Inc.
-       This is free software: you are free to change and redistribute it under the terms of the license. Usage WITHOUT ANY WARRANTY. USE at your OWN RISK!
+       This is free software: you are free to change and redistribute it under the terms of the license, see LICENSE.
 
-If you're offering testssl.sh as a public and / or paid service in the internet you need to mention to your audience that you're using this program and
-where to get this program from.
+Attribution is important for the future of this project - also in the
+internet. Thus if you're offering a scanner based on testssl.sh as a public
+and/or paid service in the internet you are strongly encouraged to mention to
+your audience that you're using this program and where to get this program
+from. That helps us to get bugfixes, other feedback and more contributions.
+
+Usage WITHOUT ANY WARRANTY. USE at your OWN RISK!
 
 
 ## LIMITATION
@@ -508,4 +559,3 @@ Probably. Current known ones and interface for filing new ones: https://testssl.
 ## SEE ALSO
 
 `ciphers`(1), `openssl`(1), `s_client`(1), `x509`(1), `verify`(1), `ocsp`(1), `crl`(1), `bash`(1) and the websites https://testssl.sh/ and https://github.com/drwetter/testssl.sh/ .
-

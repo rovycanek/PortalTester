@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div v-if="data.loaded"> 
                         <div v-for="(value, name) in data.data">
-                            <div v-if="value.length>2"><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;"><pre style="margin: 0;">{{ value }}</pre></li></div> 
+                            <div v-if="value.length>8"><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;"><pre style="margin: 0;"><div v-html="value"> </div></pre></li></div> 
                         </div>
                     </div>
                     <div v-else><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">Loading...</li></div>
