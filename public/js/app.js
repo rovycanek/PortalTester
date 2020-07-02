@@ -37766,7 +37766,7 @@ var render = function() {
       _c("h4", [_vm._v("Missing")]),
       _vm._v(" "),
       _vm._l(_vm.missing, function(mis) {
-        return _c("div", [
+        return _c("div", { key: mis }, [
           mis.length > 2
             ? _c("div", [
                 _c("div", [
@@ -37822,7 +37822,7 @@ var render = function() {
       _c("h4", [_vm._v("Present")]),
       _vm._v(" "),
       _vm._l(_vm.present, function(value) {
-        return _c("div", [
+        return _c("div", { key: value }, [
           value.length > 2
             ? _c("div", [
                 _c("div", [
@@ -37888,7 +37888,7 @@ var render = function() {
                 ? _c(
                     "div",
                     _vm._l(_vm.data.data, function(value, name) {
-                      return _c("div", [
+                      return _c("div", { key: (value, name) }, [
                         value.length > 8
                           ? _c("div", [
                               _c(

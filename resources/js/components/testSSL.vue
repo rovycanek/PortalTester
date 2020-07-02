@@ -5,7 +5,7 @@
                 <div class="card-header"><H3>{{data.headding}}</H3></div>
                 <div class="card-body">
                     <div v-if="data.loaded"> 
-                        <div v-for="(value, name) in data.data">
+                        <div v-for="(value, name) in data.data" v-bind:key="(value, name)">
                             <div v-if="value.length>8"><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;"><pre style="margin: 0;"><div v-html="value"> </div></pre></li></div> 
                         </div>
                     </div>
