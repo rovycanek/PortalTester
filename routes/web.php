@@ -26,9 +26,9 @@ Route::get('/about', 'PagesController@about');
 
 
 Auth::routes();
-Route::resource('LoginLog','LoginLogController');
-Route::resource('tests','TestController');
-Route::resource('IPs','IPsController');
+Route::resource('LoginLog','LoginLogController')->middleware('can:login-history');
+Route::resource('tests','TestController')->middleware('can:testing-history');
+Route::resource('IPs','IPsController')->middleware('can:manage-IPs');
 
 Auth::routes();
 

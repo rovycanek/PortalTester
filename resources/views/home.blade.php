@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Your account has been successfully created. Wait for admin to activate your account.
                 </div>
             </div>
         </div>

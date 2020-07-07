@@ -29,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -53,6 +53,10 @@ class LoginController extends Controller
     public function redirectTo()
     {
         if(Auth::user()->hasRole('admin')){
+            $this->redirectTo=route('admin.users.index');
+            return $this->redirectTo;
+        }        
+        if(Auth::user()->hasRole('IPs.index')){
             $this->redirectTo=route('admin.users.index');
             return $this->redirectTo;
         }

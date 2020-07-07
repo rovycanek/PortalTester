@@ -15,7 +15,9 @@
                         <li><a class="nav-link" href="/about">About</a></li>
                         @guest
                         @else
+                        @can('manage-IPs')
                         <li><a class="nav-link" href="/IPs">IPs</a></li>
+                        @endcan
                         @endguest
                     </ul>
 
@@ -44,21 +46,26 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+                                    @can('testing-history')
                                     <a class="dropdown-item" href="/tests">
                                         Testing history
                                     </a>
+                                    @endcan
+                                    @can('login-history')
                                     <a class="dropdown-item" href="/LoginLog">
                                         Login history
                                     </a>
+                                    @endcan
                                     @can('manage-users')
                                     <a class="dropdown-item" href="/admin/users">
                                         User Management
                                     </a>
                                     @endcan
+                                    @can('manage-IPs')
                                     <a class="dropdown-item" href="/IPs/create">
                                         Create IP
                                     </a>
-                                    
+                                    @endcan
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
