@@ -23,7 +23,11 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::paginate(15);
-        return view('admin.users.index')->with('users',$users);
+        $roles = Role::all();
+        return view('admin.users.index')->with([
+            'users'=>$users,
+            'roles'=>$roles
+        ]);
     }
 
     /**

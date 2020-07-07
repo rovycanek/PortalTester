@@ -26,8 +26,73 @@
                           <td>{{$user->email }}</td>
                           <td>{{implode(', ', $user->roles()->pluck('name')->toArray() )}}</td>
                           <td>
+
+                            @if ($user->hasRole('new user'))
+                            <form action="{{route('admin.users.update',$user)}}" method="POST">
+                              @csrf
+                              {{method_field('PUT')}}
+                              <input id="name" type="hidden" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name}}" required >
+                              <input id="email" type="hidden" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email}}" required autocomplete="email" >
+                              @foreach ($roles as $role)
+                              <div class ="float-left pr-3">
+                                <input style ="display: none" class="align-middle" type="checkbox"  name="roles[]" value="{{$role->id}}"
+                                @if($role->id==2) checked @endif>
+                                <label style ="display: none" class="col-form-label text-md-right">{{$role->name}}</label>
+                              </div>
+                              @endforeach
+                              <button type="submit" class="float-left btn btn-success">Allow access</button>
+                            </form>
+                            
+                            @else
+
+                            @if ($user->hasRole('admin'))
+
+                            <form action="{{route('admin.users.update',$user)}}" method="POST">
+                              @csrf
+                              {{method_field('PUT')}}
+                              <input id="name" type="hidden" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name}}" required >
+                              <input id="email" type="hidden" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email}}" required autocomplete="email" >
+                              @foreach ($roles as $role)
+                              <div class ="float-left pr-3">
+                                <input style ="display: none" class="align-middle" type="checkbox"  name="roles[]" value="{{$role->id}}"
+                                @if($role->id==2) checked @endif>
+                                <label style ="display: none" class="col-form-label text-md-right">{{$role->name}}</label>
+                              </div>
+                              @endforeach
+                             
+                              <button type="submit" class="float-left btn btn-warning">Demote</button>
+                            </form>
+
+                            @else
+
+
+
+                            <form action="{{route('admin.users.update',$user)}}" method="POST">
+                              @csrf
+                              {{method_field('PUT')}}
+                              <input id="name" type="hidden" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name}}" required >
+                              <input id="email" type="hidden" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email}}" required autocomplete="email" >
+                              @foreach ($roles as $role)
+                              <div class ="float-left pr-3">
+                                <input style ="display: none" class="align-middle" type="checkbox"  name="roles[]" value="{{$role->id}}"
+                                @if($role->id!=3) checked @endif>
+                                <label style ="display: none" class="col-form-label text-md-right">{{$role->name}}</label>
+                              </div>
+                              @endforeach
+                             
+                              <button type="submit" class="float-left btn btn-primary">Promote</button>
+                            </form>
+
+
+
+
+
+
+                            @endif
+                            @endif
+
                               @can('edit-users')
-                               <a href="{{route('admin.users.edit',$user->id )}}"> <button type="button" class="float-left btn btn-primary">Edit</button></a>
+                               <a href="{{route('admin.users.edit',$user->id )}}"> <button type="button" class="float-left btn btn-info">Edit</button></a>
                               @endcan
                               @can('delete-users')
                                <form action="{{route('admin.users.destroy',$user->id)}}" method="POST" class="float-left">

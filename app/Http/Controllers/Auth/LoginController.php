@@ -29,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = RouteServiceProvider::HOME;
+
 
     /**
      * Create a new controller instance.
@@ -48,19 +48,20 @@ class LoginController extends Controller
         $ip->user_id =  $user->id;
         $ip->ip =  $request->getClientIp();
         $ip->save();
+        if(Auth::user()->hasRole('admin')){
+            return redirect('admin/users') ;
+        }        
+        if(Auth::user()->hasRole('user')){
+            return redirect('IPs') ;
+        }
+        if(Auth::user()->hasRole('')){
+            return redirect('home') ;
+        }
+        
     }
 
     public function redirectTo()
     {
-        if(Auth::user()->hasRole('admin')){
-            $this->redirectTo=route('admin.users.index');
-            return $this->redirectTo;
-        }        
-        if(Auth::user()->hasRole('IPs.index')){
-            $this->redirectTo=route('admin.users.index');
-            return $this->redirectTo;
-        }
-        $this->redirectTo=route('home');
-        return $this->redirectTo;
+
     }
 }
