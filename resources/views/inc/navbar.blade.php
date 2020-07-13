@@ -66,9 +66,19 @@
                                         Color Management
                                     </a>
                                     @endcan
-
-
                                     @can('manage-IPs')
+                                    <a class="dropdown-item" href="/admin/IPs">
+                                        IPs Management
+                                    </a>
+                                    @endcan
+                                    @can('manage-tests')
+                                    <a class="dropdown-item" href="/admin/tests">
+                                        Tests Management
+                                    </a>
+                                    @endcan
+
+
+                                    @can('work-IPs')
                                     <a class="dropdown-item" href="/IPs/create">
                                         Create IP
                                     </a>

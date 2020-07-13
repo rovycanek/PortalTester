@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Test extends Model
 {
@@ -35,5 +36,8 @@ class Test extends Model
     public function securityHeaders()
     {
         return $this->hasMany('App\SecurityHeaders');
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\User;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,6 @@ class IP extends Model
     public $timestamps = true;
 
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 }

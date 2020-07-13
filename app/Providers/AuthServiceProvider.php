@@ -31,6 +31,12 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-colors',function($user){
             return $user->hasRole('admin');
         });
+        Gate::define('manage-IPs',function($user){
+            return $user->hasRole('admin');
+        });
+        Gate::define('manage-tests',function($user){
+            return $user->hasRole('admin');
+        });
         Gate::define('edit-users',function($user){
             return $user->hasRole('admin');
         });
@@ -43,7 +49,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('testing-history',function($user){
             return $user->hasAnyRoles(['admin','user']);
         });
-        Gate::define('manage-IPs',function($user){
+        Gate::define('work-IPs',function($user){
             return $user->hasAnyRoles(['admin','user']);
         });
 

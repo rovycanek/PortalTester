@@ -28,7 +28,7 @@ Route::get('/about', 'PagesController@about');
 Auth::routes();
 Route::resource('LoginLog','LoginLogController')->middleware('can:login-history');
 Route::resource('tests','TestController')->middleware('can:testing-history');
-Route::resource('IPs','IPsController')->middleware('can:manage-IPs');
+Route::resource('IPs','IPsController')->middleware('can:work-IPs');
 
 Auth::routes();
 
@@ -39,4 +39,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
     Route::resource('users','UsersController', ['except'=>['create', 'store']]);
     Route::resource('colors', 'ColorsController');
+    Route::resource('IPs','IPsController');
+    Route::resource('tests','TestController');
 });
