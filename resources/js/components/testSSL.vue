@@ -2,21 +2,18 @@
     <div>
         <div v-if="data.started" style="margin-bottom: 10px;"> 
             <div class="card card-default">
-                <div class="card-header"><H3>{{data.headding}}</H3></div>
-                <div class="card-body">
-                    <div v-if="data.loaded"> 
-                        <div v-for="(value, name) in data.data" v-bind:key="(value, name)">
-                            <div v-if="value.length>8"><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;"><pre style="margin: 0;"><div v-html="value"> </div></pre></li></div> 
-                        </div>
+                <div  class="card-header"><H3>{{data.headding}}</H3></div>
+                    <div  v-if="data.loaded" class="card-body">  
+                            <li  v-for="(value, name) in data.data" v-bind:key="(value, name)" class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;"><pre style="margin: 0;"><div v-html="value"> </div></pre></li>   
                     </div>
-                    <div v-else><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">Loading...</li></div>
-                </div>
+                    <div v-else  class="card-body">  
+                            <li  class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">Loading...</li>
+                    </div>
             </div>
         </div>
-        <div v-else></div>
+       
     </div>
 </template>
-
 <script>
 export default{
     name:"testSSL",

@@ -15,6 +15,7 @@ use App\Securitybreaches;
 use App\Offeredprotocols;
 use App\Serverhello;
 use App\Ciphersperprotocol;
+use App\Styling;
 
 
 
@@ -41,10 +42,25 @@ class TestsController extends Controller
         $this->validate($request, [
         'IP' => 'ip'
             ]);
-        $process = new Process(['./testssl.sh', '--client-simulation', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+        $process = new Process(['./testssl.sh', '--client-simulation', '--quiet',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
         $process->setTimeout(0);
         $process->run();
-        $array = explode("\n", $process->getOutput());
+        $Styling =new Styling();    
+        $array = explode("\n", $Styling->cmdToTags($process->getOutput()));
+        $myArray = array();
+        for ($i = 0; $i < count($array); $i++) {
+            if(str_contains($array[$i], 'Running client')){  
+                for ($j = $i+1; $j < count($array); $j++) {
+                    if(strlen($array[$j])>8){
+                        array_push($myArray, $array[$j]);
+                    }
+                }
+                $i = $j;
+            }
+        }
+        array_pop($myArray);
+
+        $array = $myArray;
         for ($i = 0; $i < count($array); $i++) {
             if(strlen($array[$i])>8){
                 $securityHeaders=new Handshakesimulation;
@@ -53,7 +69,9 @@ class TestsController extends Controller
                 $securityHeaders->save();
             }
         }
-        return response()->json(['headers'=>$array]);
+
+
+        return response()->json(['headers'=>$Styling->TagsToHtml($array)]);
        
     }
         
@@ -61,14 +79,13 @@ class TestsController extends Controller
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['../app/Http/Controllers/shcheck.py', '-d', $request->IP]);
+            $process = new Process(['../app/Http/Controllers/shcheck.py', '-g','-d', $request->IP]);
             $process->setTimeout(0);
             try {
                 $process->mustRun();
                 while ($process->isRunning()) {
                     // waiting for process to finish
                 }
-                //$headers = json_decode($process->getOutput(),true);
                 $headers = explode("\n", $process->getOutput());
 
                 $arrayNoHeadders=array();
@@ -77,7 +94,9 @@ class TestsController extends Controller
                     if (strpos($headers[$i], ':') !== false){
                         array_push($arrayWithHeadders, $headers[$i]);
                     }else{
-                        array_push($arrayNoHeadders, $headers[$i]);  
+                        if(strlen($headers[$i])>2){
+                            array_push($arrayNoHeadders, $headers[$i]);  
+                        }
                     }
                 }
 
@@ -118,10 +137,26 @@ class TestsController extends Controller
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['./testssl.sh', '--vulnerable', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+            $process = new Process(['./testssl.sh', '--vulnerable', '--quiet',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process->setTimeout(0);
             $process->run();
-            $array = explode("\n", $process->getOutput());
+            $Styling =new Styling();    
+            $array = explode("\n", $Styling->cmdToTags($process->getOutput()));
+            $myArray = array();
+            for ($i = 0; $i < count($array); $i++) {
+                if(str_contains($array[$i], 'Testing vulnerabilities')){
+                    
+                    for ($j = $i+1; $j < count($array); $j++) {
+                        if(strlen($array[$j])>8){
+                            array_push($myArray, $array[$j]);
+                        }
+                    }
+                    $i = $j;
+                }
+            }
+            array_pop($myArray);
+    
+            $array = $myArray;
 
             for ($i = 0; $i < count($array); $i++) {
                 if(strlen($array[$i])>8){
@@ -131,7 +166,7 @@ class TestsController extends Controller
                     $securityHeaders->save();
                 }
             }
-            return response()->json(['headers'=>$array]);
+            return response()->json(['headers'=>$Styling->TagsToHtml($array)]);
            
     
         }
@@ -140,10 +175,31 @@ class TestsController extends Controller
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['./testssl.sh', '--protocols', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+            $process = new Process(['./testssl.sh', '--protocols', '--quiet',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process->setTimeout(0);
             $process->run();
-            $array = explode("\n", $process->getOutput());
+
+        
+
+            $Styling =new Styling();    
+            $array = explode("\n", $Styling->cmdToTags($process->getOutput()));
+
+            $myArray = array();
+            for ($i = 0; $i < count($array); $i++) {
+                if(str_contains($array[$i], 'Testing')){
+                    
+                    for ($j = $i+1; $j < count($array); $j++) {
+                        if(strlen($array[$j])>8){
+                            array_push($myArray, $array[$j]);
+                        }
+                    }
+                    $i = $j;
+                }
+            }
+            array_pop($myArray);
+            
+
+            $array = $myArray;
             for ($i = 0; $i < count($array); $i++) {
                 if(strlen($array[$i])>8){
                     $securityHeaders=new Offeredprotocols;
@@ -153,17 +209,33 @@ class TestsController extends Controller
                 }
             }
 
-            return response()->json(['headers'=>$array]);
+            return response()->json(['headers'=>$Styling->TagsToHtml($array)]);
         }
         
         public function ServerHello(Request $request){
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['./testssl.sh', '--server-defaults', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+            $process = new Process(['./testssl.sh', '--server-defaults', '--quiet',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process->setTimeout(0);
             $process->run();
-            $array = explode("\n", $process->getOutput());
+            $Styling =new Styling();    
+            $array = explode("\n", $Styling->cmdToTags($process->getOutput()));
+            $myArray = array();
+            for ($i = 0; $i < count($array); $i++) {
+                if(str_contains($array[$i], 'Testing server')){
+                    
+                    for ($j = $i+1; $j < count($array); $j++) {
+                        if(strlen($array[$j])>8){
+                            array_push($myArray, $array[$j]);
+                        }
+                    }
+                    $i = $j;
+                }
+            }
+            array_pop($myArray);
+    
+            $array = $myArray;
 
             for ($i = 0; $i < count($array); $i++) {
                 if(strlen($array[$i])>8){
@@ -175,18 +247,34 @@ class TestsController extends Controller
             }
 
 
-            return response()->json(['headers'=>$array]);
+            return response()->json(['headers'=>$Styling->TagsToHtml($array)]);
         }
         
         public function CiphersPherProtocol(Request $request){
             $this->validate($request, [
                 'IP' => 'ip'
                     ]);
-            $process = new Process(['./testssl.sh', '--cipher-per-proto', $request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+            $process = new Process(['./testssl.sh', '--cipher-per-proto', '--quiet','--color=3',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process->setTimeout(0);
             $process->run();
-            $array = explode("\n", $process->getOutput());
-
+            $Styling =new Styling();    
+            $array = explode("\n", $Styling->cmdToTags($process->getOutput()));
+            $myArray = array();
+            for ($i = 0; $i < count($array); $i++) {
+                if(str_contains($array[$i], 'Testing')){
+                    
+                    for ($j = $i+1; $j < count($array); $j++) {
+                        if(strlen($array[$j])>8 &&  !str_contains($array[$j], '-------------------------------------')){
+                            array_push($myArray, $array[$j]);
+                        }
+                    }
+                    $i = $j;
+                }
+            }
+            array_pop($myArray);
+    
+            
+            $array = $myArray;
             for ($i = 0; $i < count($array); $i++) {
                 if(strlen($array[$i])>8){
                     $securityHeaders=new Ciphersperprotocol;
@@ -195,8 +283,7 @@ class TestsController extends Controller
                     $securityHeaders->save();
                 }
             }
-
-            return response()->json(['headers'=>$array]);
+            return response()->json(['headers'=>$Styling->TagsToHtml($array)]);
         }
 
 }

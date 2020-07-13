@@ -26,7 +26,7 @@
                           <td>{{$user->email }}</td>
                           <td>{{implode(', ', $user->roles()->pluck('name')->toArray() )}}</td>
                           <td>
-
+                            
                             @if ($user->hasRole('new user'))
                             <form action="{{route('admin.users.update',$user)}}" method="POST">
                               @csrf
@@ -40,7 +40,7 @@
                                 <label style ="display: none" class="col-form-label text-md-right">{{$role->name}}</label>
                               </div>
                               @endforeach
-                              <button type="submit" class="float-left btn btn-success">Allow access</button>
+                              <button type="submit" class="float-left btn-xs btn btn-success">Allow access</button>
                             </form>
                             
                             @else
@@ -60,7 +60,7 @@
                               </div>
                               @endforeach
                              
-                              <button type="submit" class="float-left btn btn-warning">Demote</button>
+                              <button type="submit" class="float-left btn btn-xs btn-warning">Demote</button>
                             </form>
 
                             @else
@@ -80,7 +80,7 @@
                               </div>
                               @endforeach
                              
-                              <button type="submit" class="float-left btn btn-primary">Promote</button>
+                              <button type="submit" class="float-left btn btn-xs btn-primary">Promote</button>
                             </form>
 
 
@@ -98,9 +98,10 @@
                                <form action="{{route('admin.users.destroy',$user->id)}}" method="POST" class="float-left">
                                 @csrf
                                 {{method_field('DELETE')}}
-                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-secondary">Delete</button>
+                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-xs btn-danger">Delete</button>
                               </form>
                               @endcan
+                          
                           </td>
                         </tr>
                           

@@ -11,6 +11,7 @@ use App\Securitybreaches;
 use App\Offeredprotocols;
 use App\Serverhello;
 use App\Ciphersperprotocol;
+use App\Styling;
 
 class TestController extends Controller
 {
@@ -67,14 +68,54 @@ class TestController extends Controller
     public function show($id)
     {
         $test = Test::find($id);
+        
         if(auth()->user()->id !== $test->user_id){
             return redirect('/tests')->with('error', 'Unauthorized page');
         }
-       
-        return view('tests.show',['test' => $test,'serverhello' => $test->serverhello,
-        'securityHeaders' => $test->securityHeaders,'handshakesimulation' => $test->handshakesimulation,
-        'securitybreaches' => $test->securitybreaches,'offeredprotocols' => $test->offeredprotocols,
-        'ciphersperprotocol' => $test->ciphersperprotocol]);
+        $Styling = new Styling();  
+        
+        $ServerHello =$test->serverhello;
+        foreach ($ServerHello as $Hello){
+            $Hello->data =  $Styling->TagsToHtml($Hello->data);
+        }
+ 
+
+
+
+
+
+        $SecurityHeaders=$test->securityHeaders;
+        foreach ($SecurityHeaders as $SecurityHeader){
+            $SecurityHeader->data =  $Styling->TagsToHtml($SecurityHeader->data);
+        }
+
+        $HandshakeSimulation=$test->handshakesimulation;
+        foreach ($HandshakeSimulation as $Handshake){
+            $Handshake->data =  $Styling->TagsToHtml($Handshake->data);
+        }
+
+
+        $SecurityBreaches=$test->securitybreaches;
+        foreach ($SecurityBreaches as $SecurityBreach){
+            $SecurityBreach->data =  $Styling->TagsToHtml($SecurityBreach->data);
+        }
+
+        $OfferedProtocols=$test->offeredprotocols;
+        foreach ($OfferedProtocols as $OfferedProtocol){
+            $OfferedProtocol->data =  $Styling->TagsToHtml($OfferedProtocol->data);
+        }
+
+
+        $CiphersPerProtocol=$test->ciphersperprotocol;
+        foreach ($CiphersPerProtocol as $Ciphers){
+            $Ciphers->data =  $Styling->TagsToHtml($Ciphers->data);
+        }
+
+       return view('tests.show')->with(['test' => $test,'serverhello' => $ServerHello,
+       'securityHeaders' => $SecurityHeaders ,'handshakesimulation' => $HandshakeSimulation,
+       'securitybreaches' => $SecurityBreaches,'offeredprotocols' => $OfferedProtocols,
+       'ciphersperprotocol' => $CiphersPerProtocol]);
+
     }
 
     /**

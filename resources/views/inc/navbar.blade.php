@@ -61,6 +61,13 @@
                                         User Management
                                     </a>
                                     @endcan
+                                    @can('manage-colors')
+                                    <a class="dropdown-item" href="/admin/colors">
+                                        Color Management
+                                    </a>
+                                    @endcan
+
+
                                     @can('manage-IPs')
                                     <a class="dropdown-item" href="/IPs/create">
                                         Create IP

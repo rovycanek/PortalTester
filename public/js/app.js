@@ -1915,10 +1915,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "missingSH",
   props: ['missing']
@@ -1943,10 +1939,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "missingSH",
   props: ['present']
@@ -1963,9 +1955,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -37766,29 +37755,22 @@ var render = function() {
       _c("h4", [_vm._v("Missing")]),
       _vm._v(" "),
       _vm._l(_vm.missing, function(mis) {
-        return _c("div", { key: mis }, [
-          mis.length > 2
-            ? _c("div", [
-                _c("div", [
-                  _c(
-                    "li",
-                    {
-                      staticClass: "list-group-item",
-                      staticStyle: {
-                        "padding-top": "0.05rem",
-                        "padding-bottom": "0.05rem"
-                      }
-                    },
-                    [
-                      _c("span", { staticStyle: { color: "#cd8000" } }, [
-                        _vm._v(_vm._s(mis))
-                      ])
-                    ]
-                  )
-                ])
-              ])
-            : _vm._e()
-        ])
+        return _c(
+          "li",
+          {
+            key: mis,
+            staticClass: "list-group-item",
+            staticStyle: {
+              "padding-top": "0.05rem",
+              "padding-bottom": "0.05rem"
+            }
+          },
+          [
+            _c("span", { staticStyle: { color: "#cd8000" } }, [
+              _vm._v(_vm._s(mis))
+            ])
+          ]
+        )
       })
     ],
     2
@@ -37822,29 +37804,22 @@ var render = function() {
       _c("h4", [_vm._v("Present")]),
       _vm._v(" "),
       _vm._l(_vm.present, function(value) {
-        return _c("div", { key: value }, [
-          value.length > 2
-            ? _c("div", [
-                _c("div", [
-                  _c(
-                    "li",
-                    {
-                      staticClass: "list-group-item",
-                      staticStyle: {
-                        "padding-top": "0.05rem",
-                        "padding-bottom": "0.05rem"
-                      }
-                    },
-                    [
-                      _c("span", { staticStyle: { color: "lime" } }, [
-                        _vm._v(_vm._s(value))
-                      ])
-                    ]
-                  )
-                ])
-              ])
-            : _vm._e()
-        ])
+        return _c(
+          "li",
+          {
+            key: value,
+            staticClass: "list-group-item",
+            staticStyle: {
+              "padding-top": "0.05rem",
+              "padding-bottom": "0.05rem"
+            }
+          },
+          [
+            _c("span", { staticStyle: { color: "lime" } }, [
+              _vm._v(_vm._s(value))
+            ])
+          ]
+        )
       })
     ],
     2
@@ -37883,58 +37858,50 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm.data.loaded
-                ? _c(
-                    "div",
-                    _vm._l(_vm.data.data, function(value, name) {
-                      return _c("div", { key: (value, name) }, [
-                        value.length > 8
-                          ? _c("div", [
-                              _c(
-                                "li",
-                                {
-                                  staticClass: "list-group-item",
-                                  staticStyle: {
-                                    "padding-top": "0.05rem",
-                                    "padding-bottom": "0.05rem"
-                                  }
-                                },
-                                [
-                                  _c("pre", { staticStyle: { margin: "0" } }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        domProps: { innerHTML: _vm._s(value) }
-                                      },
-                                      [_vm._v(" ")]
-                                    )
-                                  ])
-                                ]
-                              )
-                            ])
-                          : _vm._e()
-                      ])
-                    }),
-                    0
-                  )
-                : _c("div", [
-                    _c(
+            _vm.data.loaded
+              ? _c(
+                  "div",
+                  { staticClass: "card-body" },
+                  _vm._l(_vm.data.data, function(value, name) {
+                    return _c(
                       "li",
                       {
+                        key: (value, name),
                         staticClass: "list-group-item",
                         staticStyle: {
                           "padding-top": "0.05rem",
                           "padding-bottom": "0.05rem"
                         }
                       },
-                      [_vm._v("Loading...")]
+                      [
+                        _c("pre", { staticStyle: { margin: "0" } }, [
+                          _c(
+                            "div",
+                            { domProps: { innerHTML: _vm._s(value) } },
+                            [_vm._v(" ")]
+                          )
+                        ])
+                      ]
                     )
-                  ])
-            ])
+                  }),
+                  0
+                )
+              : _c("div", { staticClass: "card-body" }, [
+                  _c(
+                    "li",
+                    {
+                      staticClass: "list-group-item",
+                      staticStyle: {
+                        "padding-top": "0.05rem",
+                        "padding-bottom": "0.05rem"
+                      }
+                    },
+                    [_vm._v("Loading...")]
+                  )
+                ])
           ])
         ])
-      : _c("div")
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -38346,38 +38313,37 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _vm.SH.loaded
-                  ? _c(
-                      "div",
-                      [
-                        _c("presentSH", {
-                          attrs: { present: _vm.SH.data.present }
-                        }),
-                        _vm._v(" "),
-                        _c("missingSH", {
-                          attrs: { missing: _vm.SH.data.missing }
-                        })
-                      ],
-                      1
+              _vm.SH.loaded
+                ? _c(
+                    "div",
+                    { staticClass: "card-body" },
+                    [
+                      _c("presentSH", {
+                        attrs: { present: _vm.SH.data.present }
+                      }),
+                      _vm._v(" "),
+                      _c("missingSH", {
+                        attrs: { missing: _vm.SH.data.missing }
+                      })
+                    ],
+                    1
+                  )
+                : _c("div", { staticClass: "card-body" }, [
+                    _c(
+                      "li",
+                      {
+                        staticClass: "list-group-item",
+                        staticStyle: {
+                          "padding-top": "0.05rem",
+                          "padding-bottom": "0.05rem"
+                        }
+                      },
+                      [_vm._v("Loading...")]
                     )
-                  : _c("div", [
-                      _c(
-                        "li",
-                        {
-                          staticClass: "list-group-item",
-                          staticStyle: {
-                            "padding-top": "0.05rem",
-                            "padding-bottom": "0.05rem"
-                          }
-                        },
-                        [_vm._v("Loading...")]
-                      )
-                    ])
-              ])
+                  ])
             ])
           ])
-        : _c("div"),
+        : _vm._e(),
       _vm._v(" "),
       _c("testSSL", { attrs: { data: _vm.HS } }),
       _vm._v(" "),

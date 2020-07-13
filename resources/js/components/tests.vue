@@ -42,16 +42,16 @@
         <div v-if="SH.started" style="margin-bottom: 10px;"> 
             <div class="card card-default">
                 <div class="card-header"><H3>{{SH.headding}}</H3></div>
-                <div class="card-body">
-                    <div v-if="SH.loaded"> 
-                        <presentSH v-bind:present="SH.data.present"></presentSH>
-                        <missingSH v-bind:missing="SH.data.missing"></missingSH>
-                    </div>
-                    <div v-else><li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">Loading...</li></div>
+                <div v-if="SH.loaded" class="card-body">
+                    <presentSH v-bind:present="SH.data.present"></presentSH>
+                    <missingSH v-bind:missing="SH.data.missing"></missingSH>
+                </div>
+                    <div v-else class="card-body">
+                    <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">Loading...</li>
                 </div>
             </div>
         </div>
-        <div v-else></div>
+
 
         <testSSL v-bind:data="HS"></testSSL>
         <testSSL v-bind:data="SV"></testSSL>
