@@ -70,9 +70,7 @@ class TestController extends Controller
     {
         $test = Test::find($id);
         
-        if(auth()->user()->id !== $test->user_id){
-            return redirect('/tests')->with('error', 'Unauthorized page');
-        }
+
         $Styling = new Styling();  
         
         $ServerHello =$test->serverhello;

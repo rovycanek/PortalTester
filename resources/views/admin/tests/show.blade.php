@@ -10,6 +10,7 @@
                 <div><small>Test was started at: <b>{{$test->created_at}} </b></small></div>
                 <div><small>Tested site: <b>{{$test->subject}} </b></small></div>
                 <div><small>Test type: <b>{{$test->type}} </b></small></div>
+                <div><small>Test owner: <b>{{$test->user->name}} </b></small></div>
             </div>
         </div>
 

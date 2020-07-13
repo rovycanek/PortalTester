@@ -3,7 +3,7 @@
     <div class="card card-default">
         <div class="card-header"><h3>Edit IP test</h3></div>
         <div class="card-body">
-            {!! Form::open(['action' => ['IPsController@update', $ip->id], 'method' => 'POST']) !!}
+            {!! Form::open(['action' => ['Admin\IPsController@update', $ip->id], 'method' => 'POST']) !!}
         <div class="container form-group">
             <div class="row">
               <div class="col-2"> {{Form::label('frequency', 'Frequency')}}</div>
@@ -34,7 +34,7 @@
             {{Form::hidden('_method','PUT')}}
             {{Form::submit('Submit',['class' => 'btn btn-primary'])}}
             {!! Form::close() !!}
-        <a type="button" class="btn btn-secondary" href="/IPs">Cancel</a>
+        <a type="button" class="btn btn-secondary" href="/admin/IPs">Cancel</a>
         </div>
     </div>   
 @endsection
