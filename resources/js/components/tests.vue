@@ -5,7 +5,7 @@
         <div class="card-header"><H1 align="center">Welcome to potal tester App</H1></div>
         <div class="card-body">
             <div class="input-group mb-3">
-                <input class="form-control" @keyup.enter="runTests()" v-model="IP" placeholder="127.0.0.1">
+                <input class="form-control" v-model="IP" placeholder="127.0.0.1">
                 
                 <div class="input-group-append">
                     <input class="btn btn-outline-secondary" v-on:click="runTests" value="Test" type="submit">       
@@ -179,7 +179,7 @@ export default{
         },
 
          resetstates(){
-             this.errorenabled = false;
+            this.errorenabled = false;
             this.HS.started=false;
             this.SH.started=false;
             this.SV.started=false;
