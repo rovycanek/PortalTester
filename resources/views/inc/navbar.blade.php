@@ -76,8 +76,11 @@
                                         Tests Management
                                     </a>
                                     @endcan
-
-
+                                    @can('manage-SSL')
+                                    <a class="dropdown-item" href="/admin/testSsl">
+                                        SSL test tool Management
+                                    </a>
+                                    @endcan
                                     @can('work-IPs')
                                     <a class="dropdown-item" href="/IPs/create">
                                         Create IP

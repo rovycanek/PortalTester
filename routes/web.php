@@ -41,4 +41,5 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
     Route::resource('colors', 'ColorsController');
     Route::resource('IPs','IPsController');
     Route::resource('tests','TestController');
+    Route::resource('testSsl','TestSslController');
 });

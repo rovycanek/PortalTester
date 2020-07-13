@@ -24,13 +24,6 @@
                     <td field-key='color' style="color:{{ $color->color }}">{{ $color->color }}</td>
                     <td>
                         <a href="{{ route('admin.colors.edit',[$color->id]) }}" class="btn btn-xs btn-info">Edit</a>
-                        {!! Form::open(array(
-                            'style' => 'display: inline-block;',
-                            'method' => 'DELETE',
-                            'onsubmit' => "return confirm('Are you sure?');",
-                            'route' => ['admin.colors.destroy', $color->id])) !!}
-                        {!! Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) !!}
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach

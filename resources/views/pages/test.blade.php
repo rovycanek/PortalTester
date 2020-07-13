@@ -2,7 +2,7 @@
 
 @section ('content')
     <div class="card card-default">
-    <div class="card-header"><H3>Login history</H3></div>
+    <div class="card-header"><H3>Testing history</H3></div>
 
     <table class="table table-hover">
         <thead>
