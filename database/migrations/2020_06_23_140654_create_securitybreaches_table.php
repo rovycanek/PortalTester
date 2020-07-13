@@ -15,8 +15,9 @@ class CreateSecuritybreachesTable extends Migration
     {
         Schema::create('securitybreaches', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('test_id');
+            $table->bigInteger('test_id')->unsigned();
             $table->string('data');
+            $table->foreign('test_id')->references('id')->on('test')->onDelete('cascade');
         });
     }
 

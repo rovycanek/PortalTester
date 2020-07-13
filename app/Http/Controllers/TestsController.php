@@ -16,6 +16,7 @@ use App\Offeredprotocols;
 use App\Serverhello;
 use App\Ciphersperprotocol;
 use App\Styling;
+use App\UrlRule;
 
 
 
@@ -40,7 +41,7 @@ class TestsController extends Controller
     public function HandshakeSimulation(Request $request)
     {
         $this->validate($request, [
-        'IP' => 'ip'
+            'IP' => new UrlRule()
             ]);
         $process = new Process(['./testssl.sh', '--client-simulation', '--quiet',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
         $process->setTimeout(0);
@@ -77,7 +78,7 @@ class TestsController extends Controller
         
         public function securityH(Request $request){
             $this->validate($request, [
-                'IP' => 'ip'
+                'IP' => new UrlRule()
                     ]);
             $process = new Process(['../app/Http/Controllers/shcheck.py', '-g','-d', $request->IP]);
             $process->setTimeout(0);
@@ -135,7 +136,7 @@ class TestsController extends Controller
 
         public function SecurityVulnerabities(Request $request){
             $this->validate($request, [
-                'IP' => 'ip'
+                'IP' => new UrlRule()
                     ]);
             $process = new Process(['./testssl.sh', '--vulnerable', '--quiet',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process->setTimeout(0);
@@ -173,7 +174,7 @@ class TestsController extends Controller
 
         public function ConnectionProtocols(Request $request){
             $this->validate($request, [
-                'IP' => 'ip'
+                'IP' => new UrlRule()
                     ]);
             $process = new Process(['./testssl.sh', '--protocols', '--quiet',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process->setTimeout(0);
@@ -214,7 +215,7 @@ class TestsController extends Controller
         
         public function ServerHello(Request $request){
             $this->validate($request, [
-                'IP' => 'ip'
+                'IP' => new UrlRule()
                     ]);
             $process = new Process(['./testssl.sh', '--server-defaults', '--quiet',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process->setTimeout(0);
@@ -252,7 +253,7 @@ class TestsController extends Controller
         
         public function CiphersPherProtocol(Request $request){
             $this->validate($request, [
-                'IP' => 'ip'
+                'IP' => new UrlRule()
                     ]);
             $process = new Process(['./testssl.sh', '--cipher-per-proto', '--quiet','--color=3',$request->IP],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
             $process->setTimeout(0);

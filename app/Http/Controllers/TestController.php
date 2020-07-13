@@ -12,7 +12,7 @@ use App\Offeredprotocols;
 use App\Serverhello;
 use App\Ciphersperprotocol;
 use App\Styling;
-
+use App\UrlRule;
 class TestController extends Controller
 {
     public function __construct()
@@ -45,7 +45,7 @@ class TestController extends Controller
      */
         public function store(Request $request)
         {
-        $this->validate($request, ['IP' => 'ip']);
+        $this->validate($request, ['IP' => new UrlRule()]);
         
         $test=new Test;
         $test->type='manual start';

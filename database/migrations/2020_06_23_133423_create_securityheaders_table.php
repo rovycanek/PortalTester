@@ -15,9 +15,10 @@ class CreateSecurityheadersTable extends Migration
     {
         Schema::create('securityheaders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('test_id');
+            $table->bigInteger('test_id')->unsigned();
             $table->string('data');
             $table->boolean('type');
+            $table->foreign('test_id')->references('id')->on('test')->onDelete('cascade');
         });
     }
 

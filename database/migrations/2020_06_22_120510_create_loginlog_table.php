@@ -17,8 +17,9 @@ class CreateLoginlogTable extends Migration
             $table->id();
             $table->timestamps();
             $table->ipAddress('ip');
-            $table->integer('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->string('fingerprint');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

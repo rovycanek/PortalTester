@@ -13,13 +13,15 @@ class CreateIPSTable extends Migration
      */
     public function up()
     {
-        Schema::create('i_p_s', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('ips', function (Blueprint $table) {
+            $table->id();
             $table->enum('frequency', ['daily', 'weekly', 'one time']);
             $table->timestamp('when');
-            $table->ipAddress('ip');
+            $table->string('ip');
             $table->string('email');
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -30,6 +32,6 @@ class CreateIPSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('i_p_s');
+        Schema::dropIfExists('ips');
     }
 }

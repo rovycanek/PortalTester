@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Schema\MySqlBuilder;
 use App\User;
 use App\Role;
 
@@ -14,12 +15,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
         User::truncate();
         DB::table('role_user')->truncate();
         DB::table('ciphersperprotocol')->truncate();
         DB::table('failed_jobs')->truncate();
         DB::table('handshakesimulation')->truncate();
-        DB::table('i_p_s')->truncate();
+        DB::table('ips')->truncate();
         DB::table('jobs')->truncate();
         DB::table('loginlog')->truncate();
         DB::table('offeredprotocols')->truncate();
@@ -27,6 +29,7 @@ class UsersTableSeeder extends Seeder
         DB::table('serverhello')->truncate();
         DB::table('test')->truncate();
         DB::table('securityheaders')->truncate();
+        Schema::enableForeignKeyConstraints();
 
         $adminRole = Role::where('name','admin')->first();
         $userRole = Role::where('name','user')->first();

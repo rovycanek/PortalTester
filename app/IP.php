@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class IP extends Model
 {
-    protected $table = 'i_p_s';
+    protected $table = 'ips';
 
     public $primaryKey = 'id';
 

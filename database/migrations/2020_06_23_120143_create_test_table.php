@@ -16,9 +16,10 @@ class CreateTestTable extends Migration
         Schema::create('test', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->string('subject');
             $table->enum('type', ['planned job', 'manual start']);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
