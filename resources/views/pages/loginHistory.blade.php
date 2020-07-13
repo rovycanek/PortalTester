@@ -3,8 +3,7 @@
 @section ('content')
     <div class="card card-default">
     <div class="card-header"><H3>Login history</H3></div>
-
-    <table class="table table-hover">
+    <table class="table table-hover mb-0 ">
         <thead>
             <tr>
                 <th scope="col">Loggined in at</th>
@@ -25,7 +24,9 @@
             @else
             @endif
         </tbody>
+    </table>  
+    <div class="card-footer">
         {{$ips->links()}}
-    </table>    
+    </div>  
     </div>
 @endsection

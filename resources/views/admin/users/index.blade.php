@@ -1,14 +1,10 @@
 @extends('layouts.app')
 @section('content')
-      <h1>Users</h1>
-      
-              
-
               <div class="card card-default">
                 <div class="card-header"><H3>User management</H3></div>
 
    
-                  <table class="table table-hover">
+                  <table class="table table-hover mb-0">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
@@ -106,10 +102,11 @@
                         </tr>
                           
                       @endforeach
-                    {{$users->links()}}
+                    
                    </table>
       
                 <div class="card-footer ">
+                  {{$users->links()}}
                 </div>
                 
                 </div>

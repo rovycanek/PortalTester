@@ -3,9 +3,8 @@
 @section ('content')
     <div class="card card-default">
     <div class="card-header"><H3>IPs</H3></div>
-    <div class="card-body">
     
-    <table class="table table-hover">
+    <table class="table table-hover mb-0 ">
         <thead>
             <tr>
                 <th>Owner</th>
@@ -43,7 +42,7 @@
                 @endforeach
             @else
                 <tr>
-                    <td colspan="6">No entries in table</td>
+                    <td colspan="6" align="center">No entries in table</td>
                 </tr>
             @endif
         </div>

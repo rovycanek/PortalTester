@@ -4,7 +4,7 @@
     <div class="card card-default">
     <div class="card-header"><H3>Tests management</H3></div>
 
-    <table class="table table-hover">
+    <table class="table table-hover mb-0 ">
         <thead>
             <tr>  
                 <th>Owner</th>
@@ -30,7 +30,9 @@
             @else
             @endif
         </tbody>
+    </table>
+    <div class="card-footer ">
         {{$tests->links()}}
-    </table>    
+    </div>    
     </div>
-@endsection
+    @endsection

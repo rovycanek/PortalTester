@@ -7,6 +7,8 @@ use App\User;
 
 class Test extends Model
 {
+    protected $fillable = ['subject','type'];
+    
     protected $table = 'test';
 
     public $primaryKey = 'id';

@@ -2,8 +2,8 @@
 @section ('content')
     <div class="card card-default">
         <div class="card-header"><H3>Testing history</H3></div>
-        <div class="card-body">
-            <table class="table table-hover">
+        
+            <table class="table mb-0 table-hover">
                 <thead>
                     <tr>  
                         <th scope="col">Scaned site</th>
@@ -26,7 +26,7 @@
                     @endif
                 </tbody>
             </table>  
-        </div> 
+        
         <div class="card-footer">
             {{$tests->links()}}
         </div> 

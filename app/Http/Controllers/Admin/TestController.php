@@ -13,15 +13,17 @@ use App\Offeredprotocols;
 use App\Serverhello;
 use App\Ciphersperprotocol;
 use App\Styling;
+use DataTables;
 
 class TestController extends Controller
 {
+    
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user_id = auth()->user()->id;
         $tests= Test::orderBy('created_at','desc')->paginate(10);

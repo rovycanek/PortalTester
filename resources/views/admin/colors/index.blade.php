@@ -1,13 +1,8 @@
 @extends('layouts.app')
 @section ('content')
-<h1>Colors</h1>
-
-
-
-
 <div class="card card-default">
     <div class="card-header"><H3>Color management</H3></div>
-<table class="table table-hover">
+<table class="table table-hover mb-0">
     <thead>
         <tr>
             <th>Name</th>
