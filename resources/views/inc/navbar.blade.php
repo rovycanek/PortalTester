@@ -15,7 +15,7 @@
                         <li><a class="nav-link" href="/about">About</a></li>
                         @guest
                         @else
-                        @can('manage-IPs')
+                        @can('work-IPs')
                         <li><a class="nav-link" href="/IPs">IPs</a></li>
                         @endcan
                         @endguest

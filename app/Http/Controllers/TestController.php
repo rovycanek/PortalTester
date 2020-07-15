@@ -24,7 +24,7 @@ class TestController extends Controller
     {
         $user_id = auth()->user()->id;
         $tests= Test::where('user_id', $user_id )->orderBy('created_at','desc')->paginate(10);
-        return view('pages.test')->with('tests', $tests);
+        return view('tests.index')->with('tests', $tests);
     }
 
     /**
