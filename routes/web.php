@@ -26,9 +26,9 @@ Route::get('/about', 'PagesController@about');
 
 
 Auth::routes();
-Route::resource('LoginLog','LoginLogController')->middleware('can:login-history');
-Route::resource('tests','TestController')->middleware('can:testing-history');
-Route::resource('IPs','IPsController')->middleware('can:work-IPs');
+Route::resource('LoginLog','LoginLogController',['except'=>['create', 'store', 'show', 'edit', 'update', 'destroy']])->middleware('can:login-history');
+Route::resource('tests','TestController',['except'=>['create', 'edit', 'update', 'destroy']])->middleware('can:testing-history');
+Route::resource('IPs','IPsController',['except'=>[ 'show', 'edit']])->middleware('can:work-IPs');
 
 Auth::routes();
 
@@ -37,9 +37,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
-    Route::resource('users','UsersController', ['except'=>['create', 'store']]);
-    Route::resource('colors', 'ColorsController');
-    Route::resource('IPs','IPsController');
-    Route::resource('tests','TestController');
-    Route::resource('testSsl','TestSslController');
+    Route::resource('users','UsersController', ['except'=>['create', 'store', 'show']]);
+    Route::resource('colors', 'ColorsController',['except'=>['create', 'show', 'destroy']]);
+    Route::resource('IPs','IPsController',['except'=>[ 'show']]);
+    Route::resource('tests','TestController',['except'=>['create', 'edit', 'update', 'destroy']]);
+    Route::resource('testSsl','TestSslController',['except'=>['store', 'show', 'edit', 'update', 'destroy']]);
 });

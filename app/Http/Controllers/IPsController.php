@@ -68,35 +68,6 @@ class IPsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return redirect('/IPs');
-        $ip = IP::find($id);
-        return view('IPs.show')->with('ip',$ip);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-        $ip = IP::find($id);
-        if(auth()->user()->id !== $ip->user_id){
-            return redirect('/IPs')->with('error', 'Unauthorized page');
-        }
-        return view('IPs.edit')->with('ip',$ip);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

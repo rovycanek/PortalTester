@@ -21,16 +21,6 @@ class ColorsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //return view('admin.colors.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,17 +30,6 @@ class ColorsController extends Controller
     {
         $tag = Tag::create($request->all());
         return redirect()->route('admin.colors.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Color  $color
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Color $color)
-    {
-        //
     }
 
     /**
@@ -79,16 +58,5 @@ class ColorsController extends Controller
         $color->save();
         $request->session()->flash('success',join(" ",['Color',$color->name,'was successfully updated']));
         return redirect()->route('admin.colors.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Color  $color
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Color $color)
-    {
-        //
     }
 }
