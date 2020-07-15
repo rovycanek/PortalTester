@@ -23,18 +23,12 @@ Route::post('/tests/CPP', 'TestsController@CiphersPherProtocol');
 Route::post('/tests/start', 'TestController@store');
 
 Route::get('/about', 'PagesController@about');
-
+Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 Route::resource('LoginLog','LoginLogController',['except'=>['create', 'store', 'show', 'edit', 'update', 'destroy']])->middleware('can:login-history');
 Route::resource('tests','TestController',['except'=>['create', 'edit', 'update', 'destroy']])->middleware('can:testing-history');
 Route::resource('IPs','IPsController',['except'=>[ 'show', 'edit']])->middleware('can:work-IPs');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
     Route::resource('users','UsersController', ['except'=>['create', 'store', 'show']]);
