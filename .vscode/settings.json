@@ -1,0 +1,4 @@
+{
+    "blade.format.enable": true,
+    "phpstormFormatter.ideBinPath": "/usr/bin/code/bin"
+}

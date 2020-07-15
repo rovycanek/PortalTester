@@ -25,7 +25,7 @@ class LoginLogController extends Controller
     {
         $user_id = auth()->user()->id;
         $IPs= LoginLog::where('user_id', $user_id )->orderBy('created_at','desc')->paginate(10);
-        return view('pages.loginHistory')->with('ips', $IPs);
+        return view('login.index')->with('ips', $IPs);
     }
 
     /**

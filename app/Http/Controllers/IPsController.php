@@ -54,7 +54,7 @@ class IPsController extends Controller
         'frequency' => 'required',
         'time'=> 'date_format:H:i',
         'when'=> 'date',
-        'email' => 'email',
+        'email' => 'email:rfc,dns',
         'ip' => new UrlRule()
             ]);
         $ip=new IP;
@@ -110,7 +110,7 @@ class IPsController extends Controller
             'time'=> 'date_format:H:i',
             'when'=> 'date',
             'ip' => new UrlRule(),
-            'email' => 'email',
+            'email' => 'email:rfc,dns',
                 ]);
         $ip=IP::find($id);
         $ip->frequency = $request->input('frequency');
@@ -118,7 +118,6 @@ class IPsController extends Controller
         $ip->ip = $request->input('ip');
         $ip->email = $request->input('email');
         $ip->save();
-
         return redirect('/IPs')->with('success', 'Task updated');
     }
 
@@ -130,8 +129,11 @@ class IPsController extends Controller
      */
     public function destroy($id)
     {
-         $ip=IP::find($id);
-         $ip->delete();
-         return redirect('/IPs')->with('success', 'task Removed');
+        $ip=IP::find($id);
+        if(auth()->user()->id !== $ip->user_id){
+            return redirect('/IPs')->with('error', 'Unauthorized operation');
+        }
+        $ip->delete();
+        return redirect('/IPs')->with('success', 'Task removed');
     }
 }

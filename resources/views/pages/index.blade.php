@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-      
       @guest
       <h1 align="center">{{$title}}</h1>
       @else
@@ -8,8 +7,4 @@
          <tests></tests>
       </div >
       @endguest
-      
-</script>
 @endsection
-
-

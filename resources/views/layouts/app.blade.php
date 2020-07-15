@@ -13,10 +13,10 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="fonts/fonts.css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('fonts/fonts.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
