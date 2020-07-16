@@ -10,13 +10,13 @@ use Illuminate\Queue\SerializesModels;
 class TestResults extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $arrayNoHeadders=[];
-    protected $arrayWithHeadders=[];
-    protected $handShakes=[];
-    protected $SecurityVulnerabilities=[];
-    protected $ConnectionProtocols=[];
-    protected $ServerHello=[];
-    protected $CyphersPherProtocole=[];
+    protected $arrayNoHeadders;
+    protected $arrayWithHeadders;
+    protected $handShakes;
+    protected $SecurityVulnerabilities;
+    protected $ConnectionProtocols;
+    protected $ServerHello;
+    protected $CyphersPherProtocole;
     protected $IP;
     /**
      * Create a new message instance.

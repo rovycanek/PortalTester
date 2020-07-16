@@ -4,7 +4,7 @@ namespace App;
 use App\Test;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use App\Styling;
+
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +20,7 @@ class SecurityHeaders extends Model
     }
 
     public function runTest(String $adress, Int $testId){
-            $process = new Process(['../app/Http/Controllers/shcheck.py', '-g','-d', $adress]);
+            $process = new Process(['./shcheck.py', '-g','-d', $adress],$cwd = base_path() . '/app/Http/Controllers');
             $process->setTimeout(0);
             $process->run();
 

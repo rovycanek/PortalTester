@@ -37,19 +37,19 @@ class Styling
     protected $SvrtyHighTag = "#SvrtyHighTag";
     protected $SvrtyCriticalHtml;
     protected $SvrtyCriticalTag = "#SvrtyCriticalTag";
-    protected $HeadlineHtml = "<span style=\"text-decoration:underline;font-weight:bold;\">";
+    protected $HeadlineHtml = "<span style=\"text-decoration:underline;font-weight:bold;font-family: monospace;\">";
     protected $HeadlineTag = "#HeadlineTag";
-    protected $ReverseHtml = "<span style=\"color:white;background-color:black;\">";
+    protected $ReverseHtml = "<span style=\"color:white;background-color:black;font-family: monospace;\">";
     protected $ReverseTag = "#ReverseTag";
-    protected $ReverseBoldHtml = "<span style=\"color:white;background-color:black;font-weight:bold;\">";
+    protected $ReverseBoldHtml = "<span style=\"color:white;background-color:black;font-weight:bold;font-family: monospace;\">";
     protected $ReverseBoldTag = "#ReverseBoldTag";
-    protected $UnderlineHtml = "<span style=\"text-decoration:underline\">";
+    protected $UnderlineHtml = "<span style=\"text-decoration:underlinefont-family: monospace;\">";
     protected $UnderlineTag = "#UnderlineTag";
-    protected $LineThroughHtml = "<span style=\"text-decoration:line-through\">";
+    protected $LineThroughHtml = "<span style=\"text-decoration:line-throughfont-family: monospace;\">";
     protected $LineThroughTag = "#LineThroughTag";
-    protected $ItalicHtml = "<span style=\"font-style:italic\">";
+    protected $ItalicHtml = "<span style=\"font-style:italicfont-family: monospace;\">";
     protected $ItalicTag = "#ItalicTag";
-    protected $BoldHtml = "<span style=\"font-weight:bold;\">";
+    protected $BoldHtml = "<span style=\"font-weight:bold;font-family: monospace;\">";
     protected $BoldTag = "#BoldTag";
     
     function __construct() {
@@ -69,20 +69,20 @@ class Styling
         $SvrtyCritical = Color::where('name', 'SvrtyCritical' )->first()->color;
 
 
-        $this->LiteBlueHtml = join(["<span style=\"color:",$LiteBlue ,";\">"]);
-        $this->BlueHtml = join(["<span style=\"color:",$Blue ,";font-weight:bold;\">"]);
-        $this->WarningHtml = join(["<span style=\"color:",$Warning ,";\">"]);
-        $this->MagentaHtml = join(["<span style=\"color:",$Magenta ,";font-weight:bold;\">"]);
-        $this->LiteCyanHtml =join(["<span style=\"color:",$LiteCyan ,";\">"]); 
-        $this->CyanHtml = join(["<span style=\"color:",$Cyan ,";font-weight:bold;\">"]);
-        $this->LiteGreyHtml =join(["<span style=\"color:",$LiteGrey ,";\">"]); 
-        $this->GreyHtml = join(["<span style=\"color:",$Grey ,";font-weight:bold;\">"]);
-        $this->SvrtyGoodHtml =join(["<span style=\"color:",$SvrtyGood ,";\">"]); 
-        $this->SvrtyBestHtml = join(["<span style=\"color:",$SvrtyBest ,";font-weight:bold;\">"]);
-        $this->SvrtyLowHtml = join(["<span style=\"color:",$SvrtyLow ,";font-weight:bold;\">"]);
-        $this->SvrtyMediumHtml =join(["<span style=\"color:",$SvrtyMedium ,";\">"]); 
-        $this->SvrtyHighHtml = join(["<span style=\"color:",$SvrtyHigh ,";\">"]);
-        $this->SvrtyCriticalHtml = join(["<span style=\"color:",$SvrtyCritical ,";font-weight:bold;\">"]);
+        $this->LiteBlueHtml = join(["<span style=\"color:",$LiteBlue ,";font-family: monospace;\">"]);
+        $this->BlueHtml = join(["<span style=\"color:",$Blue ,";font-weight:bold;font-family: monospace;\">"]);
+        $this->WarningHtml = join(["<span style=\"color:",$Warning ,";font-family: monospace;\">"]);
+        $this->MagentaHtml = join(["<span style=\"color:",$Magenta ,";font-weight:bold;font-family: monospace;\">"]);
+        $this->LiteCyanHtml =join(["<span style=\"color:",$LiteCyan ,";font-family: monospace;\">"]); 
+        $this->CyanHtml = join(["<span style=\"color:",$Cyan ,";font-weight:bold;font-family: monospace;\">"]);
+        $this->LiteGreyHtml =join(["<span style=\"color:",$LiteGrey ,";font-family: monospace;\">"]); 
+        $this->GreyHtml = join(["<span style=\"color:",$Grey ,";font-weight:bold;font-family: monospace;\">"]);
+        $this->SvrtyGoodHtml =join(["<span style=\"color:",$SvrtyGood ,";font-family: monospace;\">"]); 
+        $this->SvrtyBestHtml = join(["<span style=\"color:",$SvrtyBest ,";font-weight:bold;font-family: monospace;\">"]);
+        $this->SvrtyLowHtml = join(["<span style=\"color:",$SvrtyLow ,";font-weight:bold;font-family: monospace;\">"]);
+        $this->SvrtyMediumHtml =join(["<span style=\"color:",$SvrtyMedium ,";font-family: monospace;\">"]); 
+        $this->SvrtyHighHtml = join(["<span style=\"color:",$SvrtyHigh ,";font-family: monospace;\">"]);
+        $this->SvrtyCriticalHtml = join(["<span style=\"color:",$SvrtyCritical ,";font-weight:bold;font-family: monospace;\">"]);
     }
     public function cmdToTags($array){
         $array = str_replace("\033[m", $this->StyleEndTag, $array);
