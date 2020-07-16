@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'PagesController@index');
-Route::post('/tests/SH', 'TestsController@securityH');
-Route::post('/tests/HS', 'TestsController@HandshakeSimulation');
-Route::post('/tests/SV', 'TestsController@SecurityVulnerabities');
-Route::post('/tests/CP', 'TestsController@ConnectionProtocols');
-Route::post('/tests/SHE', 'TestsController@ServerHello');
-Route::post('/tests/CPP', 'TestsController@CiphersPherProtocol');
+Route::post('/tests/SH', 'TestController@SecurityHeaders');
+Route::post('/tests/HS', 'TestController@Handshakesimulation');
+Route::post('/tests/SV', 'TestController@Securitybreaches');
+Route::post('/tests/CP', 'TestController@Offeredprotocols');
+Route::post('/tests/SHE', 'TestController@Serverhello');
+Route::post('/tests/CPP', 'TestController@Ciphersperprotocol');
 Route::post('/tests/start', 'TestController@store');
 
 Route::get('/about', 'PagesController@about');
@@ -28,7 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 Route::resource('LoginLog','LoginLogController',['except'=>['create', 'store', 'show', 'edit', 'update', 'destroy']])->middleware('can:login-history');
 Route::resource('tests','TestController',['except'=>['create', 'edit', 'update', 'destroy']])->middleware('can:testing-history');
-Route::resource('IPs','IPsController',['except'=>[ 'show', 'edit']])->middleware('can:work-IPs');
+Route::resource('IPs','IPsController',['except'=>[ 'show']])->middleware('can:work-IPs');
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
     Route::resource('users','UsersController', ['except'=>['create', 'store', 'show']]);

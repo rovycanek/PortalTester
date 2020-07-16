@@ -13,6 +13,7 @@ use App\Serverhello;
 use App\Ciphersperprotocol;
 use App\Styling;
 use App\UrlRule;
+
 class TestController extends Controller
 {
     public function __construct()
@@ -69,11 +70,6 @@ class TestController extends Controller
         foreach ($ServerHello as $Hello){
             $Hello->data =  $Styling->TagsToHtml($Hello->data);
         }
- 
-
-
-
-
 
         $SecurityHeaders=$test->securityHeaders;
         foreach ($SecurityHeaders as $SecurityHeader){
@@ -106,6 +102,60 @@ class TestController extends Controller
        'securityHeaders' => $SecurityHeaders ,'handshakesimulation' => $HandshakeSimulation,
        'securitybreaches' => $SecurityBreaches,'offeredprotocols' => $OfferedProtocols,
        'ciphersperprotocol' => $CiphersPerProtocol]);
-
     }
+
+
+    public function Handshakesimulation(Request $request)
+    {
+        $this->validate($request, [
+            'IP' => new UrlRule()
+            ]);
+        $handshakesimulation=new Handshakesimulation;
+        return response()->json(['headers'=>$handshakesimulation->runTest($request->IP,$request->testID)]);  
+    }
+        
+        public function SecurityHeaders(Request $request){
+            $this->validate($request, [
+                'IP' => new UrlRule()
+                    ]);
+
+            $securityHeaders=new SecurityHeaders;
+            $results=$securityHeaders->runTest($request->IP,$request->testID);
+            return response()->json(['headersWith'=>$results[0],'headersWithout'=>$results[1]]);
+        }
+
+        public function Securitybreaches(Request $request){
+            $this->validate($request, [
+                'IP' => new UrlRule()
+                    ]);
+            $securitybreaches=new Securitybreaches;
+            return response()->json(['headers'=>$securitybreaches->runTest($request->IP,$request->testID)]);    
+        }
+
+        public function Offeredprotocols(Request $request){
+            $this->validate($request, [
+                'IP' => new UrlRule()
+                    ]);
+
+            $offeredprotocols=new Offeredprotocols;
+            return response()->json(['headers'=>$offeredprotocols->runTest($request->IP,$request->testID)]);  
+        }
+        
+        public function Serverhello(Request $request){
+            $this->validate($request, [
+                'IP' => new UrlRule()
+                    ]);
+
+            $serverhello=new Serverhello;
+            return response()->json(['headers'=>$serverhello->runTest($request->IP,$request->testID)]);  
+        }
+        
+        public function Ciphersperprotocol(Request $request){
+            $this->validate($request, [
+                'IP' => new UrlRule()
+                    ]);
+
+            $ciphersperprotocol=new Ciphersperprotocol;
+            return response()->json(['headers'=>$ciphersperprotocol->runTest($request->IP,$request->testID)]); 
+        }
 }

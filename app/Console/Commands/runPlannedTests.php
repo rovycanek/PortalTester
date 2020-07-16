@@ -47,12 +47,16 @@ class runPlannedTests extends Command
         $IPs= IP::where('when','<', Carbon::now())->get();
         foreach ($IPs as $IP) {
             if(!strcmp($IP->frequency,'daily')){
-                $IP->when=Carbon::parse($IP->when)->addDays(1);
+                while($IP->when < Carbon::now()){
+                    $IP->when=Carbon::parse($IP->when)->addDays(1);
+                }
                 $IP->save();
                 event(new runTestsEvent($IP->email,$IP->ip,$IP->user_id));
             }
             if(!strcmp($IP->frequency,'weekly')){
-                $IP->when=Carbon::parse($IP->when)->addDays(7);
+                while($IP->when < Carbon::now()){
+                    $IP->when=Carbon::parse($IP->when)->addDays(7);
+                }
                 $IP->save();
                 event(new runTestsEvent($IP->email,$IP->ip,$IP->user_id));
 
