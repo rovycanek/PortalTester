@@ -19,19 +19,19 @@
                 </div>
                 <div class="row form-group container">
                     <label for="time" class="col-form-label col-lg-2 text-md-left">Time</label>
-                    <input type="time" class="col-md-4" id="time" name="time" value={{\Carbon\Carbon::parse($ip->when)->Format('H:i')}}>
+                    <input type="time" class="col-md-4" id="time" name="time" value={{\Carbon\Carbon::parse($ip->when)->Format('H:i')}} required>
                 </div>
                 <div class="row form-group container">
                     <label for="when" class="col-form-label col-lg-2 text-md-left">When to start</label>
-                    <input type="date" class="col-md-4" id="when" name="when" value={{\Carbon\Carbon::parse($ip->when)}}>
+                    <input type="date" class="col-md-4" id="when" name="when" value={{\Carbon\Carbon::parse($ip->when)}} required>
                 </div>
                 <div class="row form-group container">
                     <label for="ip" class="col-form-label col-lg-2 text-md-left">IP</label>
-                    <input type="text" class="col-md-4" id="ip" name="ip" value={{$ip->ip}}>
+                    <input type="text" class="col-md-4" id="ip" name="ip" value={{$ip->ip}} required>
                 </div>
                 <div class="row form-group container">
                     <label for="email" class="col-form-label col-lg-2 text-md-left">Email to</label>
-                    <input type="email" class="col-md-4" id="email" name="email" value={{$ip->email}}>
+                    <input type="email" class="col-md-4" id="email" name="email" value={{$ip->email}} required>
                 </div>
             </div>
         </div>

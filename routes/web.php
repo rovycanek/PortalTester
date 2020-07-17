@@ -22,7 +22,6 @@ Route::post('/tests/SHE', 'TestController@Serverhello');
 Route::post('/tests/CPP', 'TestController@Ciphersperprotocol');
 Route::post('/tests/start', 'TestController@store');
 
-Route::get('/about', 'PagesController@about');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();

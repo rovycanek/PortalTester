@@ -18,12 +18,7 @@ class PagesController extends Controller
         if(Gate::denies('run-test')){
             return redirect(route('home'));
         }
-
         $title = 'Welcome to potal tester App';
         return view('pages.index')->with('title',$title);
-    }
-
-    public function about(){
-        return view('pages.about');
     }
 }
