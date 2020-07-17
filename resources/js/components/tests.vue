@@ -2,7 +2,7 @@
     <div>
          <div v-if="errorenabled" class="alert alert-danger">{{error}}</div>
      <div class="card card-default" style="margin-bottom: 10px;">
-        <div class="card-header"><H1 align="center">Welcome to potal tester App</H1></div>
+        <div class="card-header"><H1 align="center">Welcome to SSL Tester</H1></div>
         <div class="card-body">
             <div class="input-group mb-3">
                 <input class="form-control" v-model="IP" placeholder="127.0.0.1">
