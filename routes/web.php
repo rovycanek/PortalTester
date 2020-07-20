@@ -37,4 +37,5 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
     Route::resource('IPs','IPsController',['except'=>[ 'show']]);
     Route::resource('tests','TestController',['except'=>['create', 'edit', 'update', 'destroy']]);
     Route::resource('testSsl','TestSslController',['except'=>['store', 'show', 'edit', 'update', 'destroy']]);
+    Route::resource('LoginLog','LoginLogController',['except'=>['create', 'store', 'show', 'edit', 'update', 'destroy']])->middleware('can:login-history');
 });

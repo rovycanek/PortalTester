@@ -66,6 +66,11 @@
                                 IPs Management
                             </a>
                             @endcan
+                            @can('manage-login')
+                            <a class="dropdown-item" href="/admin/LoginLog">
+                                Login Management
+                            </a>
+                            @endcan
                             @can('manage-tests')
                             <a class="dropdown-item" href="/admin/tests">
                                 Tests Management
