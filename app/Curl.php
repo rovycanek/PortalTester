@@ -29,7 +29,7 @@ class Curl extends Model
             //Format for DB save  
             $terminalResults = explode("\n",  mb_convert_encoding($process->getOutput(), 'UTF-8','UTF-8'));
             array_push($terminalResults , explode("\n",  mb_convert_encoding($process->getErrorOutput(), 'UTF-8','UTF-8')));
-            return [$terminalResults];
+            
             //Save to DB 
             foreach ($terminalResults as $line) {
                     $curl=new Curl;
@@ -38,7 +38,7 @@ class Curl extends Model
                     $curl->save();
             }
             
-
+            return [$terminalResults];
         } catch (ProcessFailedException $exception) {
             return [$exception->getMessage()];
         }
