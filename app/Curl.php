@@ -27,8 +27,8 @@ class Curl extends Model
             $process->mustRun();
         
             //Format for DB save  
-            $terminalResults = explode("\n", $process->getOutput());
-            array_push($terminalResults , explode("\n", $process->getErrorOutput()));
+            $terminalResults = explode("\n",  mb_convert_encoding($process->getOutput(), 'UTF-8','UTF-8'));
+            array_push($terminalResults , explode("\n",  mb_convert_encoding($process->getErrorOutput(), 'UTF-8','UTF-8')));
 
             //Save to DB 
             foreach ($terminalResults as $line) {
