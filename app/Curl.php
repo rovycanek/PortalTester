@@ -21,13 +21,14 @@ class Curl extends Model
     public function runTest(String $adress, Int $testId)
     {
         //Start test
-        $process = new Process(['curl -v '. str_replace("https://", "", $adress)." 2>&1"]);
+        $process = new Process(['curl','-v', str_replace("https://", "", $adress), '']);
         $process->setTimeout(0);
         try {
             $process->mustRun();
         
             //Format for DB save  
             $terminalResults = explode("\n", $process->getOutput());
+            array_push($terminalResults , explode("\n", $process->getErrorOutput()));
 
             //Save to DB 
             foreach ($terminalResults as $line) {
@@ -36,7 +37,7 @@ class Curl extends Model
                     $curl->data=$line;
                     $curl->save();
             }
-            return [$process->getOutput()];
+            return [$terminalResults];
 
         } catch (ProcessFailedException $exception) {
             return [$exception->getMessage()];
