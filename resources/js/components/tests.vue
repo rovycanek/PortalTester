@@ -35,6 +35,14 @@
                 <input class="form-check-input" type="checkbox" id="CiphersPerProtocolCheckbox" v-model="CPP.checkbox">
                 <label class="form-check-label" for="CiphersPerProtocolCheckbox">Ciphers per protocol</label>
             </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Curl" v-model="CRL.checkbox">
+                <label class="form-check-label" for="Curl">Curl</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Nmap" v-model="NMP.checkbox">
+                <label class="form-check-label" for="Nmap">Nmap</label>
+            </div>
         </div>
     </div>
 
@@ -59,6 +67,8 @@
         <testSSL v-bind:data="CP"></testSSL>
         <testSSL v-bind:data="SHE"></testSSL>
         <testSSL v-bind:data="CPP"></testSSL>
+        <Curl v-bind:data="CRL"></Curl>
+        <testSSL v-bind:data="NMP"></testSSL>
 
     </div>
 </template>
@@ -67,12 +77,14 @@
 import presentSH from "./presentSH.vue"
 import missingSH from "./missingSH.vue"
 import testSSL from "./testSSL.vue"
+import Curl from "./Curl.vue"
 export default{
     name:"tests",
     components: {
         presentSH,
         missingSH,
-        testSSL
+        testSSL,
+        Curl
     },
     data(){
         return {
@@ -114,10 +126,23 @@ export default{
                  "checkbox": true,
                  "headding": "Ciphers per protocol",
             },
+            CRL: {data: [],
+                 "loaded": false,
+                 "started": false,
+                 "checkbox": true,
+                 "headding": "Testing Curl",
+            },
+            NMP: {data: [],
+                 "loaded": false,
+                 "started": false,
+                 "checkbox": true,
+                 "headding": "Testing Nmap",
+            },
             IP: "172.217.21.218",
             error:"",
             errorenabled:false,
-            testID:{ID:"0"
+            testID:{
+                ID:"0",
             },
             
         }
@@ -146,6 +171,12 @@ export default{
             }
             if(this.CPP.checkbox){
                 this.fetchCiphersPherProtocol();
+            }
+            if(this.CRL.checkbox){
+                this.fetchCurl();
+            }
+            if(this.NMP.checkbox){
+                this.fetchNmap();
             }
          },
 
@@ -186,6 +217,8 @@ export default{
             this.CP.started=false;
             this.SHE.started=false;
             this.CPP.started=false;
+            this.CRL.started=false;
+            this.NMP.started=false;
          },
        
         fetchSimulationHanshakes(){
@@ -218,7 +251,65 @@ export default{
             });
 
         },
+        fetchCurl(){
+            this.CRL.started=true;
+            this.CRL.data=[];
+            this.CRL.loaded= false;
+        
+            $.ajaxSetup({
+                timeout: 3000000,
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            jQuery.post({
+                url: '/tests/Curl',
+                datatype: 'json',
+                data: {
+                    name: "csrf-token",
+                    IP: this.IP,
+                    testID: this.testID.ID,
+                },
+                success: function(result){
+                    this.CRL.data=result.headers;
+                    this.CRL.loaded=true;
+                }.bind(this),
+                error: function(result){
+                    this.error=result.responseJSON.message;
+                    console.log(result.responseJSON.message);
+                }.bind(this),
+            });
+        },
 
+        fetchNmap(){
+            this.NMP.started=true;
+            this.NMP.data=[];
+            this.NMP.loaded= false;
+        
+            $.ajaxSetup({
+                timeout: 3000000,
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            jQuery.post({
+                url: '/tests/Nmap',
+                datatype: 'json',
+                data: {
+                    name: "csrf-token",
+                    IP: this.IP,
+                    testID: this.testID.ID,
+                },
+                success: function(result){
+                    this.NMP.data=result.headers;
+                    this.NMP.loaded=true;
+                }.bind(this),
+                error: function(result){
+                    this.error=result.responseJSON.message;
+                    console.log(result.responseJSON.message);
+                }.bind(this),
+            });
+        },
 
         fetchSecurityHeadders(){
             this.error="";

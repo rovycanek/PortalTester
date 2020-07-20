@@ -13,6 +13,8 @@ use App\Serverhello;
 use App\Ciphersperprotocol;
 use App\Styling;
 use App\UrlRule;
+use App\Nmap;
+use App\Curl;
 
 class TestController extends Controller
 {
@@ -157,5 +159,22 @@ class TestController extends Controller
 
             $ciphersperprotocol=new Ciphersperprotocol;
             return response()->json(['headers'=>$ciphersperprotocol->runTest($request->IP,$request->testID)]); 
+        }
+
+        public function Curl(Request $request){
+            $this->validate($request, [
+                'IP' => new UrlRule()
+                    ]);
+
+            $curl=new Curl;
+            return response()->json(['headers'=>$curl->runTest($request->IP,$request->testID)]); 
+        }
+
+        public function Nmap(Request $request){
+            $this->validate($request, [
+                'IP' => new UrlRule()
+                    ]);
+            $nmap=new Nmap;
+            return response()->json(['headers'=>$nmap->runTest($request->IP,$request->testID)]); 
         }
 }

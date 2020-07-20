@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'PagesController@index');
 Route::post('/tests/SH', 'TestController@SecurityHeaders');
+Route::post('/tests/Curl', 'TestController@Curl');
+Route::post('/tests/Nmap', 'TestController@Nmap');
 Route::post('/tests/HS', 'TestController@Handshakesimulation');
 Route::post('/tests/SV', 'TestController@Securitybreaches');
 Route::post('/tests/CP', 'TestController@Offeredprotocols');
