@@ -22,7 +22,7 @@ class Nmap extends Model
     public function runTest(String $adress, Int $testId)
     {
         //Start test
-        $process = new Process(['nmap',str_replace("https://", "", str_replace("www.", "", $adress))]);
+        $process = new Process(['nmap','-Ap1-65535',str_replace("https://", "", str_replace("www.", "", $adress))]);
         $process->setTimeout(0);
         try {
             $process->mustRun();
