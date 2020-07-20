@@ -22,7 +22,7 @@ class Nmap extends Model
     public function runTest(String $adress, Int $testId)
     {
         //Start test
-        $process = new Process(['nmap']);
+        $process = new Process(['nmap',$adress]);
         $process->setTimeout(0);
         try {
             $process->mustRun();

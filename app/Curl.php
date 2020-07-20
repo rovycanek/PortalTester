@@ -36,7 +36,7 @@ class Curl extends Model
                     $curl->data=$line;
                     $curl->save();
             }
-            return [$terminalResults];
+            return [$process->getOutput()];
 
         } catch (ProcessFailedException $exception) {
             return [$exception->getMessage()];
