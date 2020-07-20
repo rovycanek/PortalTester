@@ -21,7 +21,7 @@ class Curl extends Model
     public function runTest(String $adress, Int $testId)
     {
         //Start test
-        $process = new Process(['curl','-v', '"Content-Type: application/x-www-form-urlencoded; charset=utf-8"','--data-ascii', '"content=derinhält&date=asdf"', $adress]);
+        $process = new Process(['curl','-v', '"Content-Type: application/x-www-form-urlencoded; charset=utf-8"','--data-ascii', '"content=derinhält&date=asdf"',str_replace("https://", "", str_replace("www.", "", $adress))]);
         $process->setTimeout(0);
         try {
             $process->mustRun();
@@ -29,7 +29,7 @@ class Curl extends Model
             //Format for DB save  
             $terminalResults = explode("\n",  mb_convert_encoding($process->getOutput(), 'UTF-8','UTF-8'));
             array_push($terminalResults , explode("\n",  mb_convert_encoding($process->getErrorOutput(), 'UTF-8','UTF-8')));
-
+            return [$terminalResults];
             //Save to DB 
             foreach ($terminalResults as $line) {
                     $curl=new Curl;
@@ -37,7 +37,7 @@ class Curl extends Model
                     $curl->data=$line;
                     $curl->save();
             }
-            return [$terminalResults];
+            
 
         } catch (ProcessFailedException $exception) {
             return [$exception->getMessage()];
