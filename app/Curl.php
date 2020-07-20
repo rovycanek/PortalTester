@@ -21,7 +21,7 @@ class Curl extends Model
     public function runTest(String $adress, Int $testId)
     {
         //Start test
-        $process = new Process(['curl','-v', $adress],$cwd = base_path() . '/app/Http/Controllers');
+        $process = new Process(['curl','-v', str_replace("https://", "", $adress)],$cwd = base_path() . '/app/Http/Controllers');
         $process->setTimeout(0);
         try {
             $process->mustRun();
