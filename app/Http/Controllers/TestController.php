@@ -100,10 +100,15 @@ class TestController extends Controller
             $Ciphers->data =  $Styling->TagsToHtml($Ciphers->data);
         }
 
+
+
+
+
+
        return view('tests.show')->with(['test' => $test,'serverhello' => $ServerHello,
        'securityHeaders' => $SecurityHeaders ,'handshakesimulation' => $HandshakeSimulation,
        'securitybreaches' => $SecurityBreaches,'offeredprotocols' => $OfferedProtocols,
-       'ciphersperprotocol' => $CiphersPerProtocol]);
+       'ciphersperprotocol' => $CiphersPerProtocol,'curl'=>$test->curl,'nmap'=>$test->nmap]);
     }
 
 

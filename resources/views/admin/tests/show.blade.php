@@ -111,6 +111,34 @@
             </div>
         </div>
         @endif
+        @if(count($nmap)>0)
+        <div class="card card-default" style="margin-bottom: 10px;">
+            <div class="card-header">
+                <H4>Nmap</H4>
+            </div>
+            <div class="card-body">
+                @foreach($nmap as $hello)
+                <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
+                    <pre style="margin: 0;">{{ $hello->data }}</pre>
+                </li>
+                @endforeach
+            </div>
+        </div>
+        @endif
+        @if(count($curl)>0)
+        <div class="card card-default" style="margin-bottom: 10px;">
+            <div class="card-header">
+                <H4>Curl</H4>
+            </div>
+            <div class="card-body">
+                @foreach($curl as $hello)
+                <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
+                    <pre style="margin: 0;">{{ $hello->data }}</pre>
+                </li>
+                @endforeach
+            </div>
+        </div>
+        @endif
     </div>
     <div class="card-footer ">
         <a type="button" class="btn btn-success" href="/admin/tests">Back</a>

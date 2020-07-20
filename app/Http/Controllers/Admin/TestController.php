@@ -13,7 +13,8 @@ use App\Offeredprotocols;
 use App\Serverhello;
 use App\Ciphersperprotocol;
 use App\Styling;
-use DataTables;
+use App\Nmap;
+use App\Curl;
 
 class TestController extends Controller
 {
@@ -100,7 +101,7 @@ class TestController extends Controller
        return view('admin.tests.show')->with(['test' => $test,'serverhello' => $ServerHello,
        'securityHeaders' => $SecurityHeaders ,'handshakesimulation' => $HandshakeSimulation,
        'securitybreaches' => $SecurityBreaches,'offeredprotocols' => $OfferedProtocols,
-       'ciphersperprotocol' => $CiphersPerProtocol]);
+       'ciphersperprotocol' => $CiphersPerProtocol,'curl'=>$test->curl,'nmap'=>$test->nmap]);
 
     }
 

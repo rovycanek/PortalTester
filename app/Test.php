@@ -39,6 +39,14 @@ class Test extends Model
     {
         return $this->hasMany('App\SecurityHeaders');
     }
+    public function nmap()
+    {
+        return $this->hasMany('App\Nmap');
+    }
+    public function curl()
+    {
+        return $this->hasMany('App\Curl');
+    }
     public function user(){
         return $this->belongsTo(User::class);
     }
