@@ -31,16 +31,41 @@ class Handshakesimulation extends Model
         $terminalResults = explode("\n", $Styling->cmdToTags($process->getOutput()));
         $databaseForm = array();
         for ($i = 0; $i < count($terminalResults); $i++) {
-            if(str_contains($terminalResults[$i], 'Running client')){  
-                for ($j = $i+1; $j < count($terminalResults); $j++) {
-                    if(strlen($terminalResults[$j])>8){
-                        array_push($databaseForm, rtrim($terminalResults[$j]));
+            if(str_contains($terminalResults[$i], 'Testing all')){ 
+                array_push($databaseForm, rtrim($terminalResults[$i]));
+                $save= 1;
+                for ($l = $i; $l < count($terminalResults); $l++) {
+                    if(str_contains($terminalResults[$l], 'Start')){ 
+                        array_push($databaseForm, rtrim($terminalResults[$l]));
+                    }
+                    if(str_contains($terminalResults[$l], 'Running client')){ 
+                        $l=$l+1;
+                        $save= 2;
+                    }
+                    if(str_contains($terminalResults[$l], 'Done')){ 
+                        $save= 1;
+                    }
+                    if($save>1){ 
+                        if(strlen(trim($terminalResults[$l]))>8){
+                            array_push($databaseForm, rtrim($terminalResults[$l]));
+                        }
                     }
                 }
-                $i = $j;
+                $i = $l;
+            }
+            else{
+                if(str_contains($terminalResults[$i], 'Running client')){  
+                    for ($j = $i+1; $j < count($terminalResults); $j++) {
+                        if(strlen($terminalResults[$j])>8){
+                            array_push($databaseForm, rtrim($terminalResults[$j]));
+                        }
+                    }
+                    $i = $j;
+                }
+                array_pop($databaseForm);
             }
         }
-        array_pop($databaseForm);
+       
 
         //Save to DB 
         foreach ($databaseForm as $line) {
