@@ -26,7 +26,7 @@
                 @foreach($securityHeaders as $hello)
                 @if($hello->type)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;"><span style="color:lime">{{ $hello->data }}</span></pre>
+                    <pre style="margin: 0; "><span style="color:lime; font-family: monospace;">{{ $hello->data }}</span></pre>
                 </li>
                 @endif
                 @endforeach
@@ -34,7 +34,7 @@
                 @foreach($securityHeaders as $hello)
                 @if(!$hello->type)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;"><span style="color:#cd8000;">{{ $hello->data }}</span></pre>
+                    <pre style="margin: 0;"><span style="color:#cd8000;font-family: monospace;">{{ $hello->data }}</span></pre>
                 </li>
                 @endif
                 @endforeach
@@ -49,7 +49,7 @@
             <div class="card-body">
                 @foreach($handshakesimulation as $hello)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;">{!! $hello->data !!}</pre>
+                    <pre style="margin: 0; font-family: monospace;">{!! $hello->data !!}</pre>
                 </li>
                 @endforeach
             </div>
@@ -63,7 +63,7 @@
             <div class="card-body">
                 @foreach($securitybreaches as $hello)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;">{!! $hello->data !!}</pre>
+                    <pre style="margin: 0; font-family: monospace;">{!! $hello->data !!}</pre>
                 </li>
                 @endforeach
             </div>
@@ -77,7 +77,7 @@
             <div class="card-body">
                 @foreach($offeredprotocols as $hello)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;">{!! $hello->data !!}</pre>
+                    <pre style="margin: 0; font-family: monospace;">{!! $hello->data !!}</pre>
                 </li>
                 @endforeach
             </div>
@@ -91,7 +91,7 @@
             <div class="card-body">
                 @foreach($serverhello as $hello)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;">{!! $hello->data !!}</pre>
+                    <pre style="margin: 0; font-family: monospace;">{!! $hello->data !!}</pre>
                 </li>
                 @endforeach
             </div>
@@ -105,7 +105,7 @@
             <div class="card-body">
                 @foreach($ciphersperprotocol as $hello)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;">{!! $hello->data !!}</pre>
+                    <pre style="margin: 0; font-family: monospace;">{!! $hello->data !!}</pre>
                 </li>
                 @endforeach
             </div>
@@ -119,7 +119,7 @@
             <div class="card-body">
                 @foreach($nmap as $hello)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;">{{ $hello->data }}</pre>
+                    <pre style="margin: 0; font-family: monospace;">{{ $hello->data }}</pre>
                 </li>
                 @endforeach
             </div>
@@ -133,7 +133,7 @@
             <div class="card-body">
                 @foreach($curl as $hello)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;">{{ $hello->data }}</pre>
+                    <pre style="margin: 0; font-family: monospace;">{{ $hello->data }}</pre>
                 </li>
                 @endforeach
             </div>
