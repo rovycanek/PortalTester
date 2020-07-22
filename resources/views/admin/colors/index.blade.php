@@ -16,7 +16,7 @@
             @if (count($colors) > 0)
             @foreach ($colors as $color)
             <tr data-entry-id="{{ $color->id }}">
-                <td field-key='name'>{{ $color->name }}</td>
+                <td field-key='name'>{{ $color->description }}</td>
                 <td field-key='color' style="color:{{ $color->color }}">{{ $color->color }}</td>
                 <td>
                     <a href="{{ route('admin.colors.edit',[$color->id]) }}" class="btn btn-xs btn-info">Edit</a>

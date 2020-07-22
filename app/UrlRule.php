@@ -61,6 +61,6 @@ class UrlRule implements Rule
      */
     public function message()
     {
-        return 'Invalid FQDN.';
+        return 'Invalid form, use adress in IPv4 (127.0.0.1) or DNS name in full form (https://domainmame.com)';
     }
 }
