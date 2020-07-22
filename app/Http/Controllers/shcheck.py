@@ -263,7 +263,7 @@ def main(options, targets):
 
                 # Printing generic message if not specified above
                 else:
-                    print("{}: {}".format(
+                    print("{}: #SvrtyBestTag{}#StyleEndTag".format(
                             colorize(safeh, 'ok'),
                             headers.get(safeh.upper())))
             else:
@@ -274,7 +274,7 @@ def main(options, targets):
                     unsafe -= 1
                     json_headers["missing"].remove(safeh)
                     continue
-                print('{}'.format(
+                print('#SvrtyMediumTag{}#StyleEndTag'.format(
                     colorize(safeh, sec_headers.get(safeh))))
 
         if information:

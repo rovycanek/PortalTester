@@ -4,6 +4,7 @@ namespace App;
 use App\Test;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use App\Styling;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -52,6 +53,7 @@ class SecurityHeaders extends Model
                     $securityHeaders->type = false;
                     $securityHeaders->save();
             }
-            return [ $arrayWithHeadders,  $arrayNoHeadders];
+            $Styling =new Styling(); 
+            return [ $Styling->TagsToHtml($arrayWithHeadders), $Styling->TagsToHtml($arrayNoHeadders)];
     }
 }

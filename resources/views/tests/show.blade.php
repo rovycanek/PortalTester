@@ -25,7 +25,7 @@
                 @foreach($securityHeaders as $hello)
                 @if($hello->type)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;"><span style="color:lime; font-family: monospace;">{{ $hello->data }}</span></pre>
+                    <pre style="margin: 0; "><span style="font-family: monospace;">{!! $hello->data !!}</span></pre>
                 </li>
                 @endif
                 @endforeach
@@ -33,7 +33,7 @@
                 @foreach($securityHeaders as $hello)
                 @if(!$hello->type)
                 <li class="list-group-item" style="padding-top: 0.05rem;padding-bottom: 0.05rem;">
-                    <pre style="margin: 0;"><span style="color:#cd8000; font-family: monospace;">{{ $hello->data }}</span></pre>
+                    <pre style="margin: 0;"><span style="font-family: monospace;">{!! $hello->data !!}</span></pre>
                 </li>
                 @endif
                 @endforeach

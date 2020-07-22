@@ -15,13 +15,13 @@
 <h4>Present</h4>
 @foreach($arrayWithHeadders as $hello) 
 <li style="position: relative; list-style: none; display: block; color: null; background-color: #fff; border: 1px solid rgba(0, 0, 0, 0.13); padding-top: 0.05rem;padding-bottom: 0.05rem;">
-<pre style="margin: 0;"><span style="color:#00cd00; font-family: monospace; "> {{$hello}}</span></pre>
+<pre style="margin: 0;"><span style="font-family: monospace;">{!! $hello !!}</span></pre>
 </li>
 @endforeach
 <h4>Missing</h4>
 @foreach($arrayNoHeadders as $hello)
 <li style="position: relative; list-style: none; display: block; color: null; background-color: #fff; border: 1px solid rgba(0, 0, 0, 0.13); padding-top: 0.05rem;padding-bottom: 0.05rem;">
-<pre style="margin: 0;"><span style="color:#cd8000; font-family: monospace;"> {{$hello}}</span></pre>
+<pre style="margin: 0;"><span style="font-family: monospace;">{!! $hello!!}</span></pre>
 </li>
 @endforeach
 </div>
