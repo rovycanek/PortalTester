@@ -1,4 +1,9 @@
-@component('mail::message')
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
 <div style="position: relative; border-radius: 0.25rem 0.25rem 0 0; display: flex; flex-direction: column; min-width: 0; height: null; word-wrap: break-word; background-color:  #fff; background-clip: border-box; border: 1px solid rgba(0, 0, 0, 0.13);" >
 <div style="padding: .75rem 1.25rem;  margin-bottom: 0; color: null; background-color: rgba(0, 0, 0, 0.03); border-bottom: 1px solid rgba(0, 0, 0, 0.13);">
 <H1>Test of {{$IP}}</H1>
@@ -104,4 +109,5 @@
 <div style="padding: .75rem 1.25rem; background-color: rgba(#000, .03); border-top: 1px solid rgba(#000, .125);">
 </div>
 </div>
-@endcomponent
+</body>
+</html>
