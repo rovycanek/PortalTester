@@ -21,6 +21,17 @@ class Offeredprotocols extends Model
 
     public function runTest(String $adress, Int $testId)
     {
+        $process2 = new Process(['curl','-I', $adress]);
+        $process2->setTimeout(0);
+        $process2->run();
+	$terminalResults = explode("\n", $process2->getOutput());
+	$server='';
+	foreach ($terminalResults as $line) {
+        	if(str_contains($line, 'erver:')){
+		$server=str_replace(": ","</span>     ",join(" ",["<span style=\"font-weight:bold;font-family\: monospace;\">",$line]));
+		}
+        }
+
         //Start test
         $process = new Process(['./testssl.sh', '--protocols', '--quiet',$adress],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
         $process->setTimeout(0);
@@ -29,8 +40,6 @@ class Offeredprotocols extends Model
         $Styling =new Styling();  
         //Format for DB save  
         $terminalResults = explode("\n", $Styling->cmdToTags($process->getOutput()));
-        
-
         $started= 0;
         $databaseForm = array();
         for ($i = 0; $i < count($terminalResults); $i++) {
@@ -72,7 +81,7 @@ class Offeredprotocols extends Model
                 array_pop($databaseForm);
             }
         }
-
+	array_unshift($databaseForm, $server);
         //Save to DB 
         foreach ($databaseForm as $line) {
             $offeredprotocols=new Offeredprotocols;
