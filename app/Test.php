@@ -50,4 +50,13 @@ class Test extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+    public function withHttps(){
+        return "https://".$this->subject;
+    }
+    public function noHttps(){
+        return $this->subject;
+    }
+    public function formateSubject(String $subject){
+        $this->subject=str_replace("https://", "", str_replace("www.", "", rtrim($subject,"/")));
+   }
 }

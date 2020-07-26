@@ -18,9 +18,10 @@ class Curl extends Model
         return $this->belongsTo(Test::class);
     }
 
-    public function runTest(String $adress, Int $testId)
+    public function runTest( Int $testId)
     {
-        $process = new Process(['curl','-v' ,'--compressed', $adress]);
+        $test=Test::find($testId);
+        $process = new Process(['curl','-v', '-L','--compressed', $test->withHttps()]);  //need https://
         $process->setTimeout(0);
         try {
             $process->mustRun();

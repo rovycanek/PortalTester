@@ -19,9 +19,10 @@ class Offeredprotocols extends Model
         return $this->belongsTo(Test::class);
     }
 
-    public function runTest(String $adress, Int $testId)
+    public function runTest(Int $testId)
     {
-        $process2 = new Process(['curl','-I', $adress]);
+        $test=Test::find($testId);
+        $process2 = new Process(['curl','-I', $test->withHttps()]);
         $process2->setTimeout(0);
         $process2->run();
 	$terminalResults = explode("\n", $process2->getOutput());
@@ -33,7 +34,7 @@ class Offeredprotocols extends Model
         }
 
         //Start test
-        $process = new Process(['./testssl.sh', '--protocols', '--quiet',$adress],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+        $process = new Process(['./testssl.sh', '--protocols', '--quiet',$test->subject],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
         $process->setTimeout(0);
         $process->run();
         

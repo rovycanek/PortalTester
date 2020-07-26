@@ -18,10 +18,11 @@ class Serverhello extends Model
     {
         return $this->belongsTo(Test::class);
     }
-    public function runTest(String $adress, Int $testId)
+    public function runTest( Int $testId)
     {
+        $test=Test::find($testId);
         //Start test
-        $process = new Process(['./testssl.sh', '--server-defaults', '--quiet',$adress],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+        $process = new Process(['./testssl.sh', '--server-defaults', '--quiet',$test->withHttps()],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
         $process->setTimeout(0);
         $process->run();
         

@@ -41,7 +41,7 @@ class TestListener implements ShouldQueue{
 
         $test=new Test;
         $test->type='planned job';
-        $test->subject=$event->IP;
+        $test->formateSubject($event->IP);
         
         $test->user_id = $event->user_id;
         $test->save();
@@ -49,26 +49,26 @@ class TestListener implements ShouldQueue{
 
         
         $securityHeaders=new SecurityHeaders;
-        $results=$securityHeaders->runTest($event->IP,$test->id);
+        $results=$securityHeaders->runTest($test->id);
         $arrayNoHeadders=$results[1];
         $arrayWithHeadders=$results[0];
 
         $handshakesimulation=new Handshakesimulation;
-        $Handshakesimulation=$handshakesimulation->runTest($event->IP,$test->id);
+        $Handshakesimulation=$handshakesimulation->runTest($test->id);
 
     
         
         $securitybreaches=new Securitybreaches; 
-        $Securitybreaches=$securitybreaches->runTest($event->IP,$test->id);
+        $Securitybreaches=$securitybreaches->runTest($test->id);
 
         $offeredprotocols=new Offeredprotocols;
-        $Offeredprotocols=$offeredprotocols->runTest($event->IP,$test->id);
+        $Offeredprotocols=$offeredprotocols->runTest($test->id);
 
         $serverhello=new Serverhello; 
-        $ServerHello=$serverhello->runTest($event->IP,$test->id);
+        $ServerHello=$serverhello->runTest($test->id);
 
         $ciphersperprotocol=new Ciphersperprotocol; 
-        $Ciphersperprotocol=$ciphersperprotocol->runTest($event->IP,$test->id);
+        $Ciphersperprotocol=$ciphersperprotocol->runTest($test->id);
 
 
         Mail::to($event->email)->send(new TestResults($arrayNoHeadders,$arrayWithHeadders,$Handshakesimulation,$Securitybreaches,$Offeredprotocols,$ServerHello,$Ciphersperprotocol, $event->IP));

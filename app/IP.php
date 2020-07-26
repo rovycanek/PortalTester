@@ -16,4 +16,7 @@ class IP extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+    public function formateSubject(String $subject){
+        $this->ip=str_replace("https://", "", str_replace("www.", "", rtrim($subject,"/")));
+   }
 }

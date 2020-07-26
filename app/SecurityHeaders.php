@@ -7,6 +7,8 @@ use Symfony\Component\Process\Process;
 use App\Styling;
 
 
+
+
 use Illuminate\Database\Eloquent\Model;
 
 class SecurityHeaders extends Model
@@ -20,8 +22,10 @@ class SecurityHeaders extends Model
         return $this->belongsTo(Test::class);
     }
 
-    public function runTest(String $adress, Int $testId){
-            $process = new Process(['./shcheck.py', '-g','-d', $adress],$cwd = base_path() . '/app/Http/Controllers');
+    public function runTest(Int $testId){
+
+            $test=Test::find($testId);
+            $process = new Process(['./shcheck.py', '-g','-d', $test->withHttps()],$cwd = base_path() . '/app/Http/Controllers');  
             $process->setTimeout(0);
             $process->run();
 
