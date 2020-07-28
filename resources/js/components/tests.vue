@@ -135,7 +135,7 @@ export default{
             NMP: {data: [],
                  "loaded": false,
                  "started": false,
-                 "checkbox": true,
+                 "checkbox": false,
                  "headding": "Testing Nmap",
             },
             IP: "127.0.0.1",
