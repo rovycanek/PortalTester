@@ -18,10 +18,11 @@ class Ciphersperprotocol extends Model
     {
         return $this->belongsTo(Test::class);
     }
-    public function runTest(String $adress, Int $testId)
+    public function runTest(Int $testId)
     {
+        $test=Test::find($testId);
         //Start test
-        $process = new Process(['./testssl.sh', '--cipher-per-proto', '--quiet','--color=3',$adress],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
+        $process = new Process(['./testssl.sh', '--cipher-per-proto', '--quiet','--color=3',$test->withHttps()],$cwd = base_path() . '/app/Http/Controllers/testssl.sh');
         $process->setTimeout(0);
         $process->run();
         

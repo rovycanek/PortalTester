@@ -135,10 +135,10 @@ export default{
             NMP: {data: [],
                  "loaded": false,
                  "started": false,
-                 "checkbox": true,
+                 "checkbox": false,
                  "headding": "Testing Nmap",
             },
-            IP: "172.217.21.218",
+            IP: "127.0.0.1",
             error:"",
             errorenabled:false,
             testID:{

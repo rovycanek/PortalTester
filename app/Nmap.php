@@ -19,10 +19,11 @@ class Nmap extends Model
         return $this->belongsTo(Test::class);
     }
 
-    public function runTest(String $adress, Int $testId)
+    public function runTest( Int $testId)
     {
+        $test=Test::find($testId);
         //Start test
-        $process = new Process(['nmap','-Ap1-65535',str_replace("https://", "", str_replace("www.", "", rtrim($adress,"/")))]);
+        $process = new Process(['nmap','-Ap1-65535',$test->noHttps()]);
         $process->setTimeout(0);
         try {
             $process->mustRun();

@@ -26,10 +26,12 @@ class UrlRule implements Rule
     public function passes($attribute, $value)
     {
 
+        $value=str_replace("https://", "", str_replace("www.", "", rtrim($value,"/")));
+
         if (filter_var($value, FILTER_VALIDATE_IP,FILTER_FLAG_IPV4)) {
             return TRUE;
         }
-
+        $value="https://".$value;
 
 
         $validation = FALSE;
@@ -61,6 +63,6 @@ class UrlRule implements Rule
      */
     public function message()
     {
-        return 'Invalid form, use adress in IPv4 (127.0.0.1) or DNS name in full form (https://domainmame.com)';
+        return 'Invalid site, enter existing adress.';
     }
 }

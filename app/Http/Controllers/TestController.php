@@ -43,7 +43,7 @@ class TestController extends Controller
         
         $test=new Test;
         $test->type='manual start';
-        $test->subject=$request->IP;
+        $test->formateSubject($request->IP);
         
         $test->user_id = auth()->user()->id;
         $test->save();
@@ -118,7 +118,7 @@ class TestController extends Controller
             'IP' => new UrlRule()
             ]);
         $handshakesimulation=new Handshakesimulation;
-        return response()->json(['headers'=>$handshakesimulation->runTest($request->IP,$request->testID)]);  
+        return response()->json(['headers'=>$handshakesimulation->runTest($request->testID)]);  
     }
         
         public function SecurityHeaders(Request $request){
@@ -127,7 +127,7 @@ class TestController extends Controller
                     ]);
 
             $securityHeaders=new SecurityHeaders;
-            $results=$securityHeaders->runTest($request->IP,$request->testID);
+            $results=$securityHeaders->runTest($request->testID);
             return response()->json(['headersWith'=>$results[0],'headersWithout'=>$results[1]]);
         }
 
@@ -136,7 +136,7 @@ class TestController extends Controller
                 'IP' => new UrlRule()
                     ]);
             $securitybreaches=new Securitybreaches;
-            return response()->json(['headers'=>$securitybreaches->runTest($request->IP,$request->testID)]);    
+            return response()->json(['headers'=>$securitybreaches->runTest($request->testID)]);    
         }
 
         public function Offeredprotocols(Request $request){
@@ -145,7 +145,7 @@ class TestController extends Controller
                     ]);
 
             $offeredprotocols=new Offeredprotocols;
-            return response()->json(['headers'=>$offeredprotocols->runTest($request->IP,$request->testID)]);  
+            return response()->json(['headers'=>$offeredprotocols->runTest($request->testID)]);  
         }
         
         public function Serverhello(Request $request){
@@ -154,7 +154,7 @@ class TestController extends Controller
                     ]);
 
             $serverhello=new Serverhello;
-            return response()->json(['headers'=>$serverhello->runTest($request->IP,$request->testID)]);  
+            return response()->json(['headers'=>$serverhello->runTest($request->testID)]);  
         }
         
         public function Ciphersperprotocol(Request $request){
@@ -163,7 +163,7 @@ class TestController extends Controller
                     ]);
 
             $ciphersperprotocol=new Ciphersperprotocol;
-            return response()->json(['headers'=>$ciphersperprotocol->runTest($request->IP,$request->testID)]); 
+            return response()->json(['headers'=>$ciphersperprotocol->runTest($request->testID)]); 
         }
 
         public function Curl(Request $request){
@@ -172,7 +172,7 @@ class TestController extends Controller
                     ]);
 
             $curl=new Curl;
-            return response()->json(['headers'=>$curl->runTest($request->IP,$request->testID)]); 
+            return response()->json(['headers'=>$curl->runTest($request->testID)]); 
         }
 
         public function Nmap(Request $request){
@@ -180,6 +180,6 @@ class TestController extends Controller
                 'IP' => new UrlRule()
                     ]);
             $nmap=new Nmap;
-            return response()->json(['headers'=>$nmap->runTest($request->IP,$request->testID)]); 
+            return response()->json(['headers'=>$nmap->runTest($request->testID)]); 
         }
 }

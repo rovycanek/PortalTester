@@ -60,7 +60,7 @@ class IPsController extends Controller
         $ip=new IP;
         $ip->frequency = $request->input('frequency');
         $ip->when =  join([$request->input('when')," ",$request->input('time'),":00"]);
-        $ip->ip = $request->input('ip');
+        $ip->formateSubject($request->input('ip'));
         $ip->email = $request->input('email');
         $ip->user_id = auth()->user()->id;
         $ip->save();
@@ -97,7 +97,7 @@ class IPsController extends Controller
         $ip=IP::find($id);
         $ip->frequency = $request->input('frequency');
         $ip->when =  join([$request->input('when')," ",$request->input('time'),":00"]);
-        $ip->ip = $request->input('ip');
+        $ip->formateSubject($request->input('ip'));
         $ip->email = $request->input('email');
         $ip->save();
         return redirect('/IPs')->with('success', 'Task updated');

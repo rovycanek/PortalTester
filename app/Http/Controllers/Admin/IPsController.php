@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\IP;
+use App\UrlRule;
 
 class IPsController extends Controller
 {
@@ -92,13 +93,13 @@ class IPsController extends Controller
             'frequency' => 'required',
             'time'=> 'date_format:H:i',
             'when'=> 'date',
-            'ip' => 'ip',
+            'ip' => new UrlRule(),
             'email' => 'email',
                 ]);
         $ip=IP::find($id);
         $ip->frequency = $request->input('frequency');
         $ip->when =  join([$request->input('when')," ",$request->input('time'),":00"]);
-        $ip->ip = $request->input('ip');
+        $ip->formateSubject($request->input('ip'));
         $ip->email = $request->input('email');
         $ip->save();
 
